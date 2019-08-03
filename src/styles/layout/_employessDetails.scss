@@ -1,0 +1,88 @@
+// Employee details display area
+
+.employees-details-section {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+
+  .employee-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: $white;
+    padding: 28px 16px 28px 50px;
+    height: 182px;
+
+    .person-info {
+      display: flex;
+
+      .v-avatar {
+        height: 126px !important;
+        min-width: 126px !important;
+        width: 126px !important;
+      }
+
+      .person {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-left: 40px;
+        color: $black;
+
+        .name {
+          font-size: 30px;
+        }
+
+        .number {
+          font-size: 14px;
+        }
+      }
+
+    }
+
+    .credit-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .credit-balance {
+        width: 183px;
+        height: 80px;
+        border-radius: 10px;
+        color: $dark-slate-blue;
+        padding: 16px 10px;
+        overflow: hidden;
+        border: solid 1px $dark-slate-blue;
+
+        .balance-text {
+          font-size: 14px;
+          font-weight: 600;
+          display: block;
+          border-bottom: solid 2px $primary ;
+        }
+        .balance-value {
+          font-size: 24px;
+          display: block;
+        }
+      }
+
+      .top-up-btn {
+        width: 116px;
+        height: 31px;
+        margin-left: 22px;
+      }
+    }
+  }
+
+  .employee-finance {
+    margin: 26px 15px 0;
+    padding-top: 18px;
+    max-height: 350px;
+    display: flex;
+    flex-direction: column;
+  }
+
+}
+
+

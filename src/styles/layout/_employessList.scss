@@ -1,0 +1,115 @@
+// Employees search and list display area
+
+.employees-list-section {
+  position: relative;
+  flex: 0 0 17%;
+
+  .search-block {
+    display: flex;
+    z-index: 1;
+    width: 284px;
+    color: $black;
+    background-color: $white;
+    flex-direction: row;
+    margin: 0;
+    padding: 21px;
+    align-items: center;
+    justify-content: center;
+    height: 64px;
+    border-radius: 0;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+
+    .v-icon {
+      font-size: 24px;
+      margin-right: 16px;
+    }
+
+    .v-input {
+
+      &__control {
+        padding-top: 25px !important;
+      }
+    }
+  }
+
+  .list-section {
+    left: -64px;
+    background-color: $white;
+    top: 64px;
+    width: 284px;
+    height: 87vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    .employees-list {
+      padding-top: 0;
+      padding-bottom: 0;
+      width: 284px;
+
+      & a {
+        min-height: 85px;
+        font-size: 16px;
+        font-weight: 600;
+
+        .v-avatar {
+          height: 55px !important;
+          min-width: 55px !important;
+          width: 55px !important;
+
+          .v-icon {
+            color: $white;
+            font-size: 45px;
+          }
+        }
+
+        .v-list-item {
+
+          &__title {
+            color: $black;
+          }
+
+          &__subtitle {
+            font-size: 16px;
+            color: $dark-slate-blue;
+          }
+        }
+      }
+    }
+  }
+
+  .selectedName {
+    color: $primary !important;
+  }
+
+  .selectedCurrency {
+    color: $success !important;
+  }
+
+  .infinite-status-prompt {
+    margin-top: 10px;
+  }
+
+  /* width */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #d8d8d8;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #7b7b7b;
+    border-radius: 25px;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+}
+
+

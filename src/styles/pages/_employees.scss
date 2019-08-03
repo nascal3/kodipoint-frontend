@@ -1,0 +1,35 @@
+// Employees page specific styles
+.employees-page {
+  position: relative;
+  max-width: 100%;
+
+  .v-tabs {
+
+    &-slider {
+      height: 5px;
+
+      &-wrapper {
+        height: 5px !important;
+      }
+    }
+  }
+
+  .v-tab {
+    font-size: 16px;
+    color: $accent !important;
+
+    &--active {
+      color: $primary !important;
+
+      &.v-tab {
+        margin-left: 0 !important;
+      }
+    }
+  }
+
+  .lift-tabs-up {
+    position: absolute;
+    top: -49px;
+    z-index: 2;
+  }
+}

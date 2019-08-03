@@ -1,0 +1,70 @@
+// Employee business transaction details display area
+
+.business-transactions {
+
+  .filters-bar {
+    display: flex;
+    width: 100%;
+    border-radius: 0 !important;
+    height: 55px;
+    overflow: hidden;
+    align-items: center;
+    border-bottom: solid 1px;
+
+    .calender-filter {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .calender-text {
+        font-size: 12px;
+        color: $black;
+        margin: 0 10px 5px 20px;
+        font-weight: 500;
+      }
+
+      .v-input {
+
+        .v-input__prepend-outer .v-icon {
+          color: $black;
+        }
+
+        &__control {
+          width: 90px;
+          font-size: 12px;
+        }
+      }
+
+      button {
+        background-color: white;
+
+        &.search-btn {
+          color: $black;
+          width: 50px;
+        }
+      }
+    }
+
+    button {
+      background-color: white;
+
+      &.download-btn {
+        color: $black;
+        width: 31px;
+        height: 31px;
+      }
+    }
+
+    .transaction-filter {
+      width: 173px;
+      margin-right: 15px;
+
+      .v-input {
+        font-size: 14px;
+      }
+    }
+
+  }
+}
+
+
