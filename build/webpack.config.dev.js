@@ -1,62 +1,59 @@
-const webpack = require("webpack");
-const path = require("path");
-const Dotenv = require("dotenv-webpack");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const VuetifyLoaderPlugin = require("vuetify-loader/lib/plugin");
-const VueLoaderPlugin = require("vue-loader/lib/plugin");
+const webpack = require('webpack')
+const path = require('path')
+const Dotenv = require('dotenv-webpack')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
-function resolve(dir) {
-  return path.join(__dirname, "..", dir);
+function resolve (dir) {
+  return path.join(__dirname, '..', dir)
 }
 
 module.exports = {
-  entry: "./src/index.js",
-  output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "[name].[contenthash].js",
-    publicPath: "/"
-  },
-  devtool: "inline-source-map",
+  entry: './src/index.js',
+  devtool: 'inline-source-map',
   module: {
     rules: [
       {
         test: /\.vue$/,
-        loader: "vue-loader",
+        loader: 'vue-loader',
         options: {
-          data: `@import "${resolve("./src/styles/index.scss")}";`,
-          includePaths: [__dirname, "src"]
+          data: `@import "${resolve('./src/styles/index.scss')}";`,
+          includePaths: [__dirname, 'src']
         }
       },
       {
         test: /\.js$/,
         use: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
           options: {
-            presets: ["@babel/preset-env"],
+            presets: [
+              '@babel/preset-env'
+            ],
             compact: true
           }
         }
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
-        loader: "file-loader",
+        loader: 'file-loader',
         options: {
-          name: "[name].[ext]?[hash]"
+          name: '[name].[ext]?[hash]'
         }
       },
       {
         test: /\.sass$/,
         use: [
-          "vue-style-loader",
+          'vue-style-loader',
           MiniCssExtractPlugin.loader,
-          "css-loader",
+          'css-loader',
           {
-            loader: "sass-loader",
+            loader: 'sass-loader',
             options: {
-              implementation: require("sass"),
-              fiber: require("fibers"),
+              implementation: require('sass'),
+              fiber: require('fibers'),
               indentedSyntax: true
             }
           }
@@ -65,21 +62,24 @@ module.exports = {
       {
         test: /\.scss$/,
         use: [
-          "vue-style-loader",
+          'vue-style-loader',
           MiniCssExtractPlugin.loader,
-          "css-loader",
+          'css-loader',
           {
-            loader: "sass-loader",
+            loader: 'sass-loader',
             options: {
-              data: `@import "${resolve("./src/styles/main.scss")}";`,
-              includePaths: [__dirname, "src"]
+              data: `@import "./src/styles/main.scss";`,
+              includePaths: [__dirname, 'src']
             }
           }
         ]
       },
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader"]
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader'
+        ]
       }
     ]
   },
@@ -91,53 +91,54 @@ module.exports = {
     }
   },
   resolve: {
-    extensions: [".js", ".vue", ".scss"],
+    extensions: [
+      '.js',
+      '.vue',
+      '.scss'
+    ],
     alias: {
-      "@": resolve("src"),
-      vue$: "vue/dist/vue.esm.js"
+      '@': resolve('src'),
+      'vue$': 'vue/dist/vue.esm.js'
     }
   },
   plugins: [
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
-      template: "./src/index.html",
-      favicon: "./src/favicon.ico"
+      template: './src/index.html',
+      favicon: './src/favicon.ico'
     }),
     new Dotenv(),
     new VuetifyLoaderPlugin(),
     new MiniCssExtractPlugin({
-      filename: "[name].[hash].css"
+      filename: '[name].[hash].css'
     }),
     new OptimizeCssAssetsPlugin({
-      cssProcessor: require("cssnano"),
+      cssProcessor: require('cssnano'),
       cssProcessorPluginOptions: {
-        preset: [
-          "default",
-          {
-            discardComments: {
-              removeAll: true
-            }
+        preset: ['default', {
+          discardComments: {
+            removeAll: true
           }
-        ]
+        }]
       },
       canPrint: true
     }),
     new webpack.DefinePlugin({
-      "process.env": {
+      'process.env': {
         BASE_URL: JSON.stringify(process.env.BASE_URL)
       }
     })
   ],
   optimization: {
-    runtimeChunk: "single",
+    runtimeChunk: 'single',
     splitChunks: {
       cacheGroups: {
         vendor: {
           test: /[\\/]node_modules[\\/]/,
-          name: "vendors",
-          chunks: "all"
+          name: 'vendors',
+          chunks: 'all'
         }
       }
     }
   }
-};
+}

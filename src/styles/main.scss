@@ -1,25 +1,7 @@
-@import 'abstracts/variables';
-@import 'abstracts/functions';
-@import 'abstracts/mixins';
-@import 'abstracts/animations';
+@import 'spec/settings/index';
+@import "~bootstrap/scss/bootstrap";
+//@import "~font-awesome/scss/font-awesome";
+@import 'spec/tools/index';
+@import 'spec/index';
+@import 'vendor/index';
 
-@import 'base/reset';
-@import 'base/typography';
-
-@import 'layout/navigation';
-@import 'layout/employessTab';
-@import 'layout/employessList';
-@import 'layout/employessDetails';
-@import 'layout/employessTransactions';
-@import 'layout/header';
-@import 'layout/footer';
-@import 'layout/toolBar';
-@import 'layout/forms';
-
-@import 'components/buttons';
-@import 'components/imagePlaceholder';
-
-@import 'pages/login';
-@import 'pages/about';
-@import 'pages/contact';
-@import 'pages/employees';

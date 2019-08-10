@@ -74,7 +74,7 @@ module.exports = {
           {
             loader: 'sass-loader',
             options: {
-              data: `@import "${resolve('./src/styles/main.scss')}";`,
+              data: `@import "./src/styles/main.scss";`,
               includePaths: [__dirname, 'src'],
               minimize: true
             }

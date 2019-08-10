@@ -3,7 +3,7 @@
     <v-layout text-center wrap>
       <v-flex xs12>
         <v-img
-          :src="require('../assets/logo.svg')"
+          :src="require('../assets/images/logo.svg')"
           class="my-3"
           contain
           height="200"
@@ -130,3 +130,7 @@ export default {
   })
 };
 </script>
+
+<style lang="scss" scoped>
+
+</style>
