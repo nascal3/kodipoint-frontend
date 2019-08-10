@@ -1,25 +1,35 @@
-@import 'abstracts/variables';
-@import 'abstracts/functions';
-@import 'abstracts/mixins';
-@import 'abstracts/animations';
+/*!
 
-@import 'base/reset';
-@import 'base/typography';
+=========================================================
+* Vuetify Material Dashboard - v1.0.0
+=========================================================
 
-@import 'layout/navigation';
-@import 'layout/employessTab';
-@import 'layout/employessList';
-@import 'layout/employessDetails';
-@import 'layout/employessTransactions';
-@import 'layout/header';
-@import 'layout/footer';
-@import 'layout/toolBar';
-@import 'layout/forms';
+* Product Page: https://www.creative-tim.com/product/vuetify-material-dashboard
+* Copyright 2019 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://github.com/creativetimofficial/vuetify-material-dashboard/blob/master/LICENSE.md)
 
-@import 'components/buttons';
-@import 'components/imagePlaceholder';
+* Coded by Creative Tim
 
-@import 'pages/login';
-@import 'pages/about';
-@import 'pages/contact';
-@import 'pages/employees';
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+*/
+
+@import "material-dashboard/mixins";
+@import "material-dashboard/variables";
+@import "material-dashboard/typography";
+@import "material-dashboard/sidebar";
+@import "material-dashboard/toolbar";
+@import "material-dashboard/misc";
+@import "material-dashboard/inputs";
+@import "material-dashboard/footer";
+@import "material-dashboard/cards";
+@import "material-dashboard/tables";
+@import "material-dashboard/tabs";
+@import "material-dashboard/checkboxes";
+@import "material-dashboard/tooltips";
+@import "material-dashboard/buttons";
+@import "material-dashboard/alerts";
+@import "material-dashboard/fixed-plugin";
+@import "material-dashboard/dropdown";
