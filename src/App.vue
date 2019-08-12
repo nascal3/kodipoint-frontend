@@ -1,7 +1,8 @@
 <template>
   <v-app>
+    <AppBars></AppBars>
     <v-content>
-      <v-container fluid pa-0 ma-0>
+      <v-container clearTop pa-0 fluid>
         <router-view/>
       </v-container>
     </v-content>
@@ -9,15 +10,21 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
+import AppBars from './components/AppBars'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    AppBars
   },
   data: () => ({
     //
   })
 }
 </script>
+
+<style lang="scss">
+  .clearTop {
+    margin: 64px 0 0;
+  }
+</style>

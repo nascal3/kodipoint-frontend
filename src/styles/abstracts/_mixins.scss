@@ -1,0 +1,41 @@
+// Sass Mixins
+@mixin flex-login-page {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+
+@mixin flex-main-page {
+  display: flex;
+  flex-direction: row;
+  height: auto;
+}
+
+@mixin align-item-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin pretty-scroll-bar {
+  /* width */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #d8d8d8;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #7b7b7b;
+    border-radius: 25px;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+}
