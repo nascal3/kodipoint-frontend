@@ -7,7 +7,6 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 function resolve (dir) {
   return path.join(__dirname, dir)
@@ -87,6 +86,17 @@ module.exports = {
           MiniCssExtractPlugin.loader,
           'css-loader'
         ]
+      },
+      {
+        test: /\.(woff(2)?|eot|ttf)$/i,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 100000
+            }
+          }
+        ]
       }
     ]
   },
@@ -130,7 +140,6 @@ module.exports = {
       canPrint: true
     }),
     new CompressionPlugin(),
-    new BundleAnalyzerPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
         BASE_URL: JSON.stringify(process.env.BASE_URL)
@@ -152,6 +161,8 @@ module.exports = {
       new TerserPlugin({
         terserOptions: {
           ecma: 6,
+          cache: true,
+          parallel: true,
           compress: true,
           output: {
             comments: false,

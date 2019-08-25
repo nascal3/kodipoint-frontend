@@ -80,6 +80,17 @@ module.exports = {
           MiniCssExtractPlugin.loader,
           'css-loader'
         ]
+      },
+      {
+        test: /\.(woff(2)?|eot|ttf)$/i,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 100000
+            }
+          }
+        ]
       }
     ]
   },
