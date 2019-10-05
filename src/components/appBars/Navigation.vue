@@ -8,12 +8,8 @@
             permanent
             dark
     >
-        <v-list-item>
-            <v-list-item-avatar>
-                <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
-            </v-list-item-avatar>
-
-            <v-list-item-title>John Leider</v-list-item-title>
+        <v-list-item class="menu-logo-section" >
+            <v-img class="menu-logo" :src="require('@/assets/images/kodiPoint_logo.png')"></v-img>
         </v-list-item>
 
         <v-list shaped dense>
@@ -44,8 +40,7 @@ export default {
       { title: 'My Account', icon: 'mdi-account' },
       { title: 'Users', icon: 'mdi-account-group-outline' }
     ],
-    mini: true,
-    bg: 'https://cdn.vuetifyjs.com/images/backgrounds/bg-2.jpg'
+    bg: 'src/assets/images/menu_bg.jpg'
   }),
   computed: {
 
@@ -53,6 +48,6 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+    @import 'src/styles/layout/navigation';
 </style>

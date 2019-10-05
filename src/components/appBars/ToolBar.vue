@@ -1,6 +1,5 @@
 <template>
-    <v-app-bar app>
-        <v-toolbar-title>Logo here</v-toolbar-title>
+    <v-app-bar flat app>
 
         <v-spacer></v-spacer>
 
@@ -36,5 +35,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    @import '../../styles/layout/toolBar';
+    @import 'src/styles/layout/toolBar';
 </style>
