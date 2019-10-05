@@ -13,6 +13,11 @@ function resolve (dir) {
 
 module.exports = {
   entry: './src/index.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].[contenthash].js',
+    publicPath: '/'
+  },
   devtool: 'inline-source-map',
   module: {
     rules: [
@@ -116,7 +121,7 @@ module.exports = {
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
       template: './src/index.html',
-      favicon: './src/favicon.ico'
+      favicon: './src/favicon.png'
     }),
     new Dotenv(),
     new VuetifyLoaderPlugin(),

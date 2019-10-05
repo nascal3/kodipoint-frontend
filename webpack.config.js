@@ -122,7 +122,7 @@ module.exports = {
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
       template: './src/index.html',
-      favicon: './src/favicon.ico'
+      favicon: './src/favicon.png'
     }),
     new VuetifyLoaderPlugin(),
     new MiniCssExtractPlugin({

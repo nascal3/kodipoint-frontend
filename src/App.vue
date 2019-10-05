@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <AppBars></AppBars>
+    <AppBars v-if="loggedIn"></AppBars>
     <v-content>
       <v-container clearTop pa-0 fluid>
         <router-view/>
@@ -11,15 +11,18 @@
 
 <script>
 import AppBars from './components/AppBars'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'App',
   components: {
     AppBars
   },
-  data: () => ({
-    //
-  })
+  computed: {
+    ...mapGetters('auth', {
+      loggedIn: 'loggedIn'
+    })
+  }
 }
 </script>
 
