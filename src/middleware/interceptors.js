@@ -7,11 +7,11 @@ import store from '@/store'
  */
 const addRequestInterceptor = (api) => {
   return api.interceptors.request.use((config) => {
-    const tokenVals = localStorage.getItem('businessAuthToken')
+    const tokenVals = localStorage.getItem('kodiAuthToken')
     const tokenObj = JSON.parse(tokenVals)
     if (tokenObj) {
       config.headers = {
-        'Authorization': `Bearer: ${tokenObj.access_token}`
+        'Authorization': `${tokenObj.token}`
       }
     }
     return config
@@ -26,7 +26,7 @@ const addRequestInterceptor = (api) => {
  * @param  {Object} api axios base configs
  */
 const addResponseInterceptor = (api) => {
-  const tokenVals = localStorage.getItem('businessAuthToken')
+  const tokenVals = localStorage.getItem('kodiAuthToken')
   const tokenObj = JSON.parse(tokenVals)
   return api.interceptors.response.use((response) => {
     return response
