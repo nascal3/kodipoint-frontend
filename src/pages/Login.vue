@@ -1,5 +1,5 @@
 <template>
-    <section>
+    <section class="login">
         login page
     </section>
 </template>
