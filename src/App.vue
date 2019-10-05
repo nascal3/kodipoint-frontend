@@ -2,7 +2,7 @@
   <v-app>
     <AppBars v-if="loggedIn"></AppBars>
     <v-content>
-      <v-container clearTop pa-0 fluid>
+      <v-container ma-0 pa-0 fluid>
         <router-view/>
       </v-container>
     </v-content>

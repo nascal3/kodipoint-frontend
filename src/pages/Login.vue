@@ -1,5 +1,6 @@
 <template>
     <section class="login">
+        <v-img class="login-bg" :src="require('@/assets/images/login_bg.jpg')"></v-img>
         login page
     </section>
 </template>

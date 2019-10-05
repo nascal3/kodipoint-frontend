@@ -1,5 +1,22 @@
 // login page styles
 
 .login {
+  overflow-y:auto;
 
+  .v-responsive.v-image {
+    &:before {
+      content: "";
+      background-image: linear-gradient(to top right, $gradient_red, $gradient_blue);
+      width: 100%;
+      height: 100%;
+      opacity: .8;
+    }
+  }
+
+  &-bg {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
 }

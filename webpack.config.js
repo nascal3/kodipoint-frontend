@@ -42,10 +42,11 @@ module.exports = {
         }
       },
       {
-        test: /\.(png|jpg|gif|svg)$/,
+        test: /\.(png|jpe?g|gif|svg)$/,
         loader: 'file-loader',
         options: {
-          name: '[name].[ext]?[hash]'
+          outputPath: 'images',
+          name: '[name].[ext]'
         }
       },
       {
@@ -93,6 +94,7 @@ module.exports = {
           {
             loader: 'url-loader',
             options: {
+              outputPath: 'fonts',
               limit: 100000
             }
           }

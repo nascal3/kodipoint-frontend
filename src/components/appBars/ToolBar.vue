@@ -27,10 +27,7 @@
 export default {
   name: 'ToolBar',
   data: () => ({
-  }),
-  methods: {
-
-  }
+  })
 }
 </script>
 
