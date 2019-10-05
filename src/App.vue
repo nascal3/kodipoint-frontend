@@ -24,7 +24,5 @@ export default {
 </script>
 
 <style lang="scss">
-  .clearTop {
-    margin: 64px 0 0;
-  }
+  @import 'src/styles/layout/body';
 </style>

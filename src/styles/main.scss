@@ -10,9 +10,10 @@
 @import 'components/imagePlaceholder';
 @import 'components/table';
 
-@import 'layout/navigation';
-@import 'layout/header';
+@import 'layout/body';
 @import 'layout/footer';
+@import 'layout/header';
+@import 'layout/navigation';
 @import 'layout/toolBar';
 
 @import 'pages/login';
