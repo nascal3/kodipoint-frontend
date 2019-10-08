@@ -15,6 +15,7 @@ body, html {
 }
 
 html {
+  font-size: 10px;
   line-height: 1.15; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
   @include pretty-scroll-bar

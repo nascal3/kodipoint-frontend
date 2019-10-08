@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import AppBars from './components/AppBars'
+import AppBars from './components/appBars/AppBars'
 import { mapGetters } from 'vuex'
 
 export default {

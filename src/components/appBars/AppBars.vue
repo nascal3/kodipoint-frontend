@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import ToolBar from '@/components/appBars/ToolBar'
-import Navigation from '@/components/appBars/Navigation'
+import ToolBar from '@/components/appBars/bars/ToolBar'
+import Navigation from '@/components/appBars/bars/Navigation'
 
 export default {
   name: 'AppBars',
