@@ -6,7 +6,7 @@
  */
 const UPDATE_TOKEN = (state, payload) => {
   state.token = payload
-  localStorage.setItem('businessAuthToken', JSON.stringify(payload))
+  localStorage.setItem('kodiAuthToken', JSON.stringify(payload))
 }
 
 /**
@@ -47,7 +47,7 @@ const SET_ERROR_STATE = (state, payload) => {
  */
 const REMOVE_TOKEN = (state) => {
   state.token = {}
-  localStorage.removeItem('businessAuthToken')
+  localStorage.removeItem('kodiAuthToken')
 }
 
 export {

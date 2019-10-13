@@ -102,7 +102,7 @@ export default {
   methods: {
     async onLogin () {
       const userData = {
-        email: this.email,
+        username: this.email,
         password: this.password
       }
       try {
@@ -110,7 +110,7 @@ export default {
         await this.$store.dispatch('auth/login', userData)
         const options = { icon: 'check_circle_outline' }
         if (this.loggedIn && this.token) {
-          this.$router.replace('/home')
+          this.$router.replace('/summary')
           this.$toasted.show('Welcome', options)
           return
         }

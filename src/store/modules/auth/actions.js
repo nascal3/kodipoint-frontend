@@ -20,12 +20,13 @@ const setToken = ({ commit, state }, payload) => {
  * @param  {Object} payload values of email and password
  */
 const login = async ({ commit, dispatch }, payload) => {
-  const url = '/auth/login'
+  const url = '/users/login'
   commit('SHOW_LOADER', true)
   try {
     const response = await api.post(url, payload)
+    console.log('>>', response)
     if (response.status === 200) {
-      dispatch('setToken', response.data.data)
+      dispatch('setToken', response.data)
       commit('SET_ERROR_STATE', false)
       commit('SHOW_LOADER', false)
     }
