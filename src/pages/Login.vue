@@ -14,6 +14,59 @@
                             <v-col cols="7">
                                 <v-row class="login-right-section" align="center" justify="center" no-gutters>
                                     <div class="form-header">Sign in</div>
+                                    <v-form ref="form" v-model="valid" @submit.prevent="onLogin">
+                                        <v-text-field
+                                                v-model="email"
+                                                v-validate="'required|email'"
+                                                name="email"
+                                                label="Email"
+                                                :error="errors.has('email')"
+                                        ></v-text-field>
+                                        <transition name="fade">
+                                            <span class="input-error" v-if="errors.has('email')">{{ errors.first('email') }}</span>
+                                        </transition>
+
+                                        <v-text-field
+                                                type="password"
+                                                v-model="password"
+                                                v-validate="'required'"
+                                                name="password"
+                                                label="Password"
+                                                :error="errors.has('password')"
+                                        ></v-text-field>
+                                        <transition name="fade">
+                                            <span class="input-error" v-if="errors.has('password')">{{ errors.first('password') }}</span>
+                                        </transition>
+
+                                        <div class="reset-password" @click="overlay = !overlay">
+                                            <span>Forgot password?</span>
+                                        </div>
+
+                                        <v-overlay light :value="overlay">
+                                            <v-card light class="mx-auto" elevation="12" opacity="0.53">
+                                                <v-card-title>Forgot Password ?</v-card-title>
+                                                <v-card-text>
+                                                    Please call <span>0800 300 200</span> or <br>
+                                                    email <span>business@safeboda.com</span> for assistance
+                                                </v-card-text>
+                                                <v-card-actions>
+                                                    <v-btn class="modal-btn" depressed color="primary" @click="overlay = false">OK</v-btn>
+                                                </v-card-actions>
+                                            </v-card>
+                                        </v-overlay>
+
+                                        <v-btn
+                                            type="submit"
+                                            :loading="showLoader"
+                                            :disabled="showLoader"
+                                            class="login-btn"
+                                            depressed
+                                            block
+                                            color="primary"
+                                        >
+                                            Log In
+                                        </v-btn>
+                                    </v-form>
                                 </v-row>
                             </v-col>
                         </v-row>
@@ -26,7 +79,13 @@
 
 <script>
 export default {
-  name: 'Login'
+  name: 'Login',
+  data: () => ({
+    valid: false,
+    email: '',
+    password: '',
+    overlay: false
+  })
 }
 </script>
 
