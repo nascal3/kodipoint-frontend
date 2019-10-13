@@ -14,6 +14,9 @@
                             <v-col cols="7">
                                 <v-row class="login-right-section" align="center" justify="center" no-gutters>
                                     <div class="form-header">Sign in</div>
+                                    <transition name="fade">
+                                        <div class="login-error" v-if="authError">Please confirm that your email or password is correct!</div>
+                                    </transition>
                                     <v-form ref="form" v-model="valid" @submit.prevent="onLogin">
                                         <v-text-field
                                                 v-model="email"
@@ -78,6 +81,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'Login',
   data: () => ({
@@ -85,7 +90,35 @@ export default {
     email: '',
     password: '',
     overlay: false
-  })
+  }),
+  computed: {
+    ...mapGetters('auth', {
+      authError: 'authError',
+      token: 'token',
+      showLoader: 'showLoader',
+      loggedIn: 'loggedIn'
+    })
+  },
+  methods: {
+    async onLogin () {
+      const userData = {
+        email: this.email,
+        password: this.password
+      }
+      try {
+        await this.$validator.validateAll()
+        await this.$store.dispatch('auth/login', userData)
+        const options = { icon: 'check_circle_outline' }
+        if (this.loggedIn && this.token) {
+          this.$router.replace('/home')
+          this.$toasted.show('Welcome', options)
+          return
+        }
+      } catch (e) {
+        console.error(e.message)
+      }
+    }
+  }
 }
 </script>
 
