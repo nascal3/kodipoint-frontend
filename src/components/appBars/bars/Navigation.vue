@@ -23,7 +23,7 @@
                 </v-list-item-icon>
 
                 <v-list-item-content>
-                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                    <v-list-item-title class="menu-items-text">{{ item.title }}</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
         </v-list>

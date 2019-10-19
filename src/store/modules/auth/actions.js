@@ -24,7 +24,6 @@ const login = async ({ commit, dispatch }, payload) => {
   commit('SHOW_LOADER', true)
   try {
     const response = await api.post(url, payload)
-    console.log('>>', response)
     if (response.status === 200) {
       dispatch('setToken', response.data)
       commit('SET_ERROR_STATE', false)
@@ -65,9 +64,9 @@ const passwordUpdate = async ({ commit, dispatch }, payload) => {
  * @param  {Object} commit vuex mutations
  */
 const removeToken = ({ commit }) => {
+  commit('SET_LOGGEDIN_STATUS', false)
   commit('REMOVE_TOKEN')
   commit('SET_ERROR_STATE', false)
-  commit('SET_LOGGEDIN_STATUS', false)
 }
 
 export {

@@ -8,7 +8,8 @@
  * @return {void}
  */
 const checkToken = (to, from, next) => {
-  if (localStorage.getItem('kodiAuthToken')) {
+  const token = localStorage.getItem('kodiAuthToken')
+  if (token) {
     next({ name: 'summary' })
     return
   }
@@ -26,8 +27,9 @@ const checkToken = (to, from, next) => {
  */
 const checkAuth = (to, from, next) => {
   const loggedIn = localStorage.getItem('loggedIn')
+  const token = localStorage.getItem('kodiAuthToken')
   const status = JSON.parse(loggedIn)
-  if (status) {
+  if (status && token) {
     next()
     return
   }
