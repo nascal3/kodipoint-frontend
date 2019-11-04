@@ -110,7 +110,7 @@ export default {
         await this.$store.dispatch('auth/login', userData)
         const options = { icon: 'check_circle_outline' }
         if (this.loggedIn && this.token) {
-          this.$router.replace('/summary')
+          this.$router.replace('/properties')
           this.$toasted.show('Welcome', options)
           return
         }

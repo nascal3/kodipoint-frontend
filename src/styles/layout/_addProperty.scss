@@ -1,0 +1,22 @@
+// add property form styles
+
+.card {
+  &-title {
+    font-size: 2.4rem;
+    margin-bottom: 7px;
+  }
+  &-subtitle {
+    font-size: 1.6rem;
+    font-weight: 300;
+  }
+}
+.contact-title {
+  color: $black;
+  font-size: 1.6rem;
+}
+
+.input-hint {
+  position: relative;
+  font-size: 1.2rem;
+  bottom: 1.8rem;
+}

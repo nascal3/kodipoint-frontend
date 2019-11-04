@@ -3,15 +3,14 @@
 @import 'abstracts/mixins';
 @import 'abstracts/animations';
 
+@import 'base/global';
 @import 'base/reset';
 @import 'base/typography';
 
 @import 'components/buttons';
-@import 'components/imagePlaceholder';
 @import 'components/table';
 
 @import 'layout/footer';
-@import 'layout/global';
 @import 'layout/header';
 @import 'layout/navigation';
 @import 'layout/toolBar';
