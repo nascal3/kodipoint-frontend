@@ -5,8 +5,9 @@
  * @param  {Object} payload values to update
  */
 const UPDATE_TOKEN = (state, payload) => {
+  localStorage.setItem('kodiAuthToken', JSON.stringify(payload))
   state.token = payload
-  localStorage.setItem('businessAuthToken', JSON.stringify(payload))
+  state.user = payload.user
 }
 
 /**
@@ -46,8 +47,9 @@ const SET_ERROR_STATE = (state, payload) => {
  * @param  {Object} state vuex state object
  */
 const REMOVE_TOKEN = (state) => {
-  state.token = {}
-  localStorage.removeItem('businessAuthToken')
+  state.token = null
+  localStorage.removeItem('kodiAuthToken')
+  localStorage.removeItem('loggedIn')
 }
 
 export {

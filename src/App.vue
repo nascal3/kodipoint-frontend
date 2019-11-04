@@ -27,5 +27,5 @@ export default {
 </script>
 
 <style lang="scss">
-  @import 'src/styles/layout/body';
+  @import 'src/styles/layout/global';
 </style>

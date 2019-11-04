@@ -7,6 +7,14 @@
 const token = (state) => state.token
 
 /**
+ * Retrieve the token saved as in localstorage
+ * @method user
+ * @param  {Object} state vuex state object
+ * @return {Object} Contains the access user info etc
+ */
+const user = (state) => state.user
+
+/**
  * Show loader animation during auth process
  * @method showLoader
  * @param  {Object} state vuex state object
@@ -32,6 +40,7 @@ const loggedIn = (state) => state.loggedIn
 
 export {
   token,
+  user,
   authError,
   showLoader,
   loggedIn

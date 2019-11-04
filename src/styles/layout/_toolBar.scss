@@ -5,6 +5,27 @@
   border-bottom: solid 1px $border_table_color_grey_light;
   //box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.12);
   z-index: 3;
+
+  .user-avatar {
+    margin-right: 1.5rem;
+    .v-avatar {
+      color: $kodi_green;
+      min-width: 4.8rem;
+      width: 4.8rem;
+      height: 4.8rem;
+    }
+  }
+
+  .user-name {
+    font-size: 1.2rem;
+  }
+}
+
+.user-menu-icons{
+  font-size: 2.6rem;
+}
+.user-menu-text{
+  font-size: 1.1rem !important;
 }
 
 

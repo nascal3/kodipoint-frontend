@@ -4,6 +4,16 @@ import router from '@/router'
 import store from '@/store'
 import vuetify from '@/plugins/vuetify'
 
+import Toasted from 'vue-toasted'
+import VeeValidate from 'vee-validate'
+
+Vue.use(VeeValidate, {
+  fieldsBagName: 'vvFields'
+})
+Vue.use(Toasted, {
+  className: 'custom-toast',
+  duration: 3500
+})
 Vue.config.productionTip = false
 
 new Vue({
