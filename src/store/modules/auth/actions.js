@@ -65,8 +65,8 @@ const passwordUpdate = async ({ commit, dispatch }, payload) => {
  */
 const removeToken = ({ commit }) => {
   commit('SET_LOGGEDIN_STATUS', false)
-  commit('REMOVE_TOKEN')
   commit('SET_ERROR_STATE', false)
+  commit('REMOVE_TOKEN')
 }
 
 export {

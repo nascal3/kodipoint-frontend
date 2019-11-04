@@ -48,8 +48,7 @@ const SET_ERROR_STATE = (state, payload) => {
  */
 const REMOVE_TOKEN = (state) => {
   state.token = null
-  localStorage.removeItem('kodiAuthToken')
-  localStorage.removeItem('loggedIn')
+  localStorage.clear()
 }
 
 export {
