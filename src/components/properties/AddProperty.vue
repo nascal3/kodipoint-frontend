@@ -127,6 +127,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'AddProperty',
   data: () => ({
@@ -152,6 +154,12 @@ export default {
       value => !value || value.size < 2000000 || 'Image size should be less than 2 MB!'
     ]
   }),
+  computed: {
+    ...mapGetters('property', {
+      showLoader: 'showLoader',
+      showErrorState: 'showErrorState'
+    })
+  },
   methods: {
     updateTags () {
       this.$nextTick(() => {
