@@ -1,0 +1,45 @@
+// edit property form styles
+
+.card {
+  &-title {
+    font-size: 2.4rem;
+    margin-bottom: 7px;
+  }
+  &-subtitle {
+    font-size: 1.6rem;
+    font-weight: 300;
+  }
+
+  .search-property {
+    margin: 1rem;
+  }
+}
+.search-property {
+  margin: 1.2rem;
+  width: 40%;
+}
+
+.property-btn-container {
+  height: 9rem;
+  margin: 1.2rem;
+}
+
+.v-data-table {
+  max-height: 81rem;
+
+  table {
+    tbody {
+      tr {
+        td:nth-child(7) {
+          .v-icon {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}
+
+.v-dialog {
+  max-width: 60rem;
+}
