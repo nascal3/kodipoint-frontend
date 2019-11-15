@@ -115,7 +115,6 @@ export default {
       getProperties: 'getProperties'
     }),
     openDialog (property) {
-      console.log('>>>', property)
       if (property) {
         this.edit = true
         this.propertyInfo = property

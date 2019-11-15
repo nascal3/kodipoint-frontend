@@ -1,11 +1,10 @@
 <template>
   <v-card class="pa-1">
-    {{editForm}}
     <v-card-title class="card-title">
-      {{edit ? 'Edit Property' : 'Add Property'}}
+      {{editForm ? 'Edit Property' : 'Add Property'}}
     </v-card-title>
     <v-card-subtitle class="card-subtitle">
-      {{edit ? 'Edit property' : 'Add new property'}}
+      {{editForm ? 'Edit property' : 'Add new property'}}
     </v-card-subtitle>
     <v-card-text>
       <v-form v-model="valid" @submit.prevent="addProperty">
@@ -100,7 +99,7 @@
                 ></v-text-field>
                 <transition name="fade">
                   <div class="input-error" v-if="errors.has('contactPhone')">
-                    {{ errors.first('contactPhone') }}
+                    {{errors.items[0].rule === 'min' ? 'Please insert complete phone number!' : 'Please insert a phone number!' }}
                   </div>
                 </transition>
               </v-col>
@@ -122,8 +121,9 @@
         <v-file-input
             prepend-icon="mdi-camera"
             :rules="UploadImageRules"
+            chips
             show-size
-            accept="image/*"
+            accept="image/png, image/jpeg, image/bmp"
             label="Property Image"
         >
         </v-file-input>
@@ -141,9 +141,9 @@
           :disabled="showLoader"
           class="btn-text"
           block
-          color="primary"
+          :color="btnColor"
         >
-          Save property
+          {{ editForm ? 'Save changes' : 'Add property'}}
         </v-btn>
       </v-form>
     </v-card-text>
@@ -177,6 +177,7 @@ export default {
     services: ['garbage collection', 'water', 'security'],
     items: [],
     search: '',
+    btnColor: 'secondary',
     propertyType: 'Apartments',
     properties: [
       'Apartments',
@@ -189,15 +190,16 @@ export default {
     ]
   }),
   computed: {
-    ...mapGetters('property', {
-      showLoader: 'showLoader',
-      showErrorState: 'showErrorState'
+    ...mapGetters({
+      showLoader: ['property/showLoader'],
+      showErrorState: ['property/showErrorState'],
+      user: ['auth/user']
     }),
     editForm () {
-      console.log('NAME', this.propertyInfo)
-      if (this.edit) {
+      if (this.propertyInfo) {
         this.updateFormValues(this.propertyInfo)
-        // console.log('NAME', this.propertyInfo)
+      } else if (!this.propertyInfo) {
+        this.clearFormValues()
       }
       return this.edit
     }
@@ -212,16 +214,35 @@ export default {
       })
     },
     updateFormValues (property) {
-      if (!property) {
-        this.resetFormValues()
-      } else if (property) {
-        this.propertyName = property.property_name
-      }
+      this.btnColor = 'primary'
+      property.contact_person === this.user.name ? this.contact = 'landlord' : this.contact = 'other'
+      this.contactPerson = property.contact_person
+      this.propertyName = property.property_name
+      this.contactPerson = property.contact_person
+      this.contactPhone = property.phone
+      this.lrNumber = property.lr_nos
+      this.nosUnits = property.nos_units
+      this.description = property.declaration
+      this.services = property.property_services.split(',')
+      this.propertyType = property.property_type
     },
-    resetFormValues () {
+    clearFormValues () {
+      this.btnColor = 'secondary'
       this.propertyName = ''
+      this.contact = 'landlord'
+      this.contactPerson = ''
+      this.contactPhone = ''
+      this.lrNumber = ''
+      this.nosUnits = ''
+      this.description = ''
+      this.services = ['garbage collection', 'water', 'security']
+      this.propertyType = 'Apartments'
     },
     async addProperty () {
+      if (this.contact === 'landlord') {
+        this.contactPerson = 'Landlord'
+        this.contactPhone = '---'
+      }
       const params = {
         'property_name': this.propertyName,
         'contact_person': this.contactPerson,
@@ -233,7 +254,8 @@ export default {
         'property_type': this.propertyType
       }
       try {
-        await this.$validator.validateAll()
+        const valid = await this.$validator.validateAll()
+        console.log('valid', valid)
         console.log('ola', params)
       } catch (e) {
         throw new Error(e.message)
