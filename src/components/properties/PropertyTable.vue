@@ -54,8 +54,8 @@
                   class="ma-2"
                   color="secondary"
                   outlined
-                  v-for="service in servicesPills(property)"
-                  :key="service"
+                  v-for="(service, index) in servicesPills(property)"
+                  :key="index"
                 >
                   {{service}}
                 </v-chip>

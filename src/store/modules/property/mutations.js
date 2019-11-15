@@ -1,3 +1,11 @@
+/**
+ * reset properties fetched
+ * @method RESET_PROPERTIES
+ * @param  {Object} state vuex state object
+ */
+const RESET_PROPERTIES = (state) => {
+  state.properties = []
+}
 
 /**
  * Set show loader state
@@ -30,6 +38,7 @@ const GET_PROPERTIES = (state, payload) => {
 }
 
 export {
+  RESET_PROPERTIES,
   GET_PROPERTIES,
   SHOW_LOADER,
   SET_ERROR_STATE

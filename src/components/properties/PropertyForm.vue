@@ -151,7 +151,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'AddProperty',
@@ -205,6 +205,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions('property', {
+      addNewProperty: 'addNewProperty'
+    }),
     updateTags () {
       this.$nextTick(() => {
         this.services.push(...this.search.split(','))
@@ -215,7 +218,7 @@ export default {
     },
     updateFormValues (property) {
       this.btnColor = 'primary'
-      property.contact_person === this.user.name ? this.contact = 'landlord' : this.contact = 'other'
+      property.contact_person === 'Landlord' ? this.contact = 'landlord' : this.contact = 'other'
       this.contactPerson = property.contact_person
       this.propertyName = property.property_name
       this.contactPerson = property.contact_person
@@ -243,20 +246,34 @@ export default {
         this.contactPerson = 'Landlord'
         this.contactPhone = '---'
       }
+      let propertyID = null
+      if (this.propertyInfo) {
+        propertyID = this.propertyInfo.id
+      }
       const params = {
+        'id': propertyID,
+        'user_id': this.user.id,
         'property_name': this.propertyName,
         'contact_person': this.contactPerson,
         'phone': this.contactPhone,
         'lr_nos': this.lrNumber,
         'nos_units': this.nosUnits,
         'description': this.description,
-        'property_services': this.services,
+        'property_services': this.services.join(','),
         'property_type': this.propertyType
       }
       try {
         const valid = await this.$validator.validateAll()
-        console.log('valid', valid)
-        console.log('ola', params)
+        if (!valid) return
+        const data = {
+          'edit': this.edit,
+          'params': params
+        }
+        const success = await this.addNewProperty(data)
+        if (success) {
+          this.clearFormValues()
+        }
+        console.log('XXX', success)
       } catch (e) {
         throw new Error(e.message)
       }
