@@ -1,18 +1,30 @@
 // add property form styles
 
-.card {
-  &-title {
-    font-size: 2.4rem !important;
-    margin-bottom: 7px;
-    padding-left: 1rem !important;
+.header-section {
+  position: relative;
+
+  .card {
+    &-title {
+      font-size: 2.4rem !important;
+      margin-bottom: 7px;
+      padding-left: 1rem !important;
+    }
+    &-subtitle {
+      font-size: 1.6rem !important;
+      font-weight: 300;
+      padding-left: 1rem !important;
+      padding-top: 5px;
+    }
   }
-  &-subtitle {
-    font-size: 1.6rem !important;
-    font-weight: 300;
-    padding-left: 1rem !important;
-    padding-top: 5px;
+  .close-icon {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    font-size: 3rem;
+    cursor: pointer;
   }
 }
+
 .contact-title {
   color: $black;
   font-size: 1.6rem;

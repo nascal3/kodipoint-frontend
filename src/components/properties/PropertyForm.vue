@@ -1,11 +1,16 @@
 <template>
   <v-card class="pa-1">
-    <v-card-title class="card-title">
-      {{editForm ? 'Edit Property' : 'Add Property'}}
-    </v-card-title>
-    <v-card-subtitle class="card-subtitle">
-      {{editForm ? 'Edit property' : 'Add new property'}}
-    </v-card-subtitle>
+    <section class="header-section">
+      <v-card-title class="card-title">
+        {{editForm ? 'Edit Property' : 'Add Property'}}
+      </v-card-title>
+      <v-card-subtitle class="card-subtitle">
+        {{editForm ? 'Edit property' : 'Add new property'}}
+      </v-card-subtitle>
+      <v-icon class="close-icon" color="primary" @click="closeModal">
+        mdi-close
+      </v-icon>
+    </section>
     <v-card-text>
       <v-form v-model="valid" @submit.prevent="addProperty">
         <v-row>
@@ -216,6 +221,9 @@ export default {
         })
       })
     },
+    closeModal () {
+      this.$emit('closeModal', false)
+    },
     updateFormValues (property) {
       this.btnColor = 'primary'
       property.contact_person === 'Landlord' ? this.contact = 'landlord' : this.contact = 'other'
@@ -229,22 +237,23 @@ export default {
       this.services = property.property_services.split(',')
       this.propertyType = property.property_type
     },
-    clearFormValues () {
+    async clearFormValues () {
       this.btnColor = 'secondary'
-      this.propertyName = ''
       this.contact = 'landlord'
-      this.contactPerson = ''
-      this.contactPhone = ''
+      this.services = ['garbage collection', 'water', 'security']
+      this.propertyType = 'Apartments'
+      this.propertyName = ''
+      await this.$nextTick(() => {
+        this.contactPerson = ''
+        this.contactPhone = ''
+      })
       this.lrNumber = ''
       this.nosUnits = ''
       this.description = ''
-      this.services = ['garbage collection', 'water', 'security']
-      this.propertyType = 'Apartments'
     },
     async addProperty () {
       if (this.contact === 'landlord') {
         this.contactPerson = 'Landlord'
-        this.contactPhone = '---'
       }
       let propertyID = null
       if (this.propertyInfo) {

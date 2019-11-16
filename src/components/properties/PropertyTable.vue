@@ -7,7 +7,7 @@
         <div class="search-property">
           <v-text-field
               v-model="searchPropertyName"
-              placeholder="Search property"
+              placeholder="Search property name"
               prepend-icon="search"
           ></v-text-field>
         </div>
@@ -79,7 +79,7 @@
     </v-simple-table>
 
     <v-dialog v-model="dialog">
-      <property-form :edit="edit" :propertyInfo="propertyInfo"></property-form>
+      <property-form @closeModal="closeModal" :edit="edit" :propertyInfo="propertyInfo"></property-form>
     </v-dialog>
   </v-card>
 </template>
@@ -123,6 +123,9 @@ export default {
         this.propertyInfo = null
       }
       this.dialog = true
+    },
+    closeModal (value) {
+      this.dialog = value
     },
     servicesPills (property) {
       const serviceString = property.property_services
