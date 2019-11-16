@@ -24,12 +24,12 @@ const getProperties = async ({ commit, state }, payload) => {
     }
   } catch (err) {
     commit('SET_ERROR_STATE', true)
-    throw new Error(err)
+    throw new Error(err.message)
   }
 }
 
 /**
- * Add new properties
+ * Add and edit properties
  * @method addNewProperty
  * @param  {Object} commit vuex mutations
  * @param  {Object} dispatch vuex actions
@@ -55,7 +55,51 @@ const addNewProperty = async ({ commit, dispatch }, payload) => {
   }
 }
 
+/**
+ * Starts search of employees
+ * @method searchEmployees
+ * @param  {Object} Object vuex context object
+ * @param {*} payload search terms
+ */
+// @ts-ignore
+const searchProperties = ({ commit, dispatch }, payload) => {
+  commit('RESET_SEARCH_EMPLOYEES')
+  commit('UPDATE_NO_RESULTS', false)
+  dispatch('fetchSearchProperties', payload)
+}
+
+/**
+ * fetch all searched employee results and set them in the state
+ * @method fetchSearchedEmployees
+ * @param  {Object} commit vuex mutations
+ * @param  {Object} state of the vuex store
+ * @param  {Object} payload containing search term of employee to be searched
+ * @return {Promise}
+ */
+// @ts-ignore
+const fetchSearchProperties = async ({ commit, state }, payload) => {
+  const url = `properties/landlord/search`
+  const params = {
+    'property_name': payload.trim()
+  }
+
+  try {
+    const result = await api.post(url, params)
+    if (state.propertySearchResults.length) { return }
+    if (result.data.results.length) {
+      commit('UPDATE_NO_RESULTS', false)
+      commit('PROPERTY_SEARCH_RESULTS', result.data.results)
+      return
+    }
+    commit('UPDATE_NO_RESULTS', true)
+  } catch (error) {
+    throw Error(error.message)
+  }
+}
+
 export {
   getProperties,
-  addNewProperty
+  addNewProperty,
+  searchProperties,
+  fetchSearchProperties
 }

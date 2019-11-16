@@ -16,6 +16,14 @@ const showLoader = (state) => state.showLoader
 const showErrorState = (state) => state.errorState
 
 /**
+ * Show no search results state
+ * @method noSearchResults
+ * @param  {Object} state vuex state object
+ * @return {boolean} Contains no search results state
+ */
+const noSearchResults = (state) => state.noSearchResults
+
+/**
  * Retrieve the properties
  * @method properties
  * @param  {Object} state vuex state object
@@ -23,8 +31,18 @@ const showErrorState = (state) => state.errorState
  */
 const properties = (state) => state.properties
 
+/**
+ * Retrieve the searched properties
+ * @method propertySearchResults
+ * @param  {Object} state vuex state object
+ * @return {Array} Contains properties
+ */
+const propertySearchResults = (state) => state.propertySearchResults
+
 export {
   properties,
   showLoader,
-  showErrorState
+  propertySearchResults,
+  showErrorState,
+  noSearchResults
 }

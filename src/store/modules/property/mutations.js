@@ -18,6 +18,16 @@ const SHOW_LOADER = (state, payload) => {
 }
 
 /**
+ * Sets no property results search state
+ * @method UPDATE_NO_RESULTS
+ * @param  {Object} state vuex state object
+ * @param  {Boolean} payload contains no results state
+ */
+const UPDATE_NO_RESULTS = (state, payload) => {
+  state.noSearchResults = payload
+}
+
+/**
  * Set error state properties
  * @method SET_ERROR_STATE
  * @param  {Object} state vuex state object
@@ -25,6 +35,15 @@ const SHOW_LOADER = (state, payload) => {
  */
 const SET_ERROR_STATE = (state, payload) => {
   state.errorState = payload
+}
+
+/**
+ * Reset properties search results
+ * @method RESET_SEARCH_EMPLOYEES
+ * @param  {Object} state vuex state object
+ */
+const RESET_SEARCH_EMPLOYEES = (state) => {
+  state.propertySearchResults = []
 }
 
 /**
@@ -37,9 +56,22 @@ const GET_PROPERTIES = (state, payload) => {
   state.properties = payload
 }
 
+/**
+ * Fetch properties search results
+ * @method PROPERTY_SEARCH_RESULTS
+ * @param  {Object} state vuex state object
+ * @param  {Array} payload contains properties
+ */
+const PROPERTY_SEARCH_RESULTS = (state, payload) => {
+  state.propertySearchResults = payload
+}
+
 export {
   RESET_PROPERTIES,
   GET_PROPERTIES,
+  PROPERTY_SEARCH_RESULTS,
+  UPDATE_NO_RESULTS,
   SHOW_LOADER,
-  SET_ERROR_STATE
+  SET_ERROR_STATE,
+  RESET_SEARCH_EMPLOYEES
 }

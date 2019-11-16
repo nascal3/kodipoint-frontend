@@ -9,6 +9,7 @@
               v-model="searchPropertyName"
               placeholder="Search property name"
               prepend-icon="search"
+              @input="searchProperty"
           ></v-text-field>
         </div>
       </v-col>
@@ -41,7 +42,7 @@
         </tr>
         </thead>
         <tbody>
-          <template v-for="property in properties">
+          <template v-for="property in allProperties">
             <tr :key="property.id">
               <td>{{ property.property_name }}</td>
               <td>{{ property.property_type }}</td>
@@ -107,12 +108,18 @@ export default {
     ...mapGetters('property', {
       showLoader: 'showLoader',
       showErrorState: 'showErrorState',
-      properties: 'properties'
-    })
+      properties: 'properties',
+      propertySearchResults: 'propertySearchResults',
+      noSearchResults: 'noSearchResults'
+    }),
+    allProperties () {
+      return this.searchPropertyName.length ? this.propertySearchResults : this.properties
+    }
   },
   methods: {
     ...mapActions('property', {
-      getProperties: 'getProperties'
+      getProperties: 'getProperties',
+      searchProperties: 'searchProperties'
     }),
     openDialog (property) {
       if (property) {
@@ -136,6 +143,10 @@ export default {
         page: this.page
       }
       this.getProperties({ ...$event, ...payload })
+    },
+    searchProperty () {
+      const payload = this.searchPropertyName
+      if (payload.length) this.searchProperties(payload)
     }
   }
 }
