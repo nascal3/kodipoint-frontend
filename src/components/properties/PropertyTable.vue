@@ -66,9 +66,11 @@
               </td>
             </tr>
           </template>
-          <tr v-if="noSearchResults">
+          <tr v-if="noSearchResultsFound">
             <td class="text-center" colspan="8">
-              No results found!
+              <span class="text--disabled">
+                {{ isSearching ? 'Searching property...' : 'No results found' }}
+              </span>
             </td>
           </tr>
           <tr v-if="hideLoadMessage">
@@ -107,6 +109,7 @@ export default {
     searchPropertyName: '',
     dialog: false,
     edit: false,
+    isSearching: false,
     propertyInfo: null
   }),
   computed: {
@@ -122,11 +125,20 @@ export default {
     },
     hideLoadMessage () {
       return this.searchPropertyName.length <= 0
+    },
+    noSearchResultsFound () {
+      return this.searchPropertyName.length && !this.propertySearchResults.length
     }
   },
   watch: {
     searchPropertyName (newValue) {
-      if (!newValue.length) this.$store.commit('property/RESET_PROPERTIES')
+      if (!newValue.length) {
+        this.$store.commit('property/RESET_PROPERTIES')
+      }
+    },
+    noSearchResults () {
+      console.log('searching', this.isSearching, 'no results', this.noSearchResults)
+      this.isSearching = !this.noSearchResults
     }
   },
   methods: {
@@ -160,7 +172,10 @@ export default {
     },
     searchProperty () {
       const payload = this.searchPropertyName
-      if (payload.length) this.searchProperties(payload)
+      if (payload.length) {
+        this.isSearching = true
+        this.searchProperties(payload)
+      }
     }
   }
 }
