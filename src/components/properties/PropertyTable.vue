@@ -66,7 +66,12 @@
               </td>
             </tr>
           </template>
-          <tr>
+          <tr v-if="noSearchResults">
+            <td class="text-center" colspan="8">
+              No results found!
+            </td>
+          </tr>
+          <tr v-if="hideLoadMessage">
             <td colspan="8">
               <infinite-loading
                 :identifier="infiniteId"
@@ -114,6 +119,14 @@ export default {
     }),
     allProperties () {
       return this.searchPropertyName.length ? this.propertySearchResults : this.properties
+    },
+    hideLoadMessage () {
+      return this.searchPropertyName.length <= 0
+    }
+  },
+  watch: {
+    searchPropertyName (newValue) {
+      if (!newValue.length) this.$store.commit('property/RESET_PROPERTIES')
     }
   },
   methods: {
@@ -132,7 +145,8 @@ export default {
       this.dialog = true
     },
     closeModal (value) {
-      this.dialog = value
+      this.dialog = value.openState
+      if (value.editFormType) this.infiniteId += 1
     },
     servicesPills (property) {
       const serviceString = property.property_services

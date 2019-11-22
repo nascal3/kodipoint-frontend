@@ -4,6 +4,7 @@ import { api } from '@/middleware/config'
  * Fetch properties of specific landlord
  * @method getProperties
  * @param  {Object} commit vuex mutations
+ * @param  {Object} state of the vuex store
  * @param  {Object} payload values of email and password
  */
 const getProperties = async ({ commit, state }, payload) => {
@@ -46,7 +47,6 @@ const addNewProperty = async ({ commit, dispatch }, payload) => {
     if (response.status === 200) {
       commit('RESET_PROPERTIES')
       commit('SHOW_LOADER', false)
-      dispatch('getProperties')
       return true
     }
   } catch (err) {

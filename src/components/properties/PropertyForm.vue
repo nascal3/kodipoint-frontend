@@ -7,7 +7,7 @@
       <v-card-subtitle class="card-subtitle">
         {{editForm ? 'Edit property' : 'Add new property'}}
       </v-card-subtitle>
-      <v-icon class="close-icon" color="primary" @click="closeModal">
+      <v-icon class="close-icon" color="primary" @click="closeForm(false)">
         mdi-close
       </v-icon>
     </section>
@@ -221,8 +221,12 @@ export default {
         })
       })
     },
-    closeModal () {
-      this.$emit('closeModal', false)
+    closeForm (formSubmited) {
+      const payload = {
+        'openState': false,
+        'editFormType': this.edit && formSubmited
+      }
+      this.$emit('closeModal', payload)
     },
     updateFormValues (property) {
       this.btnColor = 'primary'
@@ -243,13 +247,13 @@ export default {
       this.services = ['garbage collection', 'water', 'security']
       this.propertyType = 'Apartments'
       this.propertyName = ''
+      this.lrNumber = ''
+      this.nosUnits = ''
+      this.description = ''
       await this.$nextTick(() => {
         this.contactPerson = ''
         this.contactPhone = ''
       })
-      this.lrNumber = ''
-      this.nosUnits = ''
-      this.description = ''
     },
     async addProperty () {
       if (this.contact === 'landlord') {
@@ -281,8 +285,8 @@ export default {
         const success = await this.addNewProperty(data)
         if (success) {
           this.clearFormValues()
+          this.closeForm(success)
         }
-        console.log('XXX', success)
       } catch (e) {
         throw new Error(e.message)
       }
