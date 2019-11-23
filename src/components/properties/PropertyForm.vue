@@ -12,7 +12,7 @@
       </v-icon>
     </section>
     <v-card-text>
-      <v-form v-model="valid" @submit.prevent="addProperty">
+      <v-form enctype="multipart/form-data" v-model="valid" @submit.prevent="addProperty">
         <v-row>
           <v-col cols="12" md="6">
             <v-text-field
@@ -124,12 +124,14 @@
           @paste="updateTags">
         </v-combobox>
         <v-file-input
+            ref="propertyImage"
             prepend-icon="mdi-camera"
             :rules="UploadImageRules"
             chips
             show-size
-            accept="image/png, image/jpeg, image/bmp"
+            accept="image/*"
             label="Property Image"
+            @change="onSelect"
         >
         </v-file-input>
         <v-textarea
@@ -156,7 +158,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'AddProperty',
@@ -181,6 +183,7 @@ export default {
     description: '',
     services: ['garbage collection', 'water', 'security'],
     items: [],
+    file: '',
     search: '',
     btnColor: 'secondary',
     propertyType: 'Apartments',
@@ -191,7 +194,7 @@ export default {
       'Warehouse'
     ],
     UploadImageRules: [
-      value => !value || value.size < 2000000 || 'Image size should be less than 2 MB!'
+      value => !value || value.size < 1000000 || 'Image size should be less than 1 MB!'
     ]
   }),
   computed: {
@@ -221,10 +224,13 @@ export default {
         })
       })
     },
-    closeForm (formSubmited) {
+    onSelect () {
+      this.file = this.$refs.propertyImage.internalValue
+    },
+    closeForm (formSubmitted) {
       const payload = {
         'openState': false,
-        'editFormType': this.edit && formSubmited
+        'formSubmitted': formSubmitted
       }
       this.$emit('closeModal', payload)
     },
@@ -250,6 +256,7 @@ export default {
       this.lrNumber = ''
       this.nosUnits = ''
       this.description = ''
+      this.file = ''
       await this.$nextTick(() => {
         this.contactPerson = ''
         this.contactPhone = ''
@@ -273,16 +280,16 @@ export default {
         'nos_units': this.nosUnits,
         'description': this.description,
         'property_services': this.services.join(','),
-        'property_type': this.propertyType
+        'property_type': this.propertyType,
+        'edit': this.edit
       }
       try {
         const valid = await this.$validator.validateAll()
         if (!valid) return
-        const data = {
-          'edit': this.edit,
-          'params': params
-        }
-        const success = await this.addNewProperty(data)
+        const formData = new FormData()
+        formData.append('file', this.file)
+        formData.append('json', JSON.stringify(params))
+        const success = await this.addNewProperty(formData)
         if (success) {
           this.clearFormValues()
           this.closeForm(success)

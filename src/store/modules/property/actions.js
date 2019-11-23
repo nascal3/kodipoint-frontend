@@ -37,13 +37,12 @@ const getProperties = async ({ commit, state }, payload) => {
  * @param  {Object} payload property values
  */
 const addNewProperty = async ({ commit, dispatch }, payload) => {
-  const url = payload.edit ? '/properties/edit' : '/properties/register'
-  const params = {
-    ...payload.params
-  }
+  const data = JSON.parse(payload.getAll('json'))
+  const url = data.edit ? '/properties/edit' : '/properties/register'
+
   commit('SHOW_LOADER', true)
   try {
-    const response = await api.post(url, params)
+    const response = await api.post(url, payload)
     if (response.status === 200) {
       commit('RESET_PROPERTIES')
       commit('SHOW_LOADER', false)

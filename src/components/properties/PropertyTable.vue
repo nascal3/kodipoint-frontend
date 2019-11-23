@@ -158,7 +158,7 @@ export default {
     },
     closeModal (value) {
       this.dialog = value.openState
-      if (value.editFormType) this.infiniteId += 1
+      if (value.formSubmitted) this.infiniteId += 1
     },
     servicesPills (property) {
       const serviceString = property.property_services
