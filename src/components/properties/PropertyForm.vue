@@ -126,6 +126,7 @@
         <v-file-input
             ref="propertyImage"
             prepend-icon="mdi-camera"
+            :value=imageValue
             :rules="UploadImageRules"
             chips
             show-size
@@ -184,6 +185,7 @@ export default {
     services: ['garbage collection', 'water', 'security'],
     items: [],
     file: '',
+    imageValue: [],
     search: '',
     btnColor: 'secondary',
     propertyType: 'Apartments',
@@ -257,6 +259,7 @@ export default {
       this.nosUnits = ''
       this.description = ''
       this.file = ''
+      this.imageValue = []
       await this.$nextTick(() => {
         this.contactPerson = ''
         this.contactPhone = ''
