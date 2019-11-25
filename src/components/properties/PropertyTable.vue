@@ -37,6 +37,7 @@
           <th class="text-left">Contact phone</th>
           <th class="text-left">LR number</th>
           <th class="text-left">Num of units</th>
+          <th class="text-left">Property Image</th>
           <th class="text-center">Property services</th>
           <th>Edit</th>
         </tr>
@@ -50,6 +51,12 @@
               <td>{{ property.phone }}</td>
               <td>{{ property.lr_nos }}</td>
               <td>{{ property.nos_units }}</td>
+              <td>
+                <v-img
+                  :src="imageSource(property.property_img)"
+                  class="table-property-image"
+                ></v-img>
+              </td>
               <td>
                 <v-chip
                   class="ma-2"
@@ -110,6 +117,7 @@ export default {
     dialog: false,
     edit: false,
     isSearching: false,
+    placeholderImage: require(`@/assets/images/noImage.jpg`),
     propertyInfo: null
   }),
   computed: {
@@ -169,6 +177,12 @@ export default {
         page: this.page
       }
       this.getProperties({ ...$event, ...payload })
+    },
+    imageSource (imagePath) {
+      if (!imagePath) return this.placeholderImage
+      const apiBaseURL = process.env.BASE_URL
+      const [ one, two, three ] = apiBaseURL.split('/')
+      return `${one}//${three}/file${imagePath}`
     },
     searchProperty () {
       const payload = this.searchPropertyName

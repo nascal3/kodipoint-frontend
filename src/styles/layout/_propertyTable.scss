@@ -31,6 +31,14 @@
     tbody {
       tr {
         td:nth-child(7) {
+          .v-image {
+            max-width: 10rem;
+            max-height: 6rem;
+            overflow: hidden;
+            margin: 5px;
+          }
+        }
+        td:nth-child(9) {
           .v-icon {
             cursor: pointer;
           }
