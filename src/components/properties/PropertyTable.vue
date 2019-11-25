@@ -52,10 +52,7 @@
               <td>{{ property.lr_nos }}</td>
               <td>{{ property.nos_units }}</td>
               <td>
-                <v-img
-                  :src="imageSource(property.property_img)"
-                  class="table-property-image"
-                ></v-img>
+                <v-img :src="imageSource(property.property_img)"></v-img>
               </td>
               <td>
                 <v-chip

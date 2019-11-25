@@ -123,18 +123,28 @@
           @keyup.tab="updateTags"
           @paste="updateTags">
         </v-combobox>
-        <v-file-input
-            ref="propertyImage"
-            prepend-icon="mdi-camera"
-            :value=imageValue
-            :rules="UploadImageRules"
-            chips
-            show-size
-            accept="image/*"
-            label="Property Image"
-            @change="onSelect"
-        >
-        </v-file-input>
+        <v-row>
+          <v-col cols="12" md="7">
+            <v-file-input
+                ref="propertyImage"
+                prepend-icon="mdi-camera"
+                :value=imageValue
+                :rules="UploadImageRules"
+                chips
+                show-size
+                accept="image/*"
+                label="Property Image"
+                @change="onSelect"
+            >
+            </v-file-input>
+          </v-col>
+          <v-col cols="12" md="5">
+            <v-img
+              class="modal-property-image"
+              :src="imageSource"
+            ></v-img>
+          </v-col>
+        </v-row>
         <v-textarea
             name="description"
             label="Property description"
@@ -186,6 +196,7 @@ export default {
     items: [],
     file: '',
     imageValue: [],
+    placeholderImage: require(`@/assets/images/noImage.jpg`),
     search: '',
     btnColor: 'secondary',
     propertyType: 'Apartments',
@@ -212,7 +223,14 @@ export default {
         this.clearFormValues()
       }
       return this.edit
-    }
+    },
+    imageSource () {
+      const imagePath = this.propertyInfo ? this.propertyInfo.property_img : null
+      if (!imagePath) return this.placeholderImage
+      const apiBaseURL = process.env.BASE_URL
+      const [ one, two, three ] = apiBaseURL.split('/')
+      return `${one}//${three}/file${imagePath}`
+    },
   },
   methods: {
     ...mapActions('property', {
@@ -245,7 +263,7 @@ export default {
       this.contactPhone = property.phone
       this.lrNumber = property.lr_nos
       this.nosUnits = property.nos_units
-      this.description = property.declaration
+      this.description = property.description
       this.services = property.property_services.split(',')
       this.propertyType = property.property_type
     },

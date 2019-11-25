@@ -25,6 +25,12 @@
   }
 }
 
+.modal-property-image {
+  max-width: 20rem;
+  max-height: 12rem;
+  overflow: hidden;
+}
+
 .contact-title {
   color: $black;
   font-size: 1.6rem;
