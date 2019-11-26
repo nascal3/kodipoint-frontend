@@ -31,7 +31,7 @@ const addResponseInterceptor = (api) => {
   return api.interceptors.response.use((response) => {
     return response
   }, (error) => {
-    if (tokenObj && error.response && error.response.status === 401) {
+    if (tokenObj && error.response && (error.response.status === 401 || error.response.status === 400)) {
       store.dispatch('auth/removeToken')
       window.location.reload()
     }

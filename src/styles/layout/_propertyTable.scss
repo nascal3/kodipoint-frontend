@@ -1,0 +1,53 @@
+// edit property form styles
+
+.card {
+  &-title {
+    font-size: 2.4rem;
+    margin-bottom: 7px;
+  }
+  &-subtitle {
+    font-size: 1.6rem;
+    font-weight: 300;
+  }
+
+  .search-property {
+    margin: 1rem;
+  }
+}
+.search-property {
+  margin: 1.2rem;
+  width: 40%;
+}
+
+.property-btn-container {
+  height: 9rem;
+  margin: 1.2rem;
+}
+
+.v-data-table__wrapper {
+  max-height: 40rem;
+
+  table {
+    tbody {
+      tr {
+        td:nth-child(7) {
+          .v-image {
+            max-width: 10rem;
+            max-height: 6rem;
+            overflow: hidden;
+            margin: 5px;
+          }
+        }
+        td:nth-child(9) {
+          .v-icon {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}
+
+.v-dialog {
+  max-width: 60rem;
+}

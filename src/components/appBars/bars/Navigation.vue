@@ -14,9 +14,10 @@
 
         <v-list shaped dense>
             <v-list-item
-                    v-for="item in items"
-                    :key="item.title"
-                    link
+                v-for="item in items"
+                :key="item.title"
+                router :to="item.route"
+                link
             >
                 <v-list-item-icon>
                     <v-icon>{{ item.icon }}</v-icon>
@@ -36,9 +37,8 @@ export default {
   data: () => ({
     drawer: true,
     items: [
-      { title: 'Home', icon: 'mdi-home-city' },
-      { title: 'My Account', icon: 'mdi-account' },
-      { title: 'Users', icon: 'mdi-account-group-outline' }
+      { title: 'Properties', icon: 'mdi-home-city', route: '/properties' },
+      { title: 'Finance', icon: 'mdi-account', route: '/finance' }
     ],
     bg: 'src/assets/images/menu_bg.jpg'
   }),

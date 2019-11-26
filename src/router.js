@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import { checkAuth, checkToken } from '@/services/authGuards'
 import Login from '@/pages/Login'
 import About from '@/pages/About'
-import Summary from '@/pages/Summary'
+import Summary from '@/pages/Properties'
 
 Vue.use(Router)
 
@@ -17,8 +17,8 @@ export default new Router({
       beforeEnter: checkToken
     },
     {
-      path: '/summary',
-      name: 'summary',
+      path: '/properties',
+      name: 'properties',
       component: Summary,
       beforeEnter: checkAuth
     },

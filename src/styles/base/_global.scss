@@ -1,0 +1,31 @@
+// Global body styles
+
+.custom-toast {
+  color: $white !important;
+  background-color: $kodi_green !important;
+  min-width: 14.7rem !important;
+  min-height: 5rem !important;
+  font-size: 1.4rem !important;
+  position: fixed !important;
+  top: 7.7rem !important;
+  right: 0 !important;
+  box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.5) !important;
+  border-radius: 4px 0 0 4px !important;
+}
+
+.v-select-list {
+  .v-list {
+    &-item {
+      &__title {
+        font-size: 1.6rem !important;
+      }
+    }
+  }
+}
+
+.input-error {
+  position: relative;
+  font-size: 1.2rem;
+  color: $error;
+  bottom: 1.8rem;
+}
