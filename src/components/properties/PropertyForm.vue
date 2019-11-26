@@ -124,22 +124,29 @@
           @paste="updateTags">
         </v-combobox>
         <v-row>
-          <v-col cols="12" md="7">
+          <v-col cols="12" md="6">
             <v-file-input
                 ref="propertyImage"
                 prepend-icon="mdi-camera"
                 :value=imageValue
                 :rules="UploadImageRules"
+                :error="!validFile"
                 chips
                 show-size
                 accept="image/*"
-                label="Property Image"
+                label="Upload Property Image"
                 @change="onSelect"
             >
             </v-file-input>
+            <transition name="fade">
+              <span class="file-error" v-if="!validFile">
+                Please upload an image file.
+              </span>
+            </transition>
           </v-col>
-          <v-col cols="12" md="5">
+          <v-col cols="12" md="6" class="d-flex justify-center">
             <v-img
+              v-if="edit"
               class="modal-property-image"
               :src="imageSource"
             ></v-img>
@@ -151,7 +158,7 @@
             v-model="description"
         ></v-textarea>
         <span class="input-hint">
-          After each service typed press enter button.
+          Separate each service with a comma.
         </span>
         <v-btn
           type="submit"
@@ -196,6 +203,7 @@ export default {
     items: [],
     file: '',
     imageValue: [],
+    validFile: true,
     placeholderImage: require(`@/assets/images/noImage.jpg`),
     search: '',
     btnColor: 'secondary',
@@ -230,7 +238,7 @@ export default {
       const apiBaseURL = process.env.BASE_URL
       const [ one, two, three ] = apiBaseURL.split('/')
       return `${one}//${three}/file${imagePath}`
-    },
+    }
   },
   methods: {
     ...mapActions('property', {
@@ -246,6 +254,10 @@ export default {
     },
     onSelect () {
       this.file = this.$refs.propertyImage.internalValue
+      if (this.file) this.validUploadedFile(this.file.type)
+    },
+    validUploadedFile (fileType) {
+      this.validFile = fileType.split('/')[0] === 'image'
     },
     closeForm (formSubmitted) {
       const payload = {
@@ -272,16 +284,16 @@ export default {
       this.contact = 'landlord'
       this.services = ['garbage collection', 'water', 'security']
       this.propertyType = 'Apartments'
-      this.propertyName = ''
-      this.lrNumber = ''
-      this.nosUnits = ''
-      this.description = ''
-      this.file = ''
-      this.imageValue = []
-      await this.$nextTick(() => {
+      await setTimeout(() => {
+        this.propertyName = ''
+        this.lrNumber = ''
+        this.nosUnits = ''
+        this.description = ''
+        this.file = ''
+        this.imageValue = []
         this.contactPerson = ''
         this.contactPhone = ''
-      })
+      }, 500)
     },
     async addProperty () {
       if (this.contact === 'landlord') {
@@ -306,7 +318,7 @@ export default {
       }
       try {
         const valid = await this.$validator.validateAll()
-        if (!valid) return
+        if (!valid || !this.validFile) return
         const formData = new FormData()
         formData.append('file', this.file)
         formData.append('json', JSON.stringify(params))
