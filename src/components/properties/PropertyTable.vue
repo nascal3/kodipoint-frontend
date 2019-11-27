@@ -71,14 +71,14 @@
             </tr>
           </template>
           <tr v-if="noSearchResultsFound">
-            <td class="text-center" colspan="8">
+            <td class="text-center" colspan="9">
               <span class="text--disabled">
                 {{ isSearching ? 'Searching property...' : 'No results found' }}
               </span>
             </td>
           </tr>
           <tr v-if="hideLoadMessage && !showErrorState">
-            <td colspan="8">
+            <td colspan="9">
               <infinite-loading
                 :identifier="infiniteId"
                 @infinite="getAllProperties"
@@ -87,7 +87,7 @@
             </td>
           </tr>
           <tr v-if="showErrorState">
-            <td class="text-center" colspan="8">
+            <td class="text-center" colspan="9">
               <span class="text--disabled">
                 Oops! An error occurred :(
               </span>
