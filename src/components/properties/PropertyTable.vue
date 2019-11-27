@@ -77,13 +77,20 @@
               </span>
             </td>
           </tr>
-          <tr v-if="hideLoadMessage">
+          <tr v-if="hideLoadMessage && !showErrorState">
             <td colspan="8">
               <infinite-loading
                 :identifier="infiniteId"
                 @infinite="getAllProperties"
               >
               </infinite-loading>
+            </td>
+          </tr>
+          <tr v-if="showErrorState">
+            <td class="text-center" colspan="8">
+              <span class="text--disabled">
+                Oops! An error occurred :(
+              </span>
             </td>
           </tr>
         </tbody>

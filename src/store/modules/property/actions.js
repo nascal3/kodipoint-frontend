@@ -50,6 +50,7 @@ const addNewProperty = async ({ commit, dispatch }, payload) => {
     }
   } catch (err) {
     commit('SHOW_LOADER', false)
+    commit('SET_ERROR_STATE', true)
     throw new Error(err)
   }
 }
@@ -92,6 +93,7 @@ const fetchSearchProperties = async ({ commit, state }, payload) => {
     }
     commit('UPDATE_NO_RESULTS', true)
   } catch (error) {
+    commit('SET_ERROR_STATE', true)
     throw Error(error.message)
   }
 }
