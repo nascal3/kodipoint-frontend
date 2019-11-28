@@ -10,7 +10,7 @@ import { api } from '@/middleware/config'
 const getLandlords = async ({ commit, state }, payload) => {
   const limit = 100
   const pageNum = payload ? payload.page : 1
-  const url = `/landlords/${pageNum}`
+  const url = `/api/landlords/${pageNum}`
 
   try {
     const response = await api.get(url)
@@ -38,7 +38,7 @@ const getLandlords = async ({ commit, state }, payload) => {
  */
 const addNewProperty = async ({ commit, dispatch }, payload) => {
   const data = JSON.parse(payload.getAll('json'))
-  const url = data.edit ? '/properties/edit' : '/properties/register'
+  const url = data.edit ? '/api/properties/edit' : '/properties/register'
 
   commit('SHOW_LOADER', true)
   try {
@@ -77,7 +77,7 @@ const searchLandlords = ({ commit, dispatch }, payload) => {
  */
 // @ts-ignore
 const fetchSearchLandlords = async ({ commit, state }, payload) => {
-  const url = `/landlords/search`
+  const url = `/api/landlords/search`
   const params = {
     'search_phrase': payload.trim()
   }

@@ -2,7 +2,7 @@
   <v-card class="pa-1">
     <section class="header-section">
       <v-card-title class="card-title">
-        {{editForm ? 'Edit Property' : 'Add Property'}}
+        {{editForm ? 'Edit Landlord' : 'Add landlord'}}
       </v-card-title>
       <v-icon class="close-icon" color="primary" @click="closeForm(false)">
         mdi-close
@@ -10,120 +10,167 @@
     </section>
     <v-card-text>
       <v-form enctype="multipart/form-data" v-model="valid" @submit.prevent="addProperty">
+        <div class="section-title">Personal information</div>
         <v-row>
           <v-col cols="12" md="6">
             <v-text-field
-                v-model="propertyName"
-                label="Property name*"
+                v-model="landlordName"
+                label="Landlord name*"
                 v-validate="'required'"
-                name="propertyName"
-                :error="errors.has('propertyName')"
+                name="landlordName"
+                :error="errors.has('landlordName')"
             ></v-text-field>
             <transition name="fade">
-              <span class="input-error" v-if="errors.has('propertyName')">
-                Please enter property name
-              </span>
-            </transition>
-          </v-col>
-          <v-col cols="12" md="6">
-            <v-select
-                v-model="propertyType"
-                :items="properties"
-                label="Property Type"
-                class="propertySelector"
-            ></v-select>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" md="6">
-            <v-text-field
-                v-model="lrNumber"
-                label="LR number*"
-                v-validate="'required'"
-                name="lrNumber"
-                :error="errors.has('lrNumber')"
-            ></v-text-field>
-            <transition name="fade">
-              <span class="input-error" v-if="errors.has('lrNumber')">
-                Please enter LR Number
+              <span class="input-error" v-if="errors.has('landlordName')">
+                Please enter landlords' name
               </span>
             </transition>
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-                v-model="nosUnits"
-                label="Number of units*"
-                v-validate="'required|max:4'"
-                name="nosUnits"
-                data-vv-as="number of units"
-                v-mask="['####']"
-                :error="errors.has('nosUnits')"
+              v-model="nationalID"
+              label="National ID*"
+              v-validate="'required'"
+              name="nationalID"
+              data-vv-as="national ID"
+              :error="errors.has('nationalID')"
             ></v-text-field>
             <transition name="fade">
-            <span class="input-error" v-if="errors.has('nosUnits')">
-              {{ errors.first('nosUnits') }}
+            <span class="input-error" v-if="errors.has('nationalID')">
+              {{ errors.first('nationalID') }}
             </span>
             </transition>
           </v-col>
         </v-row>
-        <div class="contact-title">Contact person</div>
-        <v-radio-group v-model="contact" row>
-          <v-radio label="Landlord" color="primary" value="landlord"></v-radio>
-          <v-radio label="Other" color="primary" value="other"></v-radio>
-        </v-radio-group>
-        <transition name="fade">
-          <section v-if="contact === 'other'">
-            <v-row>
-              <v-col cols="12" md="6">
-                <v-text-field
-                    v-model="contactPerson"
-                    label="Contacts' name*"
-                    v-validate="'required'"
-                    name="contactPerson"
-                    :error="errors.has('contactPerson')"
-                ></v-text-field>
-                <transition name="fade">
-                  <span class="input-error" v-if="errors.has('contactPerson')">
-                    Please insert contacts' name
-                  </span>
-                </transition>
-              </v-col>
-              <v-col cols="12" md="6">
-                <v-text-field
-                    v-model="contactPhone"
-                    label="Contacts' phone number*"
-                    v-validate="'required|min:17 '"
-                    name="contactPhone"
-                    persistent-hint
-                    :error="errors.has('contactPhone')"
-                    data-vv-as="contacts' phone number"
-                    v-mask="['(+###) ####-#####']"
-                ></v-text-field>
-                <transition name="fade">
-                  <div class="input-error" v-if="errors.has('contactPhone')">
-                    {{errors.items[0].rule === 'min' ? 'Please insert complete phone number!' : 'Please insert a phone number!' }}
-                  </div>
-                </transition>
-              </v-col>
-            </v-row>
-          </section>
-        </transition>
-        <v-combobox
-          multiple
-          v-model="services"
-          label="Property services"
-          append-icon
-          chips
-          deletable-chips
-          class="tag-input"
-          :search-input.sync="search"
-          @keyup.tab="updateTags"
-          @paste="updateTags">
-        </v-combobox>
+        <v-row>
+          <v-col cols="12" md="6">
+            <v-text-field
+                v-model="email"
+                label="email*"
+                v-validate="'required|email'"
+                name="email"
+                :error="errors.has('email')"
+            ></v-text-field>
+            <transition name="fade">
+              <span class="input-error" v-if="errors.has('email')">
+                {{ errors.first('email') }}
+              </span>
+            </transition>
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="phone"
+              label="Phone number*"
+              v-validate="'required|min:17 '"
+              name="phone"
+              persistent-hint
+              :error="errors.has('phone')"
+              v-mask="['(+###) ####-#####']"
+            ></v-text-field>
+            <transition name="fade">
+              <div class="input-error" v-if="errors.has('phone')">
+                {{errors.items[0].rule === 'min' ? 'Please insert complete phone number!' : 'Please insert a phone number!' }}
+              </div>
+            </transition>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12" md="6">
+            <v-select
+              v-model="role"
+              :items="roles"
+              item-text="roleText"
+              item-value="roleValue"
+              label="Role Type"
+              class="roleSelector"
+            ></v-select>
+          </v-col>
+        </v-row>
+        <div class="section-title">Financial information</div>
+        <v-row>
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="kraPIN"
+              label="KRA Pin*"
+              v-validate="'required'"
+              name="kraPIN"
+              :error="errors.has('kraPIN')"
+            ></v-text-field>
+            <transition name="fade">
+              <span class="input-error" v-if="errors.has('kraPIN')">
+                Please enter landlords' KRA Pin
+              </span>
+            </transition>
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="bankName"
+              label="Bank name*"
+              v-validate="'required'"
+              name="bankName"
+              data-vv-as="bank name"
+              :error="errors.has('bankName')"
+            ></v-text-field>
+            <transition name="fade">
+            <span class="input-error" v-if="errors.has('bankName')">
+              {{ errors.first('bankName') }}
+            </span>
+            </transition>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="bankBranch"
+              label="Bank branch*"
+              v-validate="'required'"
+              name="bankBranch"
+              data-vv-as="bank branch"
+              :error="errors.has('bankBranch')"
+            ></v-text-field>
+            <transition name="fade">
+              <span class="input-error" v-if="errors.has('bankBranch')">
+                {{ errors.first('bankBranch') }}
+              </span>
+            </transition>
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="bankAcc"
+              label="Bank account number*"
+              v-validate="'required'"
+              name="bankAcc"
+              data-vv-as="bank account number"
+              :error="errors.has('bankAcc')"
+            ></v-text-field>
+            <transition name="fade">
+              <span class="input-error" v-if="errors.has('bankAcc')">
+                {{ errors.first('bankAcc') }}
+              </span>
+            </transition>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="bankSwift"
+              label="Bank SWIFT Code*"
+              v-validate="'required'"
+              name="bankSwift"
+              data-vv-as="bank SWIFT Code"
+              :error="errors.has('bankSwift')"
+            ></v-text-field>
+            <transition name="fade">
+              <span class="input-error" v-if="errors.has('bankSwift')">
+                {{ errors.first('bankSwift') }}
+              </span>
+            </transition>
+          </v-col>
+        </v-row>
         <v-row>
           <v-col cols="12" md="6">
             <v-file-input
-                ref="propertyImage"
+                ref="landlordPicture"
                 prepend-icon="mdi-camera"
                 :value=imageValue
                 :rules="UploadImageRules"
@@ -131,7 +178,7 @@
                 chips
                 show-size
                 accept="image/*"
-                label="Upload Property Image"
+                label="Upload landlord picture"
                 @change="onSelect"
             >
             </v-file-input>
@@ -144,19 +191,11 @@
           <v-col cols="12" md="6" class="d-flex justify-center">
             <v-img
               v-if="edit"
-              class="modal-property-image"
+              class="modal-landlord-image"
               :src="imageSource"
             ></v-img>
           </v-col>
         </v-row>
-        <v-textarea
-            name="description"
-            label="Property description"
-            v-model="description"
-        ></v-textarea>
-        <span class="input-hint">
-          Separate each service with a comma.
-        </span>
         <v-row>
           <v-col cols="12" md="6">
             <v-btn
@@ -167,7 +206,7 @@
               block
               :color="btnColor"
             >
-              {{ editForm ? 'Save Changes' : 'Add Property'}}
+              {{ editForm ? 'Save Changes' : 'Add Landlord'}}
             </v-btn>
           </v-col>
           <v-col cols="12" md="6">
@@ -204,27 +243,24 @@ export default {
   },
   data: () => ({
     valid: false,
-    propertyName: '',
-    contact: 'landlord',
-    contactPerson: '',
-    contactPhone: '',
-    lrNumber: '',
-    nosUnits: '',
-    description: '',
-    services: ['garbage collection', 'water', 'security'],
-    items: [],
+    landlordName: '',
+    phone: '',
+    email: '',
+    nationalID: '',
+    kraPIN: '',
+    bankName: '',
+    bankBranch: '',
+    bankAcc: '',
+    bankSwift: '',
     file: '',
     imageValue: [],
     validFile: true,
-    placeholderImage: require(`@/assets/images/noImage.jpg`),
-    search: '',
+    placeholderImage: require(`@/assets/images/avatar.jpg`),
     btnColor: 'secondary',
-    propertyType: 'Apartments',
-    properties: [
-      'Apartments',
-      'Business premises',
-      'Apartments & Business premises',
-      'Warehouse'
+    role: { roleText: 'Landlord', roleValue: 'landlord' },
+    roles: [
+      { roleText: 'Landlord', roleValue: 'landlord' },
+      { roleText: 'Landlord/Tenant', roleValue: 'landlord/tenant' }
     ],
     UploadImageRules: [
       value => !value || value.size < 1000000 || 'Image size should be less than 1 MB!'
@@ -255,16 +291,8 @@ export default {
     ...mapActions('property', {
       addNewProperty: 'addNewProperty'
     }),
-    updateTags () {
-      this.$nextTick(() => {
-        this.services.push(...this.search.split(','))
-        this.$nextTick(() => {
-          this.search = ''
-        })
-      })
-    },
     onSelect () {
-      this.file = this.$refs.propertyImage.internalValue
+      this.file = this.$refs.landlordPicture.internalValue
       if (this.file) this.validUploadedFile(this.file.type)
     },
     validUploadedFile (fileType) {
@@ -347,5 +375,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import 'src/styles/layout/propertyForm';
+  @import 'src/styles/layout/landlordForm';
 </style>

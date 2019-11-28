@@ -20,7 +20,7 @@ const setToken = ({ commit, state }, payload) => {
  * @param  {Object} payload values of email and password
  */
 const login = async ({ commit, dispatch }, payload) => {
-  const url = '/users/login'
+  const url = '/api/users/login'
   commit('SHOW_LOADER', true)
   try {
     const response = await api.post(url, payload)

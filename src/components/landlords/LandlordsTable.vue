@@ -17,11 +17,11 @@
         <div class="property-btn-container d-flex justify-end align-center">
           <v-btn
             class=" btn-text "
-            color="secondary"
+            color="primary"
             @click="openDialog()"
           >
             <v-icon left>mdi-plus</v-icon>
-            Add property
+            Add landlord
           </v-btn>
         </div>
       </v-col>
@@ -39,7 +39,7 @@
           <th class="text-left">KRA Pin</th>
           <th class="text-left">Bank</th>
           <th class="text-left">Bank branch</th>
-          <th class="text-center">Acc number</th>
+          <th class="text-left">Acc number</th>
           <th>Edit</th>
         </tr>
         </thead>
@@ -61,14 +61,14 @@
           </tr>
         </template>
         <tr v-if="noSearchResultsFound">
-          <td class="text-center" colspan="9">
+          <td class="text-center" colspan="10">
               <span class="text--disabled">
                 {{ isSearching ? 'Searching landlord...' : 'No results found' }}
               </span>
           </td>
         </tr>
         <tr v-if="hideLoadMessage && !showErrorState">
-          <td colspan="9">
+          <td colspan="10">
             <infinite-loading
               :identifier="infiniteId"
               @infinite="getAllLandlords"
@@ -77,7 +77,7 @@
           </td>
         </tr>
         <tr v-if="showErrorState">
-          <td class="text-center" colspan="9">
+          <td class="text-center" colspan="10">
               <span class="text--disabled">
                 Oops! An error occurred :(
               </span>
@@ -88,21 +88,21 @@
     </v-simple-table>
 
     <v-dialog v-model="dialog">
-      <property-form @closeModal="closeModal" :edit="edit" :propertyInfo="landlordInfo"></property-form>
+      <landlord-form @closeModal="closeModal" :edit="edit" :propertyInfo="landlordInfo"></landlord-form>
     </v-dialog>
   </v-card>
 </template>
 
 <script>
 import InfiniteLoading from 'vue-infinite-loading'
-import PropertyForm from '@/components/properties/PropertyForm'
+import LandlordForm from '@/components/landlords/LandlordForm'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'LandlordsTable',
   components: {
     InfiniteLoading,
-    PropertyForm
+    LandlordForm
   },
   data: () => ({
     infiniteId: +new Date(),
@@ -169,10 +169,8 @@ export default {
     },
     imageSource (imagePath) {
       if (!imagePath) return this.placeholderImage
-      const apiBaseURL = process.env.BASE_URL
-      // eslint-disable-next-line no-unused-vars
-      const [ one, two, three ] = apiBaseURL.split('/')
-      return `${one}//${three}/file${imagePath}`
+      const baseURL = process.env.BASE_URL
+      return `${baseURL}/file${imagePath}`
     },
     searchLandlord () {
       const payload = this.searchLandlordName
