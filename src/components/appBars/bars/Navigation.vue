@@ -1,12 +1,12 @@
 <template>
     <v-navigation-drawer
-            app
-            v-model="drawer"
-            width="185"
-            :src="bg"
-            clipped-left
-            permanent
-            dark
+        app
+        v-model="drawer"
+        width="185"
+        :src="bg"
+        clipped-left
+        permanent
+        dark
     >
         <v-list-item class="menu-logo-section" >
             <v-img class="menu-logo" :src="require('@/assets/images/kodiPoint_logo.png')"></v-img>
@@ -22,7 +22,6 @@
                 <v-list-item-icon>
                     <v-icon>{{ item.icon }}</v-icon>
                 </v-list-item-icon>
-
                 <v-list-item-content>
                     <v-list-item-title class="menu-items-text">{{ item.title }}</v-list-item-title>
                 </v-list-item-content>
@@ -36,14 +35,25 @@ export default {
   name: 'Navigation',
   data: () => ({
     drawer: true,
-    items: [
-      { title: 'Properties', icon: 'mdi-home-city', route: '/properties' },
-      { title: 'Finance', icon: 'mdi-account', route: '/finance' }
-    ],
     bg: 'src/assets/images/menu_bg.jpg'
   }),
   computed: {
+    items () {
+      const tokenVals = localStorage.getItem('kodiAuthToken')
+      const role = JSON.parse(tokenVals).user.role
+      if (role === 'admin') {
+        return [
+          { title: 'Landlords', icon: 'mdi-account-tie', route: '/landlords' },
+          { title: 'Finance', icon: 'mdi-account', route: '/finance' }
+        ]
+      }
 
+      return [
+        { title: 'Landlords', icon: 'mdi-account-tie', route: '/landlords' },
+        { title: 'Properties', icon: 'mdi-home-city', route: '/properties' },
+        { title: 'Finance', icon: 'mdi-account', route: '/finance' }
+      ]
+    }
   }
 }
 </script>

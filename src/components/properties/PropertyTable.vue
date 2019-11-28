@@ -185,6 +185,7 @@ export default {
     imageSource (imagePath) {
       if (!imagePath) return this.placeholderImage
       const apiBaseURL = process.env.BASE_URL
+      // eslint-disable-next-line no-unused-vars
       const [ one, two, three ] = apiBaseURL.split('/')
       return `${one}//${three}/file${imagePath}`
     },
