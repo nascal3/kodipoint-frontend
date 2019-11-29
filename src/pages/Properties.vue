@@ -17,10 +17,9 @@ export default {
   components: {
     PropertyTable
   }
-
 }
 </script>
 
 <style lang="scss" scoped>
-
+  @import 'src/styles/pages/properties';
 </style>

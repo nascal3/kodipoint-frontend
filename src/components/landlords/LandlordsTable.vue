@@ -88,7 +88,7 @@
     </v-simple-table>
 
     <v-dialog v-model="dialog">
-      <landlord-form @closeModal="closeModal" :edit="edit" :propertyInfo="landlordInfo"></landlord-form>
+      <landlord-form @closeModal="closeModal" :edit="edit" :landlordInfo="landlordInfo"></landlord-form>
     </v-dialog>
   </v-card>
 </template>

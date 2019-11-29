@@ -36,6 +36,25 @@ const login = async ({ commit, dispatch }, payload) => {
 }
 
 /**
+ * Get single user by ID
+ * @method singleUser
+ * @param  {Object} commit vuex mutations
+ * @param  {Object} payload values of users ID
+ */
+const singleUser = async ({ commit }, payload) => {
+  const url = `/api/users/user/${payload}`
+
+  try {
+    const response = await api.get(url)
+    if (response.status === 200) {
+      commit('SINGLE_USER', response.data.results)
+    }
+  } catch (err) {
+    throw new Error(err)
+  }
+}
+
+/**
  * Update the user password
  * @method passwordUpdate
  * @param  {Object} commit vuex mutations
@@ -72,6 +91,7 @@ const removeToken = ({ commit }) => {
 export {
   login,
   setToken,
+  singleUser,
   passwordUpdate,
   removeToken
 }

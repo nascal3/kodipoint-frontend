@@ -7,8 +7,16 @@
       <v-icon class="close-icon" color="primary" @click="closeForm(false)">
         mdi-close
       </v-icon>
+      <v-progress-linear
+        v-if="!userInfoLoaded && editForm"
+        indeterminate
+        color="primary"
+      ></v-progress-linear>
     </section>
     <v-card-text>
+      <div class="display-1 d-flex justify-center align-center" v-if="!userInfoLoaded && editForm">
+        Loading data ...
+      </div>
       <v-form enctype="multipart/form-data" v-model="valid" @submit.prevent="addProperty">
         <div class="section-title">Personal information</div>
         <v-row>
@@ -237,7 +245,7 @@ export default {
       default: false,
       required: true
     },
-    propertyInfo: {
+    landlordInfo: {
       type: Object
     }
   },
@@ -270,21 +278,24 @@ export default {
     ...mapGetters({
       showLoader: ['property/showLoader'],
       showErrorState: ['property/showErrorState'],
-      user: ['auth/user']
+      landlordUserInfo: ['auth/singleUser']
     }),
     editForm () {
-      if (this.propertyInfo) {
-        this.updateFormValues(this.propertyInfo)
-      } else if (!this.propertyInfo) {
+      if (this.landlordInfo) {
+        this.updateFormValues(this.landlordInfo)
+      } else if (!this.landlordInfo) {
         this.clearFormValues()
       }
       return this.edit
     },
     imageSource () {
-      const imagePath = this.propertyInfo ? this.propertyInfo.property_img : null
+      const imagePath = this.landlordInfo ? this.landlordInfo.avatar : null
       if (!imagePath) return this.placeholderImage
       const baseURL = process.env.BASE_URL
       return `${baseURL}/file${imagePath}`
+    },
+    userInfoLoaded () {
+      return Object.keys(this.landlordUserInfo).length
     }
   },
   methods: {
@@ -299,51 +310,59 @@ export default {
       this.validFile = fileType.split('/')[0] === 'image'
     },
     closeForm (formSubmitted) {
+      if (formSubmitted) this.$store.commit('auth/CLEAR_SINGLE_USER')
       const payload = {
         'openState': false,
         'formSubmitted': formSubmitted
       }
       this.$emit('closeModal', payload)
     },
-    updateFormValues (property) {
+    async getUserInfo (userID) {
+      await this.$store.dispatch('auth/singleUser', userID)
+    },
+    async updateFormValues (landlord) {
       this.btnColor = 'primary'
-      property.contact_person === 'Landlord' ? this.contact = 'landlord' : this.contact = 'other'
-      this.contactPerson = property.contact_person
-      this.propertyName = property.property_name
-      this.contactPerson = property.contact_person
-      this.contactPhone = property.phone
-      this.lrNumber = property.lr_nos
-      this.nosUnits = property.nos_units
-      this.description = property.description
-      this.services = property.property_services.split(',')
-      this.propertyType = property.property_type
+      await this.getUserInfo(landlord.user_id)
+      this.landlordName = landlord.name
+      this.phone = landlord.phone
+      this.email = landlord.email
+      this.nationalID = landlord.national_id
+      this.kraPIN = landlord.kra_pin
+      this.bankName = landlord.bank_name
+      this.bankBranch = landlord.bank_branch
+      this.bankAcc = landlord.bank_acc
+      this.bankSwift = landlord.bank_swift
+      this.role = {
+        roleText: this.landlordUserInfo.role === 'landlord' ? 'Landlord' : 'Landlord/Tenant',
+        roleValue: this.landlordUserInfo.role
+      }
     },
     async clearFormValues () {
       this.btnColor = 'secondary'
-      this.contact = 'landlord'
-      this.services = ['garbage collection', 'water', 'security']
-      this.propertyType = 'Apartments'
       await setTimeout(() => {
-        this.propertyName = ''
-        this.lrNumber = ''
-        this.nosUnits = ''
-        this.description = ''
-        this.file = ''
+        this.landlordName = ''
+        this.phone = ''
+        this.email = ''
+        this.nationalID = ''
+        this.kraPIN = ''
+        this.bankName = ''
+        this.bankBranch = ''
+        this.bankAcc = ''
+        this.bankSwift = ''
         this.imageValue = []
-        this.contactPerson = ''
-        this.contactPhone = ''
-      }, 500)
+        this.role = { roleText: 'Landlord', roleValue: 'landlord' }
+      }, 5)
     },
     async addProperty () {
       if (this.contact === 'landlord') {
         this.contactPerson = 'Landlord'
       }
-      let propertyID = null
-      if (this.propertyInfo) {
-        propertyID = this.propertyInfo.id
+      let landlordID = null
+      if (this.landlordInfo) {
+        landlordID = this.landlordInfo.landlord_id
       }
       const params = {
-        'id': propertyID,
+        'id': landlordID,
         'user_id': this.user.id,
         'property_name': this.propertyName,
         'contact_person': this.contactPerson,

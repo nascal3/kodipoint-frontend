@@ -42,6 +42,25 @@ const SET_ERROR_STATE = (state, payload) => {
 }
 
 /**
+ * Get single user by ID
+ * @method SINGLE_USER
+ * @param  {Object} state vuex state object
+ * @param  {Object} payload Contains users info
+ */
+const SINGLE_USER = (state, payload) => {
+  state.singleUser = payload
+}
+
+/**
+ * Clear single user result
+ * @method CLEAR_SINGLE_USER
+ * @param  {Object} state vuex state object
+ */
+const CLEAR_SINGLE_USER = (state) => {
+  state.singleUser = []
+}
+
+/**
  * Remove the token
  * @method UPDATE_TOKEN
  * @param  {Object} state vuex state object
@@ -56,5 +75,7 @@ export {
   SET_LOGGEDIN_STATUS,
   SET_ERROR_STATE,
   SHOW_LOADER,
+  SINGLE_USER,
+  CLEAR_SINGLE_USER,
   REMOVE_TOKEN
 }

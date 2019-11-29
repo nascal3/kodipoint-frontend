@@ -31,6 +31,14 @@ const showLoader = (state) => state.showLoader
 const authError = (state) => state.authError
 
 /**
+ * Retrieve single user by ID
+ * @method singleUser
+ * @param  {Object} state vuex state object
+ * @return {Object} Contains users info
+ */
+const singleUser = (state) => state.singleUser
+
+/**
   * Retrieve the logged in status of user
 * @method loggedIn
 * @param  {Object} state vuex state object
@@ -43,5 +51,6 @@ export {
   user,
   authError,
   showLoader,
+  singleUser,
   loggedIn
 }

@@ -25,6 +25,9 @@
       }
       tr:last-child {
         cursor: default;
+        :hover {
+          background-color: $white;
+        }
       }
     }
   }
