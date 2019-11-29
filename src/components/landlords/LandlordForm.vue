@@ -17,7 +17,7 @@
       <div class="display-1 d-flex justify-center align-center" v-if="!userInfoLoaded && editForm">
         Loading data ...
       </div>
-      <v-form enctype="multipart/form-data" v-model="valid" @submit.prevent="addProperty">
+      <v-form enctype="multipart/form-data" v-model="valid" @submit.prevent="addLandlord">
         <div class="section-title">Personal information</div>
         <v-row>
           <v-col cols="12" md="6">
@@ -261,6 +261,7 @@ export default {
     bankAcc: '',
     bankSwift: '',
     file: '',
+    userID: '',
     imageValue: [],
     validFile: true,
     placeholderImage: require(`@/assets/images/avatar.jpg`),
@@ -300,7 +301,7 @@ export default {
   },
   methods: {
     ...mapActions('property', {
-      addNewProperty: 'addNewProperty'
+      addNewLandlord: 'addNewLandlord'
     }),
     onSelect () {
       this.file = this.$refs.landlordPicture.internalValue
@@ -322,7 +323,8 @@ export default {
     },
     async updateFormValues (landlord) {
       this.btnColor = 'primary'
-      await this.getUserInfo(landlord.user_id)
+      this.userID = landlord.user_id
+      await this.getUserInfo(this.userID)
       this.landlordName = landlord.name
       this.phone = landlord.phone
       this.email = landlord.email
@@ -353,25 +355,18 @@ export default {
         this.role = { roleText: 'Landlord', roleValue: 'landlord' }
       }, 5)
     },
-    async addProperty () {
-      if (this.contact === 'landlord') {
-        this.contactPerson = 'Landlord'
-      }
-      let landlordID = null
-      if (this.landlordInfo) {
-        landlordID = this.landlordInfo.landlord_id
-      }
+    async addLandlord () {
       const params = {
-        'id': landlordID,
-        'user_id': this.user.id,
-        'property_name': this.propertyName,
-        'contact_person': this.contactPerson,
-        'phone': this.contactPhone,
-        'lr_nos': this.lrNumber,
-        'nos_units': this.nosUnits,
-        'description': this.description,
-        'property_services': this.services.join(','),
-        'property_type': this.propertyType,
+        'user_id': this.userID,
+        'name': this.landlordName,
+        'national_id': this.nationalID,
+        'phone': this.phone,
+        'email': this.email,
+        'kra_pin': this.kraPIN,
+        'bank_name': this.bankName,
+        'bank_branch': this.bankBranch,
+        'bank_acc': this.bankAcc,
+        'bank_swift': this.bankSwift,
         'edit': this.edit
       }
       try {
@@ -380,7 +375,7 @@ export default {
         const formData = new FormData()
         formData.append('file', this.file)
         formData.append('json', JSON.stringify(params))
-        const success = await this.addNewProperty(formData)
+        const success = await this.addNewLandlord(formData)
         if (success) {
           this.clearFormValues()
           this.closeForm(success)

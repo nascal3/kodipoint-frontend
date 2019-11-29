@@ -30,21 +30,21 @@ const getLandlords = async ({ commit, state }, payload) => {
 }
 
 /**
- * Add and edit properties
- * @method addNewProperty
+ * Add and edit landlord
+ * @method  addNewLandlord
  * @param  {Object} commit vuex mutations
  * @param  {Object} dispatch vuex actions
  * @param  {Object} payload property values
  */
-const addNewProperty = async ({ commit, dispatch }, payload) => {
+const addNewLandlord = async ({ commit, dispatch }, payload) => {
   const data = JSON.parse(payload.getAll('json'))
-  const url = data.edit ? '/api/properties/edit' : '/properties/register'
+  const url = data.edit ? '/api/landlords/profile/edit' : '/api/landlords/register'
 
   commit('SHOW_LOADER', true)
   try {
     const response = await api.post(url, payload)
     if (response.status === 200) {
-      commit('RESET_PROPERTIES')
+      commit('RESET_LANDLORDS')
       commit('SHOW_LOADER', false)
       return true
     }
@@ -99,7 +99,7 @@ const fetchSearchLandlords = async ({ commit, state }, payload) => {
 
 export {
   getLandlords,
-  addNewProperty,
+  addNewLandlord,
   searchLandlords,
   fetchSearchLandlords
 }

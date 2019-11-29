@@ -304,7 +304,7 @@ export default {
         this.imageValue = []
         this.contactPerson = ''
         this.contactPhone = ''
-      }, 500)
+      }, 5)
     },
     async addProperty () {
       if (this.contact === 'landlord') {
