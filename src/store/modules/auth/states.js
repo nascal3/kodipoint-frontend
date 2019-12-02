@@ -8,7 +8,8 @@ const state = {
   showLoader: false,
   authError: false,
   singleUser: {},
-  loggedIn: JSON.parse(status) || false
+  loggedIn: JSON.parse(status) || false,
+  userDuplicationError: false
 }
 
 export default state

@@ -16,6 +16,14 @@ const showLoader = (state) => state.showLoader
 const showErrorState = (state) => state.errorState
 
 /**
+ * Show error state of the user national ID/KRA Pin already exists/registered
+ * @method userIdDuplicationError
+ * @param  {Object} state vuex state object
+ * @return {boolean} Contains the show error state
+ */
+const userIdDuplicationError = (state) => state.userIdDuplicationError
+
+/**
  * Show no search results state
  * @method noSearchResults
  * @param  {Object} state vuex state object
@@ -44,5 +52,6 @@ export {
   showLoader,
   landlordSearchResults,
   showErrorState,
+  userIdDuplicationError,
   noSearchResults
 }

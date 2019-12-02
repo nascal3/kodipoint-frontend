@@ -48,6 +48,11 @@
               {{ errors.first('nationalID') }}
             </span>
             </transition>
+            <transition name="fade">
+              <span class="input-error" v-if="userIdDuplicationError">
+                The following national ID or KRA Pin may already be registered
+              </span>
+            </transition>
           </v-col>
         </v-row>
         <v-row>
@@ -57,11 +62,16 @@
                 label="email*"
                 v-validate="'required|email'"
                 name="email"
-                :error="errors.has('email')"
+                :error="errors.has('email') || userDuplicationError"
             ></v-text-field>
             <transition name="fade">
               <span class="input-error" v-if="errors.has('email')">
                 {{ errors.first('email') }}
+              </span>
+            </transition>
+            <transition name="fade">
+              <span class="input-error" v-if="userDuplicationError">
+                The following email is already registered to another user
               </span>
             </transition>
           </v-col>
@@ -107,6 +117,11 @@
             <transition name="fade">
               <span class="input-error" v-if="errors.has('kraPIN')">
                 Please enter landlords' KRA Pin
+              </span>
+            </transition>
+            <transition name="fade">
+              <span class="input-error" v-if="userIdDuplicationError">
+                The following KRA Pin or national ID may already be registered
               </span>
             </transition>
           </v-col>
@@ -279,7 +294,9 @@ export default {
     ...mapGetters({
       showLoader: ['property/showLoader'],
       showErrorState: ['property/showErrorState'],
-      landlordUserInfo: ['auth/singleUser']
+      landlordUserInfo: ['auth/singleUser'],
+      userDuplicationError: ['auth/userDuplicationError'],
+      userIdDuplicationError: ['landlord/userIdDuplicationError']
     }),
     editForm () {
       if (this.landlordInfo) {
@@ -300,7 +317,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('property', {
+    ...mapActions('landlord', {
       addNewLandlord: 'addNewLandlord'
     }),
     onSelect () {
@@ -359,6 +376,7 @@ export default {
       const params = {
         'user_id': this.userID,
         'name': this.landlordName,
+        'role': this.role.roleValue,
         'national_id': this.nationalID,
         'phone': this.phone,
         'email': this.email,

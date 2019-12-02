@@ -179,6 +179,9 @@ export default {
         this.searchLandlords(payload)
       }
     }
+  },
+  beforeDestroy () {
+    this.$store.commit('landlord/RESET_LANDLORDS')
   }
 }
 </script>

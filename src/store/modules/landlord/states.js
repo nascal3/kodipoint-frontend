@@ -3,7 +3,8 @@ const state = {
   landlordSearchResults: [],
   noSearchResults: false,
   showLoader: false,
-  errorState: false
+  errorState: false,
+  userIdDuplicationError: false
 }
 
 export default state

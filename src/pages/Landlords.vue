@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row>
       <v-col cols="12">
-        <landlord-table></landlord-table>
+        <landlord-table class="landlord-table-card"></landlord-table>
         <property-table></property-table>
       </v-col>
     </v-row>

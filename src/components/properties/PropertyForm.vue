@@ -120,6 +120,9 @@
           @keyup.tab="updateTags"
           @paste="updateTags">
         </v-combobox>
+        <span class="input-hint">
+          Separate each service with a comma.
+        </span>
         <v-row>
           <v-col cols="12" md="6">
             <v-file-input
@@ -154,9 +157,6 @@
             label="Property description"
             v-model="description"
         ></v-textarea>
-        <span class="input-hint">
-          Separate each service with a comma.
-        </span>
         <v-row>
           <v-col cols="12" md="6">
             <v-btn

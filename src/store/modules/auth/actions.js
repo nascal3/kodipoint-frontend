@@ -13,7 +13,7 @@ const setToken = ({ commit, state }, payload) => {
 }
 
 /**
- * Update the token in the localStorage
+ * login user
  * @method login
  * @param  {Object} commit vuex mutations
  * @param  {Object} dispatch vuex actions
@@ -55,6 +55,27 @@ const singleUser = async ({ commit }, payload) => {
 }
 
 /**
+ * Create a user
+ * @method createUser
+ * @param  {Object} commit vuex mutations
+ * @param  {Object} payload values of users info
+ */
+const createUser = async ({ commit }, payload) => {
+  const url = `/api/users/register`
+  commit('USER_DUPLICATION_ERROR', false)
+
+  try {
+    const response = await api.post(url, payload)
+    if (response.status === 200) {
+      return response.data
+    }
+  } catch (err) {
+    if (err.response.status === 422) commit('USER_DUPLICATION_ERROR', true)
+    throw new Error(err.message)
+  }
+}
+
+/**
  * Update the user password
  * @method passwordUpdate
  * @param  {Object} commit vuex mutations
@@ -92,6 +113,7 @@ export {
   login,
   setToken,
   singleUser,
+  createUser,
   passwordUpdate,
   removeToken
 }

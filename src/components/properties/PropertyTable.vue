@@ -194,6 +194,9 @@ export default {
         this.searchProperties(payload)
       }
     }
+  },
+  beforeDestroy () {
+    this.$store.commit('property/RESET_PROPERTIES')
   }
 }
 </script>

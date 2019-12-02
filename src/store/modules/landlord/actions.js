@@ -11,6 +11,7 @@ const getLandlords = async ({ commit, state }, payload) => {
   const limit = 100
   const pageNum = payload ? payload.page : 1
   const url = `/api/landlords/${pageNum}`
+  commit('SET_ERROR_STATE', false)
 
   try {
     const response = await api.get(url)
@@ -38,20 +39,38 @@ const getLandlords = async ({ commit, state }, payload) => {
  */
 const addNewLandlord = async ({ commit, dispatch }, payload) => {
   const data = JSON.parse(payload.getAll('json'))
-  const url = data.edit ? '/api/landlords/profile/edit' : '/api/landlords/register'
+  let url = ''
 
   commit('SHOW_LOADER', true)
+  if (data.edit) {
+    url = '/api/landlords/profile/edit'
+  } else {
+    const params = {
+      'username': data.email,
+      'name': data.name,
+      'password': '123456',
+      'role': data.role
+    }
+    const newUserLandlord = await dispatch('auth/createUser', params, { root: true })
+    if (!Object.keys(newUserLandlord).length) throw new Error('Error on user registration')
+    const newLandlord = { ...data, 'user_id': newUserLandlord.user.id }
+    payload.set('json', JSON.stringify(newLandlord))
+    url = '/api/landlords/register'
+  }
+
   try {
     const response = await api.post(url, payload)
     if (response.status === 200) {
       commit('RESET_LANDLORDS')
       commit('SHOW_LOADER', false)
-      return true
+      return response.data.result.length
     }
   } catch (err) {
     commit('SHOW_LOADER', false)
-    commit('SET_ERROR_STATE', true)
-    throw new Error(err)
+    if (err.response.status === 422) {
+      commit('USER_ID_DUPLICATION_ERROR', true)
+    }
+    throw new Error(err.message)
   }
 }
 
