@@ -46,13 +46,17 @@ export default {
           { title: 'Landlords', icon: 'mdi-account-tie', route: '/landlords' },
           { title: 'Finance', icon: 'mdi-account', route: '/finance' }
         ]
+      } else if (role === 'landlord' || role === 'landlord/tenant') {
+        return [
+          { title: 'Properties', icon: 'mdi-home-city', route: '/properties' },
+          { title: 'Finance', icon: 'mdi-account', route: '/finance' }
+        ]
+      } else if (role === 'tenant') {
+        return [
+          { title: 'Finance', icon: 'mdi-account', route: '/finance' }
+        ]
       }
-
-      return [
-        { title: 'Landlords', icon: 'mdi-account-tie', route: '/landlords' },
-        { title: 'Properties', icon: 'mdi-home-city', route: '/properties' },
-        { title: 'Finance', icon: 'mdi-account', route: '/finance' }
-      ]
+      return []
     }
   }
 }

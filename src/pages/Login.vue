@@ -81,6 +81,7 @@
 </template>
 
 <script>
+import { redirectPage } from '@/services/authGuards'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -110,9 +111,10 @@ export default {
         await this.$store.dispatch('auth/login', userData)
         const options = { icon: 'check_circle_outline' }
         if (this.loggedIn && this.token) {
-          this.$router.replace('/properties')
-          this.$toasted.show('Welcome', options)
-          return
+          const page = redirectPage(this.token.user.role)
+          await this.$router.replace(page)
+          const firstName = this.token.user.name.split(' ')[0]
+          this.$toasted.show(`Welcome ${firstName}`, options)
         }
       } catch (e) {
         console.error(e.message)
