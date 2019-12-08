@@ -393,7 +393,6 @@ export default {
         if (!valid || !this.validFile) return
         const formData = new FormData()
         formData.append('file', this.file)
-        console.log('XXX', params)
         formData.append('json', JSON.stringify(params))
         const success = await this.addNewLandlord(formData)
         if (success) {

@@ -39,7 +39,6 @@ const getLandlords = async ({ commit, state }, payload) => {
  */
 const addNewLandlord = async ({ commit, dispatch }, payload) => {
   const data = JSON.parse(payload.getAll('json'))
-  console.log('>>>', data)
 
   commit('SHOW_LOADER', true)
   commit('USER_ID_DUPLICATION_ERROR', false)
