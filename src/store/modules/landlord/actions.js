@@ -39,25 +39,26 @@ const getLandlords = async ({ commit, state }, payload) => {
  */
 const addNewLandlord = async ({ commit, dispatch }, payload) => {
   const data = JSON.parse(payload.getAll('json'))
-  let url = ''
+  console.log('>>>', data)
 
   commit('SHOW_LOADER', true)
   commit('USER_ID_DUPLICATION_ERROR', false)
   commit('auth/USER_DUPLICATION_ERROR', false, { root: true })
-  data.edit ? url = '/api/landlords/profile/edit' : url = '/api/landlords/register'
+  const url = data.edit ? '/api/landlords/profile/edit' : '/api/landlords/register'
 
   try {
     const response = await api.post(url, payload)
     if (response.status === 200) {
       commit('RESET_LANDLORDS')
       commit('SHOW_LOADER', false)
-      return response.data.result.length
+      return response.data.success_code
     }
   } catch (err) {
     commit('SHOW_LOADER', false)
     if (err.response.status === 422) {
       err.response.data.Error === 'The following Email/Username already exists!'
-        ? commit('auth/USER_DUPLICATION_ERROR', true, { root: true }) : commit('USER_ID_DUPLICATION_ERROR', true)
+        ? commit('auth/USER_DUPLICATION_ERROR', true, { root: true })
+        : commit('USER_ID_DUPLICATION_ERROR', true)
     }
     throw new Error(err)
   }

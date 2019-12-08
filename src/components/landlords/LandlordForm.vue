@@ -97,8 +97,8 @@
             <v-select
               v-model="role"
               :items="roles"
-              item-text="roleText"
-              item-value="roleValue"
+              item-text="text"
+              item-value="value"
               label="Role Type"
               class="roleSelector"
             ></v-select>
@@ -212,11 +212,12 @@
             </transition>
           </v-col>
           <v-col cols="12" md="6" class="d-flex justify-center">
-            <v-img
-              v-if="edit"
-              class="modal-landlord-image"
-              :src="imageSource"
-            ></v-img>
+            <v-avatar class="modal-landlord-image" color="primary">
+              <v-img
+                v-if="edit"
+                :src="imageSource"
+              ></v-img>
+            </v-avatar>
           </v-col>
         </v-row>
         <v-row>
@@ -281,10 +282,10 @@ export default {
     validFile: true,
     placeholderImage: require(`@/assets/images/avatar.jpg`),
     btnColor: 'secondary',
-    role: { roleText: 'Landlord', roleValue: 'landlord' },
+    role: { text: 'Landlord', value: 'landlord' },
     roles: [
-      { roleText: 'Landlord', roleValue: 'landlord' },
-      { roleText: 'Landlord/Tenant', roleValue: 'landlord/tenant' }
+      { text: 'Landlord', value: 'landlord' },
+      { text: 'Landlord/Tenant', value: 'landlord/tenant' }
     ],
     UploadImageRules: [
       value => !value || value.size < 1000000 || 'Image size should be less than 1 MB!'
@@ -352,8 +353,8 @@ export default {
       this.bankAcc = landlord.bank_acc
       this.bankSwift = landlord.bank_swift
       this.role = {
-        roleText: this.landlordUserInfo.role === 'landlord' ? 'Landlord' : 'Landlord/Tenant',
-        roleValue: this.landlordUserInfo.role
+        text: this.landlordUserInfo.role === 'landlord' ? 'Landlord' : 'Landlord/Tenant',
+        value: this.landlordUserInfo.role
       }
     },
     async clearFormValues () {
@@ -376,7 +377,7 @@ export default {
       const params = {
         'user_id': this.userID,
         'name': this.landlordName,
-        'role': this.role.roleValue,
+        'role': this.role.value || this.role,
         'national_id': this.nationalID,
         'phone': this.phone,
         'email': this.email,
@@ -392,6 +393,7 @@ export default {
         if (!valid || !this.validFile) return
         const formData = new FormData()
         formData.append('file', this.file)
+        console.log('XXX', params)
         formData.append('json', JSON.stringify(params))
         const success = await this.addNewLandlord(formData)
         if (success) {

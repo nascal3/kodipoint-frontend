@@ -26,12 +26,12 @@
   }
 }
 
-.modal-landlord-image {
-  max-width: 10rem;
-  max-height: 10rem;
-  border-radius: 50%;
-  border: solid 1px $table_hover_bg_color;
-  overflow: hidden;
+.v-avatar {
+  &.modal-landlord-image {
+    min-width: 10rem !important;
+    height: 10rem !important;
+    width: 10rem !important;
+  }
 }
 
 .section-title {

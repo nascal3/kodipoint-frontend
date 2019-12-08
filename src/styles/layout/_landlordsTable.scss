@@ -8,12 +8,7 @@
         cursor: pointer;
 
         td:nth-child(1) {
-          .v-image {
-            border-radius: 50%;
-            border: solid 1px $border_table_color_grey_light;
-            max-width: 6rem;
-            max-height: 6rem;
-            overflow: hidden;
+          .v-avatar {
             margin: 5px;
           }
         }

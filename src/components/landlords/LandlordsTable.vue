@@ -46,7 +46,11 @@
         <tbody>
         <template v-for="landlord in allLandlords">
           <tr :key="landlord.landlord_id">
-            <td><v-img :src="imageSource(landlord.avatar)"></v-img></td>
+            <td>
+              <v-avatar color="primary">
+                <v-img :src="imageSource(landlord.avatar)"></v-img>
+              </v-avatar>
+            </td>
             <td>{{ landlord.name }}</td>
             <td>{{ landlord.email }}</td>
             <td>{{ landlord.phone }}</td>
