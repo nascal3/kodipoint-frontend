@@ -1,7 +1,18 @@
 <template>
   <v-card>
-    <v-card-title class="card-title">Properties</v-card-title>
-    <v-card-subtitle class="card-subtitle">View/Edit properties</v-card-subtitle>
+    <v-row no-gutters>
+      <v-col cols="12" md="6">
+        <v-card-title class="card-title">Properties</v-card-title>
+        <v-card-subtitle class="card-subtitle">View/Edit properties</v-card-subtitle>
+      </v-col>
+      <v-col cols="12" md="6">
+        <v-avatar v-if="landlordSelected.name" class="d-flex align-center justify-end" color="primary">
+          <v-img :src="imageSource(landlordSelected.avatar, true)"></v-img>
+        </v-avatar>
+        <span class="d-flex align-center justify-end">{{landlordSelected.name}}</span>
+      </v-col>
+    </v-row>
+
     <v-row no-gutters>
       <v-col cols="12" md="6">
         <div class="search-property">
@@ -114,6 +125,11 @@ export default {
     InfiniteLoading,
     PropertyForm
   },
+  props: {
+    landlordSelected: {
+      type: Object
+    }
+  },
   data: () => ({
     infiniteId: +new Date(),
     page: 1,
@@ -122,6 +138,7 @@ export default {
     edit: false,
     isSearching: false,
     placeholderImage: require(`@/assets/images/noImage.jpg`),
+    placeholderImage2: require(`@/assets/images/avatar.jpg`),
     propertyInfo: null
   }),
   computed: {
@@ -151,6 +168,10 @@ export default {
     noSearchResults () {
       console.log('searching', this.isSearching, 'no results', this.noSearchResults)
       this.isSearching = !this.noSearchResults
+    },
+    landlordSelected () {
+      this.$store.commit('property/RESET_PROPERTIES')
+      this.infiniteId += 1
     }
   },
   methods: {
@@ -178,12 +199,14 @@ export default {
     },
     getAllProperties ($event) {
       const payload = {
-        page: this.page
+        page: this.page,
+        user_id: this.landlordSelected.user_id
       }
       this.getProperties({ ...$event, ...payload })
     },
-    imageSource (imagePath) {
-      if (!imagePath) return this.placeholderImage
+    imageSource (imagePath, avatar = false) {
+      if (!imagePath && !avatar) return this.placeholderImage
+      if (!imagePath && avatar) return this.placeholderImage2
       const baseURL = process.env.BASE_URL
       return `${baseURL}/file${imagePath}`
     },

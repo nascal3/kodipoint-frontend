@@ -2,8 +2,8 @@
   <v-container fluid>
     <v-row>
       <v-col cols="12">
-        <landlord-table class="landlord-table-card"></landlord-table>
-        <property-table></property-table>
+        <landlord-table class="landlord-table-card" @selectedLandlord="getSelectedLandlord"></landlord-table>
+        <property-table :landlordSelected="selected"></property-table>
       </v-col>
     </v-row>
   </v-container>
@@ -16,13 +16,17 @@ import LandlordTable from '@/components/landlords/LandlordsTable'
 export default {
   name: 'Landlords',
   data: () => ({
-
+    selected: {}
   }),
   components: {
     LandlordTable,
     PropertyTable
+  },
+  methods: {
+    getSelectedLandlord (landlord) {
+      this.selected = landlord
+    }
   }
-
 }
 </script>
 

@@ -13,7 +13,7 @@ const getProperties = async ({ commit, state }, payload) => {
   const url = `/api/properties/landlord/${pageNum}`
 
   try {
-    const response = await api.get(url)
+    const response = await api.post(url, payload)
     const data = response.data.result
     if (response.status === 200) {
       response.data.result = state.properties.length === 0 ? data : [...state.properties, ...data]

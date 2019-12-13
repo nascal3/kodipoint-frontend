@@ -30,22 +30,26 @@
     <v-simple-table class="property-table" fixed-header>
       <template v-slot:default>
         <thead>
-        <tr>
-          <th class="text-left">&nbsp;</th>
-          <th class="text-left">Name</th>
-          <th class="text-left">Email</th>
-          <th class="text-left">Phone number</th>
-          <th class="text-left">National ID</th>
-          <th class="text-left">KRA Pin</th>
-          <th class="text-left">Bank</th>
-          <th class="text-left">Bank branch</th>
-          <th class="text-left">Acc number</th>
-          <th>Edit</th>
-        </tr>
+          <tr>
+            <th class="text-left">&nbsp;</th>
+            <th class="text-left">Name</th>
+            <th class="text-left">Email</th>
+            <th class="text-left">Phone number</th>
+            <th class="text-left">National ID</th>
+            <th class="text-left">KRA Pin</th>
+            <th class="text-left">Bank</th>
+            <th class="text-left">Bank branch</th>
+            <th class="text-left">Acc number</th>
+            <th>Edit</th>
+          </tr>
         </thead>
         <tbody>
         <template v-for="landlord in allLandlords">
-          <tr :key="landlord.landlord_id">
+          <tr
+            :class="[landlord.user_id === selectedID ? 'selected' : null]"
+            @click="getLandlord(landlord)"
+            :key="landlord.landlord_id"
+          >
             <td>
               <v-avatar color="primary">
                 <v-img :src="imageSource(landlord.avatar)"></v-img>
@@ -116,7 +120,8 @@ export default {
     edit: false,
     isSearching: false,
     placeholderImage: require(`@/assets/images/avatar.jpg`),
-    landlordInfo: null
+    landlordInfo: null,
+    selectedID: null
   }),
   computed: {
     ...mapGetters('landlord', {
@@ -151,6 +156,10 @@ export default {
       getLandlords: 'getLandlords',
       searchLandlords: 'searchLandlords'
     }),
+    getLandlord (landlord) {
+      this.selectedID = landlord.user_id
+      this.$emit('selectedLandlord', landlord)
+    },
     openDialog (landlord) {
       if (landlord) {
         this.edit = true
