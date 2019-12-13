@@ -5,7 +5,7 @@
         <v-card-title class="card-title">Properties</v-card-title>
         <v-card-subtitle class="card-subtitle">View/Edit properties</v-card-subtitle>
       </v-col>
-      <v-col cols="12" md="6">
+      <v-col v-if="landlordSelected" cols="12" md="6">
         <v-avatar v-if="landlordSelected.name" class="d-flex align-center justify-end" color="primary">
           <v-img :src="imageSource(landlordSelected.avatar, true)"></v-img>
         </v-avatar>
@@ -200,7 +200,7 @@ export default {
     getAllProperties ($event) {
       const payload = {
         page: this.page,
-        user_id: this.landlordSelected.user_id
+        user_id: this.landlordSelected ? this.landlordSelected.user_id : 0
       }
       this.getProperties({ ...$event, ...payload })
     },
