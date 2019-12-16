@@ -13,8 +13,12 @@
 @import 'layout/propertyForm';
 @import 'layout/propertyTable';
 @import 'layout/footer';
+@import 'layout/landlordForm';
+@import 'layout/landlordsTable';
 @import 'layout/header';
 @import 'layout/navigation';
 @import 'layout/toolBar';
 
+@import 'pages/landlords';
+@import 'pages/properties';
 @import 'pages/login';

@@ -10,10 +10,10 @@ import { api } from '@/middleware/config'
 const getProperties = async ({ commit, state }, payload) => {
   const limit = 100
   const pageNum = payload ? payload.page : 1
-  const url = `/properties/landlord/${pageNum}`
+  const url = `/api/properties/landlord/${pageNum}`
 
   try {
-    const response = await api.get(url)
+    const response = await api.post(url, payload)
     const data = response.data.result
     if (response.status === 200) {
       response.data.result = state.properties.length === 0 ? data : [...state.properties, ...data]
@@ -38,7 +38,7 @@ const getProperties = async ({ commit, state }, payload) => {
  */
 const addNewProperty = async ({ commit, dispatch }, payload) => {
   const data = JSON.parse(payload.getAll('json'))
-  const url = data.edit ? '/properties/edit' : '/properties/register'
+  const url = data.edit ? '/api/properties/edit' : '/api/properties/register'
 
   commit('SHOW_LOADER', true)
   try {
@@ -61,7 +61,6 @@ const addNewProperty = async ({ commit, dispatch }, payload) => {
  * @param  {Object} Object vuex context object
  * @param {*} payload search terms
  */
-// @ts-ignore
 const searchProperties = ({ commit, dispatch }, payload) => {
   commit('RESET_SEARCH_EMPLOYEES')
   commit('UPDATE_NO_RESULTS', false)
@@ -69,22 +68,17 @@ const searchProperties = ({ commit, dispatch }, payload) => {
 }
 
 /**
- * fetch all searched employee results and set them in the state
- * @method fetchSearchedEmployees
+ * fetch all searched property results and set them in the state
+ * @method fetchSearchedProperty
  * @param  {Object} commit vuex mutations
  * @param  {Object} state of the vuex store
- * @param  {Object} payload containing search term of employee to be searched
+ * @param  {Object} payload containing search term or user ID of property to be searched
  * @return {Promise}
  */
-// @ts-ignore
 const fetchSearchProperties = async ({ commit, state }, payload) => {
-  const url = `properties/landlord/search`
-  const params = {
-    'property_name': payload.trim()
-  }
-
+  const url = `/api/properties/landlord/search`
   try {
-    const result = await api.post(url, params)
+    const result = await api.post(url, payload)
     if (state.propertySearchResults.length) { return }
     if (result.data.results.length) {
       commit('UPDATE_NO_RESULTS', false)

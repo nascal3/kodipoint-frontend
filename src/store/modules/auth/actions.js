@@ -13,14 +13,14 @@ const setToken = ({ commit, state }, payload) => {
 }
 
 /**
- * Update the token in the localStorage
+ * login user
  * @method login
  * @param  {Object} commit vuex mutations
  * @param  {Object} dispatch vuex actions
  * @param  {Object} payload values of email and password
  */
 const login = async ({ commit, dispatch }, payload) => {
-  const url = '/users/login'
+  const url = '/api/users/login'
   commit('SHOW_LOADER', true)
   try {
     const response = await api.post(url, payload)
@@ -32,6 +32,46 @@ const login = async ({ commit, dispatch }, payload) => {
   } catch (err) {
     commit('SET_ERROR_STATE', true)
     commit('SHOW_LOADER', false)
+  }
+}
+
+/**
+ * Get single user by ID
+ * @method singleUser
+ * @param  {Object} commit vuex mutations
+ * @param  {Object} payload values of users ID
+ */
+const singleUser = async ({ commit }, payload) => {
+  const url = `/api/users/user/${payload}`
+
+  try {
+    const response = await api.get(url)
+    if (response.status === 200) {
+      commit('SINGLE_USER', response.data.results)
+    }
+  } catch (err) {
+    throw new Error(err)
+  }
+}
+
+/**
+ * Create a user
+ * @method createUser
+ * @param  {Object} commit vuex mutations
+ * @param  {Object} payload values of users info
+ */
+const createUser = async ({ commit }, payload) => {
+  const url = `/api/users/register`
+  commit('USER_DUPLICATION_ERROR', false)
+
+  try {
+    const response = await api.post(url, payload)
+    if (response.status === 200) {
+      return response.data
+    }
+  } catch (err) {
+    if (err.response.status === 422) commit('USER_DUPLICATION_ERROR', true)
+    throw new Error(err.message)
   }
 }
 
@@ -72,6 +112,8 @@ const removeToken = ({ commit }) => {
 export {
   login,
   setToken,
+  singleUser,
+  createUser,
   passwordUpdate,
   removeToken
 }

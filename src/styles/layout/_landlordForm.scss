@@ -1,4 +1,4 @@
-// add property form styles
+// add landlord form styles
 
 .header-section {
   position: relative;
@@ -26,15 +26,19 @@
   }
 }
 
-.modal-property-image {
-  max-width: 20rem;
-  max-height: 12rem;
-  overflow: hidden;
+.v-avatar {
+  &.modal-landlord-image {
+    min-width: 10rem !important;
+    height: 10rem !important;
+    width: 10rem !important;
+  }
 }
 
-.contact-title {
-  color: $black;
-  font-size: 1.6rem;
+.section-title {
+  color: $secondary;
+  font-weight: 300;
+  font-size: 1.8rem;
+  margin-top: 1rem;
 }
 
 .input-hint {

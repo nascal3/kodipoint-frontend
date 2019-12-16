@@ -4,9 +4,6 @@
       <v-card-title class="card-title">
         {{editForm ? 'Edit Property' : 'Add Property'}}
       </v-card-title>
-      <v-card-subtitle class="card-subtitle">
-        {{editForm ? 'Edit property' : 'Add new property'}}
-      </v-card-subtitle>
       <v-icon class="close-icon" color="primary" @click="closeForm(false)">
         mdi-close
       </v-icon>
@@ -123,6 +120,9 @@
           @keyup.tab="updateTags"
           @paste="updateTags">
         </v-combobox>
+        <span class="input-hint">
+          Separate each service with a comma.
+        </span>
         <v-row>
           <v-col cols="12" md="6">
             <v-file-input
@@ -157,19 +157,31 @@
             label="Property description"
             v-model="description"
         ></v-textarea>
-        <span class="input-hint">
-          Separate each service with a comma.
-        </span>
-        <v-btn
-          type="submit"
-          :loading="showLoader"
-          :disabled="showLoader"
-          class="btn-text"
-          block
-          :color="btnColor"
-        >
-          {{ editForm ? 'Save changes' : 'Add property'}}
-        </v-btn>
+        <v-row>
+          <v-col cols="12" md="6">
+            <v-btn
+              type="submit"
+              :loading="showLoader"
+              :disabled="showLoader"
+              class="btn-text"
+              block
+              :color="btnColor"
+            >
+              {{ editForm ? 'Save Changes' : 'Add Property'}}
+            </v-btn>
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-btn
+              class="btn-text"
+              block
+              outlined
+              color="default"
+              @click="closeForm(false)"
+            >
+              Cancel
+            </v-btn>
+          </v-col>
+        </v-row>
       </v-form>
     </v-card-text>
   </v-card>
@@ -187,6 +199,9 @@ export default {
       required: true
     },
     propertyInfo: {
+      type: Object
+    },
+    landlordInfo: {
       type: Object
     }
   },
@@ -235,9 +250,8 @@ export default {
     imageSource () {
       const imagePath = this.propertyInfo ? this.propertyInfo.property_img : null
       if (!imagePath) return this.placeholderImage
-      const apiBaseURL = process.env.BASE_URL
-      const [ one, two, three ] = apiBaseURL.split('/')
-      return `${one}//${three}/file${imagePath}`
+      const baseURL = process.env.BASE_URL
+      return `${baseURL}/file${imagePath}`
     }
   },
   methods: {
@@ -293,7 +307,7 @@ export default {
         this.imageValue = []
         this.contactPerson = ''
         this.contactPhone = ''
-      }, 500)
+      }, 5)
     },
     async addProperty () {
       if (this.contact === 'landlord') {
@@ -303,9 +317,10 @@ export default {
       if (this.propertyInfo) {
         propertyID = this.propertyInfo.id
       }
+      const userId = this.landlordInfo ? this.landlordInfo.user_id : this.user.id
       const params = {
         'id': propertyID,
-        'user_id': this.user.id,
+        'user_id': userId,
         'property_name': this.propertyName,
         'contact_person': this.contactPerson,
         'phone': this.contactPhone,

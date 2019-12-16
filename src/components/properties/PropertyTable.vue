@@ -1,7 +1,22 @@
 <template>
   <v-card>
-    <v-card-title class="card-title">Properties</v-card-title>
-    <v-card-subtitle class="card-subtitle">View/Edit properties</v-card-subtitle>
+    <v-row no-gutters>
+      <v-col cols="12" md="6">
+        <v-card-title class="card-title">Properties</v-card-title>
+        <v-card-subtitle class="card-subtitle">View/Edit properties</v-card-subtitle>
+      </v-col>
+      <v-col v-if="landlordSelected" cols="12" md="6">
+        <div class="landlord-info d-flex align-center justify-end">
+          <span class="landlord-avatar">
+            <v-avatar v-if="landlordSelected.name" color="primary">
+              <v-img :src="imageSource(landlordSelected.avatar, true)"></v-img>
+            </v-avatar>
+          </span>
+          <span class="landlord-name">{{landlordSelected.name}}</span>
+        </div>
+      </v-col>
+    </v-row>
+
     <v-row no-gutters>
       <v-col cols="12" md="6">
         <div class="search-property">
@@ -98,7 +113,13 @@
     </v-simple-table>
 
     <v-dialog v-model="dialog">
-      <property-form @closeModal="closeModal" :edit="edit" :propertyInfo="propertyInfo"></property-form>
+      <property-form
+        @closeModal="closeModal"
+        :edit="edit"
+        :propertyInfo="propertyInfo"
+        :landlordInfo="landlordSelected"
+      >
+      </property-form>
     </v-dialog>
   </v-card>
 </template>
@@ -114,6 +135,11 @@ export default {
     InfiniteLoading,
     PropertyForm
   },
+  props: {
+    landlordSelected: {
+      type: Object
+    }
+  },
   data: () => ({
     infiniteId: +new Date(),
     page: 1,
@@ -122,6 +148,7 @@ export default {
     edit: false,
     isSearching: false,
     placeholderImage: require(`@/assets/images/noImage.jpg`),
+    placeholderImage2: require(`@/assets/images/avatar.jpg`),
     propertyInfo: null
   }),
   computed: {
@@ -151,6 +178,10 @@ export default {
     noSearchResults () {
       console.log('searching', this.isSearching, 'no results', this.noSearchResults)
       this.isSearching = !this.noSearchResults
+    },
+    landlordSelected () {
+      this.$store.commit('property/RESET_PROPERTIES')
+      this.infiniteId += 1
     }
   },
   methods: {
@@ -178,23 +209,30 @@ export default {
     },
     getAllProperties ($event) {
       const payload = {
-        page: this.page
+        page: this.page,
+        user_id: this.landlordSelected ? this.landlordSelected.user_id : 0
       }
       this.getProperties({ ...$event, ...payload })
     },
-    imageSource (imagePath) {
-      if (!imagePath) return this.placeholderImage
-      const apiBaseURL = process.env.BASE_URL
-      const [ one, two, three ] = apiBaseURL.split('/')
-      return `${one}//${three}/file${imagePath}`
+    imageSource (imagePath, avatar = false) {
+      if (!imagePath && !avatar) return this.placeholderImage
+      if (!imagePath && avatar) return this.placeholderImage2
+      const baseURL = process.env.BASE_URL
+      return `${baseURL}/file${imagePath}`
     },
     searchProperty () {
-      const payload = this.searchPropertyName
-      if (payload.length) {
+      const payload = {
+        'property_name': this.searchPropertyName.trim(),
+        'user_id': this.landlordSelected ? this.landlordSelected.user_id : null
+      }
+      if (this.searchPropertyName.length) {
         this.isSearching = true
         this.searchProperties(payload)
       }
     }
+  },
+  beforeDestroy () {
+    this.$store.commit('property/RESET_PROPERTIES')
   }
 }
 </script>

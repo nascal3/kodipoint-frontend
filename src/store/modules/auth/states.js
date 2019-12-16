@@ -7,7 +7,9 @@ const state = {
   user: userInfo.user,
   showLoader: false,
   authError: false,
-  loggedIn: JSON.parse(status) || false
+  singleUser: {},
+  loggedIn: JSON.parse(status) || false,
+  userDuplicationError: false
 }
 
 export default state

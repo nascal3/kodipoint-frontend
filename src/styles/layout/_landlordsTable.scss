@@ -1,0 +1,44 @@
+
+.v-data-table__wrapper {
+  max-height: 40rem;
+
+  table {
+    tbody {
+      tr {
+        cursor: pointer;
+
+
+
+        td:nth-child(1) {
+          .v-avatar {
+            margin: 5px;
+          }
+        }
+        td:nth-child(10) {
+          .v-icon {
+            cursor: pointer;
+          }
+        }
+      }
+      tr:last-child {
+        cursor: default;
+        :hover {
+          background-color: $white;
+        }
+      }
+    }
+  }
+
+  .selected {
+    background-color: $table_hover_bg_color;
+    color: $kodi_green;
+    font-weight: 600;
+    font-style: italic;
+
+    td:first-child {
+      .v-avatar {
+        border: solid 2px $kodi_orange;
+      }
+    }
+  }
+}

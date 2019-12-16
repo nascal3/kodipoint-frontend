@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import { checkAuth, checkToken } from '@/services/authGuards'
 import Login from '@/pages/Login'
 import About from '@/pages/About'
+import Landlords from '@/pages/Landlords'
 import Summary from '@/pages/Properties'
 
 Vue.use(Router)
@@ -15,6 +16,12 @@ export default new Router({
       name: 'login',
       component: Login,
       beforeEnter: checkToken
+    },
+    {
+      path: '/landlords',
+      name: 'landlords',
+      component: Landlords,
+      beforeEnter: checkAuth
     },
     {
       path: '/properties',

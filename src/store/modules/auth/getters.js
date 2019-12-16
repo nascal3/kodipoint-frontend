@@ -31,6 +31,22 @@ const showLoader = (state) => state.showLoader
 const authError = (state) => state.authError
 
 /**
+ * Retrieve the error state of duplication of email during registration
+ * @method userDuplicationError
+ * @param  {Object} state vuex state object
+ * @return {boolean} Contains the error state of duplication of email during registration
+ */
+const userDuplicationError = (state) => state.userDuplicationError
+
+/**
+ * Retrieve single user by ID
+ * @method singleUser
+ * @param  {Object} state vuex state object
+ * @return {Object} Contains users info
+ */
+const singleUser = (state) => state.singleUser
+
+/**
   * Retrieve the logged in status of user
 * @method loggedIn
 * @param  {Object} state vuex state object
@@ -42,6 +58,8 @@ export {
   token,
   user,
   authError,
+  userDuplicationError,
   showLoader,
+  singleUser,
   loggedIn
 }

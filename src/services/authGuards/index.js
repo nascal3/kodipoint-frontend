@@ -1,4 +1,21 @@
 /**
+ * Checks for the role and redirect user to according to role/permissions
+ * @method redirectPage
+ * @param  {string} role of the user logged in
+ * @return {Object} page to redirect user to according to role/permissions
+ */
+const redirectPage = (role) => {
+  if (!role) return { name: 'error' }
+  if (role === 'admin') {
+    return { name: 'landlords' }
+  } else if (role === 'landlord' || role === 'landlord/tenant') {
+    return { name: 'properties' }
+  } else if (role === 'tenant') {
+    return { name: 'summary' }
+  }
+}
+
+/**
  * Checks if the token exists in the local localStorage
  * @method checkToken
  * @param  {Object} to target route being navigated to
@@ -10,7 +27,9 @@
 const checkToken = (to, from, next) => {
   const token = localStorage.getItem('kodiAuthToken')
   if (token) {
-    next({ name: 'summary' })
+    const role = JSON.parse(token).user.role
+    const page = redirectPage(role)
+    next(page)
     return
   }
   next()
@@ -38,5 +57,6 @@ const checkAuth = (to, from, next) => {
 
 export {
   checkToken,
-  checkAuth
+  checkAuth,
+  redirectPage
 }
