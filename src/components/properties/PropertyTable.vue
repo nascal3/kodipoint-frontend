@@ -6,10 +6,14 @@
         <v-card-subtitle class="card-subtitle">View/Edit properties</v-card-subtitle>
       </v-col>
       <v-col v-if="landlordSelected" cols="12" md="6">
-        <v-avatar v-if="landlordSelected.name" class="d-flex align-center justify-end" color="primary">
-          <v-img :src="imageSource(landlordSelected.avatar, true)"></v-img>
-        </v-avatar>
-        <span class="d-flex align-center justify-end">{{landlordSelected.name}}</span>
+        <div class="landlord-info d-flex align-center justify-end">
+          <span class="landlord-avatar">
+            <v-avatar v-if="landlordSelected.name" color="primary">
+              <v-img :src="imageSource(landlordSelected.avatar, true)"></v-img>
+            </v-avatar>
+          </span>
+          <span class="landlord-name">{{landlordSelected.name}}</span>
+        </div>
       </v-col>
     </v-row>
 
@@ -109,7 +113,13 @@
     </v-simple-table>
 
     <v-dialog v-model="dialog">
-      <property-form @closeModal="closeModal" :edit="edit" :propertyInfo="propertyInfo"></property-form>
+      <property-form
+        @closeModal="closeModal"
+        :edit="edit"
+        :propertyInfo="propertyInfo"
+        :landlordInfo="landlordSelected"
+      >
+      </property-form>
     </v-dialog>
   </v-card>
 </template>
@@ -211,8 +221,11 @@ export default {
       return `${baseURL}/file${imagePath}`
     },
     searchProperty () {
-      const payload = this.searchPropertyName
-      if (payload.length) {
+      const payload = {
+        'property_name': this.searchPropertyName.trim(),
+        'user_id': this.landlordSelected ? this.landlordSelected.user_id : null
+      }
+      if (this.searchPropertyName.length) {
         this.isSearching = true
         this.searchProperties(payload)
       }

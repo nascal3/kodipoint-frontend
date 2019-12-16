@@ -200,6 +200,9 @@ export default {
     },
     propertyInfo: {
       type: Object
+    },
+    landlordInfo: {
+      type: Object
     }
   },
   data: () => ({
@@ -314,9 +317,10 @@ export default {
       if (this.propertyInfo) {
         propertyID = this.propertyInfo.id
       }
+      const userId = this.landlordInfo ? this.landlordInfo.user_id : this.user.id
       const params = {
         'id': propertyID,
-        'user_id': this.user.id,
+        'user_id': userId,
         'property_name': this.propertyName,
         'contact_person': this.contactPerson,
         'phone': this.contactPhone,
