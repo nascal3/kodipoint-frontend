@@ -1,8 +1,11 @@
 <template>
   <v-container fluid>
     <v-row>
-      <v-col cols="12">
-        <landlord-table class="landlord-table-card" @selectedLandlord="getSelectedLandlord"></landlord-table>
+      <v-col cols="12" sm="2">
+        <landlord-list class="landlord-list" @selectedLandlord="getSelectedLandlord"></landlord-list>
+      </v-col>
+      <v-col cols="12" sm="10" v-if="showSection">
+<!--        <landlord-table class="landlord-table-card" @selectedLandlord="getSelectedLandlord"></landlord-table>-->
         <property-table :landlordSelected="selected"></property-table>
       </v-col>
     </v-row>
@@ -11,7 +14,8 @@
 
 <script>
 import PropertyTable from '@/components/properties/PropertyTable'
-import LandlordTable from '@/components/landlords/LandlordsTable'
+// import LandlordTable from '@/components/landlords/LandlordsTable'
+import LandlordList from '@/components/landlords/LandlordList'
 
 export default {
   name: 'Landlords',
@@ -19,8 +23,14 @@ export default {
     selected: {}
   }),
   components: {
-    LandlordTable,
-    PropertyTable
+    // LandlordTable,
+    PropertyTable,
+    LandlordList
+  },
+  computed: {
+    showSection () {
+      return Object.keys(this.selected).length
+    }
   },
   methods: {
     getSelectedLandlord (landlord) {

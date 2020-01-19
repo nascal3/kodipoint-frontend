@@ -14,6 +14,7 @@
 @import 'layout/propertyTable';
 @import 'layout/footer';
 @import 'layout/landlordForm';
+@import 'layout/landlordList';
 @import 'layout/landlordsTable';
 @import 'layout/header';
 @import 'layout/navigation';
@@ -21,4 +22,5 @@
 
 @import 'pages/landlords';
 @import 'pages/properties';
+@import 'pages/tenants';
 @import 'pages/login';

@@ -1,0 +1,30 @@
+// landlord list styles
+
+.list-container {
+  width: 14%;
+  height: 86vh;
+  min-height: 86vh;
+
+  .add-landlord-btn-container {
+    margin: 1rem;
+  }
+
+  .search-list {
+    .search-landlord {
+      padding: 0 3rem 0 1rem;
+    }
+  }
+
+  .landlord-list {
+    width: 22.2rem;
+    max-height: 65vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .v-list-item {
+    &__title {
+      font-size: 1.4rem;
+    }
+  }
+}

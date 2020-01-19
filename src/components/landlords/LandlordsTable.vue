@@ -95,22 +95,22 @@
       </template>
     </v-simple-table>
 
-    <v-dialog v-model="dialog">
-      <landlord-form @closeModal="closeModal" :edit="edit" :landlordInfo="landlordInfo"></landlord-form>
-    </v-dialog>
+<!--    <v-dialog v-model="dialog">-->
+<!--      <landlord-form @closeModal="closeModal" :edit="edit" :landlordInfo="landlordInfo"></landlord-form>-->
+<!--    </v-dialog>-->
   </v-card>
 </template>
 
 <script>
 import InfiniteLoading from 'vue-infinite-loading'
-import LandlordForm from '@/components/landlords/LandlordForm'
+// import LandlordForm from '@/components/landlords/LandlordForm'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'LandlordsTable',
   components: {
-    InfiniteLoading,
-    LandlordForm
+    InfiniteLoading
+    // LandlordForm
   },
   data: () => ({
     infiniteId: +new Date(),

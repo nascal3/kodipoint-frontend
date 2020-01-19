@@ -50,7 +50,7 @@ const addNewLandlord = async ({ commit, dispatch }, payload) => {
     if (response.status === 200) {
       commit('RESET_LANDLORDS')
       commit('SHOW_LOADER', false)
-      return response.data.success_code
+      return response.data
     }
   } catch (err) {
     commit('SHOW_LOADER', false)

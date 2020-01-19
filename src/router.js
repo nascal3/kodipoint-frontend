@@ -5,6 +5,7 @@ import Login from '@/pages/Login'
 import About from '@/pages/About'
 import Landlords from '@/pages/Landlords'
 import Summary from '@/pages/Properties'
+import Tenants from '@/pages/Tenants'
 
 Vue.use(Router)
 
@@ -27,6 +28,12 @@ export default new Router({
       path: '/properties',
       name: 'properties',
       component: Summary,
+      beforeEnter: checkAuth
+    },
+    {
+      path: '/tenants',
+      name: 'tenants',
+      component: Tenants,
       beforeEnter: checkAuth
     },
     {
