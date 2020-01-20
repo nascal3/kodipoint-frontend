@@ -2,74 +2,37 @@
     <v-container class="login" pa-0 ma-0 fluid>
         <v-img class="login-bg" :src="require('@/assets/images/login_bg.jpg')"></v-img>
         <v-row no-gutters>
-            <v-col cols="12" md="7">
-
+            <v-col cols="12" md="8">
             </v-col>
-            <v-col class="login-form-container" cols="12" md="5">
+            <v-col class="login-form-container" cols="12" md="4">
                 <section class="form-section">
                    <div class="form-section-logo d-flex justify-center align-center">
                        <v-img class="login-logo" :src="require('@/assets/images/kodiPoint_logo.png')"></v-img>
                    </div>
 
                     <div class="form-container d-flex flex-column justify-center align-center">
-                        <div class="form-container-header">Sign in</div>
-                        <div class="form-container-subheader">Login into your account</div>
-                        <transition name="fade">
-                            <div class="login-error" v-if="authError">Please confirm that your email or password is correct!</div>
-                        </transition>
-                        <v-form ref="form" v-model="valid" @submit.prevent="onLogin">
-                            <v-text-field
-                              v-model="email"
-                              v-validate="'required|email'"
-                              name="email"
-                              label="Email"
-                              :error="errors.has('email')"
-                            ></v-text-field>
-                            <transition name="fade">
-                                <span class="input-error" v-if="errors.has('email')">{{ errors.first('email') }}</span>
-                            </transition>
+                      <div class="form-container-header">
+                        {{tab ? 'Register' : 'Sign in'}}
+                      </div>
+                      <div class="form-container-subheader">
+                        {{tab ? 'Register for an account' : 'Login into your account'}}
+                      </div>
 
-                            <v-text-field
-                              type="password"
-                              v-model="password"
-                              v-validate="'required'"
-                              name="password"
-                              label="Password"
-                              :error="errors.has('password')"
-                            ></v-text-field>
-                            <transition name="fade">
-                                <span class="input-error" v-if="errors.has('password')">{{ errors.first('password') }}</span>
-                            </transition>
+                      <v-tabs class="form-container-tabs" v-model="tab">
+                        <v-tabs-slider></v-tabs-slider>
+                        <v-tab>Login</v-tab>
+                        <v-tab>Register</v-tab>
+                      </v-tabs>
 
-                            <div class="reset-password" @click="overlay = !overlay">
-                                <span>Forgot password?</span>
-                            </div>
+                      <v-tabs-items v-model="tab">
+                        <v-tab-item class="tab-container">
+                          <login-form></login-form>
+                        </v-tab-item>
+                        <v-tab-item>
+                          register form here
+                        </v-tab-item>
+                      </v-tabs-items>
 
-                            <v-overlay light :value="overlay">
-                                <v-card light class="mx-auto" elevation="12" opacity="0.53">
-                                    <v-card-title>Forgot Password ?</v-card-title>
-                                    <v-card-text>
-                                        Please call <span>0800 300 200</span> or <br>
-                                        email <span>business@safeboda.com</span> for assistance
-                                    </v-card-text>
-                                    <v-card-actions>
-                                        <v-btn class="modal-btn" depressed color="primary" @click="overlay = false">OK</v-btn>
-                                    </v-card-actions>
-                                </v-card>
-                            </v-overlay>
-
-                            <v-btn
-                              type="submit"
-                              :loading="showLoader"
-                              :disabled="showLoader"
-                              class="login-btn"
-                              depressed
-                              block
-                              color="primary"
-                            >
-                                Login
-                            </v-btn>
-                        </v-form>
                     </div>
                 </section>
             </v-col>
@@ -78,49 +41,19 @@
 </template>
 
 <script>
-import { redirectPage } from '@/services/authGuards'
-import { mapGetters } from 'vuex'
+import LoginForm from '@/components/authForms/LoginForm'
 
 export default {
   name: 'Login',
-  data: () => ({
-    valid: false,
-    email: '',
-    password: '',
-    overlay: false
-  }),
-  computed: {
-    ...mapGetters('auth', {
-      authError: 'authError',
-      token: 'token',
-      showLoader: 'showLoader',
-      loggedIn: 'loggedIn'
-    })
+  components: {
+    LoginForm
   },
-  methods: {
-    async onLogin () {
-      const userData = {
-        username: this.email,
-        password: this.password
-      }
-      try {
-        await this.$validator.validateAll()
-        await this.$store.dispatch('auth/login', userData)
-        const options = { icon: 'check_circle_outline' }
-        if (this.loggedIn && this.token) {
-          const page = redirectPage(this.token.user.role)
-          await this.$router.replace(page)
-          const firstName = this.token.user.name.split(' ')[0]
-          this.$toasted.show(`Welcome ${firstName}`, options)
-        }
-      } catch (e) {
-        console.error(e.message)
-      }
-    }
-  }
+  data: () => ({
+    tab: null
+  })
 }
 </script>
 
 <style lang="scss" scoped>
-    @import 'src/styles/pages/login';
+  @import 'src/styles/pages/login';
 </style>
