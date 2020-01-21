@@ -24,7 +24,7 @@
     </v-row>
    </section>
 
-   <section class="landlord-list">
+   <section class="landlord-item-list">
      <v-list>
        <v-list-item-group color="primary">
          <v-list-item

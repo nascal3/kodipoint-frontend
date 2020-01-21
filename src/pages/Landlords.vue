@@ -5,7 +5,7 @@
         <landlord-list class="landlord-list" @selectedLandlord="getSelectedLandlord"></landlord-list>
       </v-col>
       <v-col cols="12" sm="10" v-if="showSection">
-<!--        <landlord-table class="landlord-table-card" @selectedLandlord="getSelectedLandlord"></landlord-table>-->
+        <landlord-details class="landlord-table-card" :landlordSelected="selected"></landlord-details>
         <property-table :landlordSelected="selected"></property-table>
       </v-col>
     </v-row>
@@ -14,7 +14,7 @@
 
 <script>
 import PropertyTable from '@/components/properties/PropertyTable'
-// import LandlordTable from '@/components/landlords/LandlordsTable'
+import LandlordDetails from '@/components/landlords/LandlordsDetails'
 import LandlordList from '@/components/landlords/LandlordList'
 
 export default {
@@ -23,7 +23,7 @@ export default {
     selected: {}
   }),
   components: {
-    // LandlordTable,
+    LandlordDetails,
     PropertyTable,
     LandlordList
   },
