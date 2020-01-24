@@ -1,14 +1,22 @@
 <template>
   <v-card class="details-container">
     <v-row no-gutters>
-      <v-col cols="12" md="6">
-        <v-avatar v-if="landlordSelected.name" color="primary">
-          <v-img :src="imageSource(landlordSelected.avatar, true)"></v-img>
-        </v-avatar>
-        <span class="landlord-name">{{landlordSelected.name}}</span>
+      <v-col class="left-section" cols="12" md="2">
+        <div class="picture-border d-flex justify-center align-center">
+          <v-avatar v-if="landlordSelected.name" color="primary">
+            <v-img :src="imageSource(landlordSelected.avatar, true)"></v-img>
+          </v-avatar>
+        </div>
+        <v-btn class="mx-2" fab small>
+          <v-icon color="primary" @click="openDialog(landlordSelected)">mdi-pencil</v-icon>
+        </v-btn>
       </v-col>
-      <v-col cols="12" md="6">
-
+      <v-col class="right-section" cols="12" md="10">
+        <div class="info-section d-flex flex-column justify-center align-start">
+          <div class="landlord-name">{{landlordSelected.name}}</div>
+          <div class="landlord-email">{{landlordSelected.email}}</div>
+          <div class="landlord-phone">{{landlordSelected.phone}}</div>
+        </div>
       </v-col>
     </v-row>
 

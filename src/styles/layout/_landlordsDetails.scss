@@ -1,4 +1,55 @@
 
 .details-container {
-  background-color: #fceae5;
+  background-color: $white;
+  padding: 1rem;
+
+  .left-section {
+    position: relative;
+    .picture-border {
+      border: 2px dashed $kodi_orange;
+      height: 14.5rem;
+      width: 14.5rem;
+      border-radius: 50%;
+
+      .v-avatar {
+        height: 13rem !important;
+        min-width: 13rem !important;
+        width: 13rem !important;
+      }
+    }
+
+    button {
+      position: absolute;
+      bottom: 5px;
+      left: 90px
+    }
+  }
+
+  .right-section {
+    .info-section {
+      height: 14.5rem;
+
+      .landlord {
+        &-name {
+          color: $kodi_green;
+          font-size: 2.6rem;
+          font-weight: 300;
+        }
+        &-email {
+          font-size: 1.6rem;
+          font-weight: 300;
+          margin-bottom: 1.5rem;
+        }
+        &-phone {
+          color: $kodi-orange;
+          font-size: 1.6rem;
+          font-weight: 300;
+        }
+      }
+    }
+  }
+
+
+
+
 }

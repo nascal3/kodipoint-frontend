@@ -1,19 +1,9 @@
 <template>
   <v-card>
     <v-row no-gutters>
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="12">
         <v-card-title class="card-title">Properties</v-card-title>
         <v-card-subtitle class="card-subtitle">View/Edit properties</v-card-subtitle>
-      </v-col>
-      <v-col v-if="landlordSelected" cols="12" md="6">
-        <div class="landlord-info d-flex align-center justify-end">
-          <span class="landlord-avatar">
-            <v-avatar v-if="landlordSelected.name" color="primary">
-              <v-img :src="imageSource(landlordSelected.avatar, true)"></v-img>
-            </v-avatar>
-          </span>
-          <span class="landlord-name">{{landlordSelected.name}}</span>
-        </div>
       </v-col>
     </v-row>
 
