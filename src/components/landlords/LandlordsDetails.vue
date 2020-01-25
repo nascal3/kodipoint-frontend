@@ -76,7 +76,9 @@ export default {
     },
     closeModal (value) {
       this.dialog = value.openState
-      if (value.formSubmitted) this.infiniteId += 1
+      if (value.formSubmitted) {
+        this.$emit('changedDetails', true)
+      }
     },
     imageSource (imagePath) {
       if (!imagePath) return this.placeholderImage

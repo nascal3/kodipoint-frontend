@@ -1,8 +1,8 @@
 <template>
     <v-container class="login" pa-0 ma-0 fluid>
-        <v-img class="login-bg" :src="require('@/assets/images/login_bg.jpg')"></v-img>
         <v-row no-gutters>
-            <v-col cols="12" md="8">
+            <v-col class="login-info-container" cols="12" md="8">
+              <v-img class="login-bg" :src="require('@/assets/images/login_bg.jpg')"></v-img>
             </v-col>
             <v-col class="login-form-container" cols="12" md="4">
                 <section class="form-section">

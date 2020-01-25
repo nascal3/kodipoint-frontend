@@ -69,6 +69,11 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'LandlordList',
+  props: {
+    reload: {
+      type: Boolean
+    }
+  },
   components: {
     InfiniteLoading,
     LandlordForm
@@ -103,6 +108,10 @@ export default {
     }
   },
   watch: {
+    reload (newVal, oldVal) {
+      console.log('>>>', newVal, oldVal)
+      this.infiniteId += 1
+    },
     searchLandlordName (newValue) {
       if (!newValue.length) {
         this.$store.commit('landlord/RESET_LANDLORDS')
@@ -132,7 +141,6 @@ export default {
       this.dialog = true
     },
     closeModal (value) {
-      console.log('>>>', value)
       this.dialog = value.openState
       if (value.formSubmitted) this.infiniteId += 1
     },

@@ -329,7 +329,7 @@ export default {
       this.validFile = fileType.split('/')[0] === 'image'
     },
     closeForm (formSubmitted) {
-      if (formSubmitted) this.$store.commit('auth/CLEAR_SINGLE_USER')
+      // if (formSubmitted) this.$store.commit('auth/CLEAR_SINGLE_USER')
       const payload = {
         'openState': false,
         'formSubmitted': formSubmitted

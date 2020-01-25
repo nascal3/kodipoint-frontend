@@ -2,10 +2,10 @@
   <v-container fluid>
     <v-row>
       <v-col cols="12" sm="2">
-        <landlord-list class="landlord-list" @selectedLandlord="getSelectedLandlord"></landlord-list>
+        <landlord-list class="landlord-list" :reload="changed" @selectedLandlord="getSelectedLandlord"></landlord-list>
       </v-col>
       <v-col cols="12" sm="10" v-if="showSection">
-        <landlord-details class="landlord-table-card" :landlordSelected="selected"></landlord-details>
+        <landlord-details class="landlord-table-card" @changedDetails="changedDetails" :landlordSelected="selected"></landlord-details>
         <property-table :landlordSelected="selected"></property-table>
       </v-col>
     </v-row>
@@ -20,7 +20,8 @@ import LandlordList from '@/components/landlords/LandlordList'
 export default {
   name: 'Landlords',
   data: () => ({
-    selected: {}
+    selected: {},
+    changed: false
   }),
   components: {
     LandlordDetails,
@@ -35,6 +36,9 @@ export default {
   methods: {
     getSelectedLandlord (landlord) {
       this.selected = landlord
+    },
+    changedDetails (value) {
+      this.changed = value
     }
   }
 }
