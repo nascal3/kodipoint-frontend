@@ -1,14 +1,14 @@
 <template>
   <v-card class="pa-1">
-    <section class="header-section">
-      <v-card-title class="card-title">
+    <v-card-title  class="heading">
+      <div class="title">
         {{editForm ? 'Edit Property' : 'Add Property'}}
-      </v-card-title>
+      </div>
       <v-icon class="close-icon" color="primary" @click="closeForm(false)">
         mdi-close
       </v-icon>
-    </section>
-    <v-card-text>
+    </v-card-title>
+    <v-card-text class="content">
       <v-form enctype="multipart/form-data" v-model="valid" @submit.prevent="addProperty">
         <v-row>
           <v-col cols="12" md="6">
