@@ -47,11 +47,20 @@ const landlords = (state) => state.landlords
  */
 const landlordSearchResults = (state) => state.landlordSearchResults
 
+/**
+ * Retrieve the details of the landlord that is selected
+ * @method selectedLandlord
+ * @param  {Object} state vuex state object
+ * @return {Object} Contains details of the landlord that is selected
+ */
+const selectedLandlord = (state) => state.selectedLandlord
+
 export {
   landlords,
   showLoader,
   landlordSearchResults,
   showErrorState,
   userIdDuplicationError,
-  noSearchResults
+  noSearchResults,
+  selectedLandlord
 }

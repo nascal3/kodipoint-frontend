@@ -66,8 +66,8 @@ const addNewLandlord = async ({ commit, dispatch }, payload) => {
 /**
  * Starts search of landlords
  * @method searchLandlords
- * @param  {Object} Object vuex context object
- * @param {*} payload search terms
+ * @param  {Object} commit vuex mutations
+ * @param {Object} payload search terms
  */
 const searchLandlords = ({ commit, dispatch }, payload) => {
   commit('RESET_SEARCH_LANDLORDS')
@@ -105,9 +105,20 @@ const fetchSearchLandlords = async ({ commit, state }, payload) => {
   }
 }
 
+/**
+ * Sets details of the landlord that has been selected
+ * @method setSelectedLandlord
+ * @param  {Object} commit vuex mutations
+ * @param {Object} payload contains landlord details
+ */
+const setSelectedLandlord = ({ commit }, payload) => {
+  commit('SET_SELECTED_LANDLORD', payload)
+}
+
 export {
   getLandlords,
   addNewLandlord,
   searchLandlords,
-  fetchSearchLandlords
+  fetchSearchLandlords,
+  setSelectedLandlord
 }

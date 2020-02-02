@@ -3,19 +3,19 @@
     <v-row no-gutters>
       <v-col class="left-section" cols="12" md="2">
         <div class="picture-border d-flex justify-center align-center">
-          <v-avatar v-if="landlordSelected.name" color="primary">
-            <v-img :src="imageSource(landlordSelected.avatar, true)"></v-img>
+          <v-avatar v-if="landlordInfo.name" color="primary">
+            <v-img :src="imageSource(landlordInfo.avatar, true)"></v-img>
           </v-avatar>
         </div>
         <v-btn class="mx-2" fab small>
-          <v-icon color="primary" @click="openDialog(landlordSelected)">mdi-pencil</v-icon>
+          <v-icon color="primary" @click="openDialog(landlordInfo)">mdi-pencil</v-icon>
         </v-btn>
       </v-col>
       <v-col class="right-section" cols="12" md="10">
         <div class="info-section d-flex flex-column justify-center align-start">
-          <div class="landlord-name">{{landlordSelected.name}}</div>
-          <div class="landlord-email">{{landlordSelected.email}}</div>
-          <div class="landlord-phone">{{landlordSelected.phone}}</div>
+          <div class="landlord-name">{{landlordInfo.name}}</div>
+          <div class="landlord-email">{{landlordInfo.email}}</div>
+          <div class="landlord-phone">{{landlordInfo.phone}}</div>
         </div>
       </v-col>
     </v-row>
@@ -35,48 +35,42 @@ export default {
   components: {
     LandlordForm
   },
-  props: {
-    landlordSelected: {
-      type: Object
-    }
-  },
   data: () => ({
     infiniteId: +new Date(),
     page: 1,
     dialog: false,
     edit: false,
     placeholderImage: require(`@/assets/images/avatar.jpg`),
-    landlordInfo: null,
+    landlordInfo: {},
     selectedID: null
   }),
   computed: {
     ...mapGetters('landlord', {
       showLoader: 'showLoader',
-      showErrorState: 'showErrorState'
+      showErrorState: 'showErrorState',
+      landlordSelected: 'selectedLandlord'
     })
+  },
+  watch: {
+    landlordSelected (newValue) {
+      this.landlordInfo = newValue
+    }
   },
   methods: {
     ...mapActions('landlord', {
       getLandlords: 'getLandlords',
-      searchLandlords: 'searchLandlords'
+      searchLandlords: 'searchLandlords',
+      setSelectedLandlord: 'setSelectedLandlord'
     }),
-    getLandlord (landlord) {
-      this.selectedID = landlord.user_id
-      this.$emit('selectedLandlord', landlord)
-    },
     openDialog (landlord) {
-      if (landlord) {
-        this.edit = true
-        this.landlordInfo = landlord
-      } else if (!landlord) {
-        this.edit = false
-        this.landlordInfo = null
-      }
+      Object.keys(landlord).length ? this.edit = true : this.edit = false
       this.dialog = true
     },
     closeModal (value) {
       this.dialog = value.openState
       if (value.formSubmitted) {
+        this.landlordInfo = this.landlordSelected
+        this.setSelectedLandlord({})
         this.$emit('changedDetails', true)
       }
     },
@@ -86,8 +80,8 @@ export default {
       return `${baseURL}/file${imagePath}`
     }
   },
-  beforeDestroy () {
-    this.$store.commit('landlord/RESET_LANDLORDS')
+  created () {
+    this.landlordInfo = this.landlordSelected
   }
 }
 </script>

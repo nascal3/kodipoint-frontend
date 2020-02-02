@@ -71,7 +71,10 @@ export default {
   name: 'LandlordList',
   props: {
     reload: {
-      type: Boolean
+      type: Boolean,
+      default: () => {
+        return false
+      }
     }
   },
   components: {
@@ -108,8 +111,8 @@ export default {
     }
   },
   watch: {
-    reload (newVal, oldVal) {
-      console.log('>>>', newVal, oldVal)
+    reload (newVal) {
+      console.log('>>>', newVal)
       this.infiniteId += 1
     },
     searchLandlordName (newValue) {
@@ -124,11 +127,12 @@ export default {
   methods: {
     ...mapActions('landlord', {
       getLandlords: 'getLandlords',
-      searchLandlords: 'searchLandlords'
+      searchLandlords: 'searchLandlords',
+      setSelectedLandlord: 'setSelectedLandlord'
     }),
     getLandlord (landlord) {
       this.selectedID = landlord.user_id
-      this.$emit('selectedLandlord', landlord)
+      this.setSelectedLandlord(landlord)
     },
     openDialog (landlord) {
       if (landlord) {

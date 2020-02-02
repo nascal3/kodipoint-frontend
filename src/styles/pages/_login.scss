@@ -1,9 +1,6 @@
 // login page styles
 
 .login {
-  .row {
-    height: 100vh;
-  }
 
   &-info-container {
     .v-image {
@@ -21,7 +18,6 @@
         height: 100vh;
       }
     }
-
   }
 
   &-form-container {

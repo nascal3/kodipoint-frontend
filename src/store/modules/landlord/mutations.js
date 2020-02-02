@@ -76,6 +76,16 @@ const LANDLORD_SEARCH_RESULTS = (state, payload) => {
   state.landlordSearchResults = payload
 }
 
+/**
+ * Set the landlord details that has been selected for viewing
+ * @method SET_SELECTED_LANDLORD
+ * @param  {Object} state vuex state object
+ * @param  {Array} payload contains landlord details
+ */
+const SET_SELECTED_LANDLORD = (state, payload) => {
+  state.selectedLandlord = payload
+}
+
 export {
   RESET_LANDLORDS,
   GET_LANDLORDS,
@@ -84,5 +94,6 @@ export {
   SHOW_LOADER,
   SET_ERROR_STATE,
   USER_ID_DUPLICATION_ERROR,
-  RESET_SEARCH_LANDLORDS
+  RESET_SEARCH_LANDLORDS,
+  SET_SELECTED_LANDLORD
 }

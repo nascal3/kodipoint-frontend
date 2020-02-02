@@ -1,9 +1,9 @@
 <template>
-  <v-card class="pa-1">
-    <section class="header-section">
-      <v-card-title class="card-title">
+  <v-card>
+    <v-card-title class="heading">
+      <div class="title">
         {{editForm ? 'Edit Landlord' : 'Add landlord'}}
-      </v-card-title>
+      </div>
       <v-icon class="close-icon" color="primary" @click="closeForm(false)">
         mdi-close
       </v-icon>
@@ -12,8 +12,8 @@
         indeterminate
         color="primary"
       ></v-progress-linear>
-    </section>
-    <v-card-text>
+    </v-card-title>
+    <v-card-text class="content">
       <div class="display-1 d-flex justify-center align-center" v-if="!userInfoLoaded && editForm">
         Loading data ...
       </div>

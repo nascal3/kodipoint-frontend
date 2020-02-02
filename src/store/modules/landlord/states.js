@@ -1,6 +1,7 @@
 const state = {
   landlords: [],
   landlordSearchResults: [],
+  selectedLandlord: {},
   noSearchResults: false,
   showLoader: false,
   errorState: false,
