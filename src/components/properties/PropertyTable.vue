@@ -2,8 +2,8 @@
   <v-card>
     <v-row no-gutters>
       <v-col cols="12" md="12">
-        <v-card-title class="card-title">Properties</v-card-title>
-        <v-card-subtitle class="card-subtitle">View/Edit properties</v-card-subtitle>
+        <v-card-title class="title">Properties</v-card-title>
+        <v-card-subtitle class="subtitle">View/Edit properties</v-card-subtitle>
       </v-col>
     </v-row>
 

@@ -1,19 +1,21 @@
 // edit property form styles
 
-.card {
-  &-title {
-    font-size: 2.4rem;
-    margin-bottom: 7px;
-  }
-  &-subtitle {
-    font-size: 1.6rem;
-    font-weight: 300;
+.v-card {
+  &__title {
+    margin-bottom: 2rem;
+    &.title {
+      font-size: 2.4rem !important;
+    }
   }
 
-  .search-property {
-    margin: 1rem;
+  &__subtitle {
+    &.subtitle {
+      font-size: 1.6rem;
+      font-weight: 300;
+    }
   }
 }
+
 .search-property {
   margin: 1.2rem;
   width: 40%;
