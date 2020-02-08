@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card class="property-container">
     <v-row no-gutters>
       <v-col cols="12" md="12">
         <v-card-title class="title">Properties</v-card-title>
