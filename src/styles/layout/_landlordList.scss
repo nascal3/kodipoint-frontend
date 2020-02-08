@@ -23,6 +23,9 @@
   }
 
   .v-list-item {
+    &__icon {
+      margin-right: 1.5rem;
+    }
     &__title {
       font-size: 1.4rem;
     }

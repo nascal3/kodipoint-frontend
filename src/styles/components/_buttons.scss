@@ -1,7 +1,9 @@
 // Buttons
 
 .btn-text {
-  text-transform: capitalize;
   font-size: 1.6rem;
   font-weight: 300;
+  .v-btn__content {
+    text-transform: capitalize;
+  }
 }
