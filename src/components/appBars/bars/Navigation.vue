@@ -17,16 +17,17 @@
 
         <v-list shaped dense>
             <v-list-item
-                v-for="item in items"
-                :key="item.title"
-                router :to="item.route"
+                v-for="page in pages"
+                :key="page.title"
+                router :to="page.route"
                 link
+                @click="setPageTitle(page)"
             >
                 <v-list-item-icon>
-                    <v-icon>{{ item.icon }}</v-icon>
+                    <v-icon>{{ page.icon }}</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
-                    <v-list-item-title class="menu-items-text">{{ item.title }}</v-list-item-title>
+                    <v-list-item-title class="menu-items-text">{{ page.title }}</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
         </v-list>
@@ -46,7 +47,7 @@ export default {
     ...mapGetters('auth', {
       user: 'user'
     }),
-    items () {
+    pages () {
       const tokenVals = localStorage.getItem('kodiAuthToken')
       const role = JSON.parse(tokenVals).user.role
       if (role === 'admin') {
@@ -67,6 +68,11 @@ export default {
         ]
       }
       return []
+    }
+  },
+  methods: {
+    setPageTitle (page) {
+      this.$emit('changePageTitle', page.title)
     }
   }
 }

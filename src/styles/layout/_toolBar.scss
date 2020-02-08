@@ -11,6 +11,14 @@
     margin-left: 1rem;
   }
 
+  .page-name {
+    color: $kodi_green;
+    font-size: 4rem;
+    font-weight: 300;
+    margin-left: 20%;
+    text-transform: capitalize;
+  }
+
   .user-avatar {
     margin-right: 1.5rem;
     .v-avatar {

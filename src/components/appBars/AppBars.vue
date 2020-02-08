@@ -1,7 +1,7 @@
 <template>
     <nav>
-       <ToolBar></ToolBar>
-       <Navigation></Navigation>
+       <ToolBar :page-name="pageName"></ToolBar>
+       <Navigation @changePageTitle="setPageTitle"></Navigation>
     </nav>
 </template>
 
@@ -16,10 +16,13 @@ export default {
     Navigation
   },
   data: () => ({
-    drawerState: null
+    drawerState: null,
+    pageName: ''
   }),
   methods: {
-
+    setPageTitle (title) {
+      this.pageName = title
+    }
   }
 }
 </script>
