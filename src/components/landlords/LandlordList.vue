@@ -70,11 +70,8 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'LandlordList',
   props: {
-    reload: {
-      type: Boolean,
-      default: () => {
-        return false
-      }
+    reloadValue: {
+      type: Number
     }
   },
   components: {
@@ -111,9 +108,8 @@ export default {
     }
   },
   watch: {
-    reload (newVal) {
-      console.log('>>>', newVal)
-      this.infiniteId += 1
+    reloadValue (newVal) {
+      if ((this.infiniteId !== newVal)) this.infiniteId += 1
     },
     searchLandlordName (newValue) {
       if (!newValue.length) {

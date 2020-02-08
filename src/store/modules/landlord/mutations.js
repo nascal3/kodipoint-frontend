@@ -8,6 +8,15 @@ const RESET_LANDLORDS = (state) => {
 }
 
 /**
+ * Reset/clear selected landlord details fetched
+ * @method RESET_SELECTED_LANDLORD
+ * @param  {Object} state vuex state object
+ */
+const RESET_SELECTED_LANDLORD = (state) => {
+  state.selectedLandlord = []
+}
+
+/**
  * Set show loader state
  * @method SHOW_LOADER
  * @param  {Object} state vuex state object
@@ -88,6 +97,7 @@ const SET_SELECTED_LANDLORD = (state, payload) => {
 
 export {
   RESET_LANDLORDS,
+  RESET_SELECTED_LANDLORD,
   GET_LANDLORDS,
   LANDLORD_SEARCH_RESULTS,
   UPDATE_NO_RESULTS,

@@ -60,7 +60,8 @@ export default {
     ...mapActions('landlord', {
       getLandlords: 'getLandlords',
       searchLandlords: 'searchLandlords',
-      setSelectedLandlord: 'setSelectedLandlord'
+      setSelectedLandlord: 'setSelectedLandlord',
+      resetSelectedLandlord: 'resetSelectedLandlord'
     }),
     openDialog (landlord) {
       Object.keys(landlord).length ? this.edit = true : this.edit = false
@@ -69,8 +70,7 @@ export default {
     closeModal (value) {
       this.dialog = value.openState
       if (value.formSubmitted) {
-        this.landlordInfo = this.landlordSelected
-        this.setSelectedLandlord({})
+        this.resetSelectedLandlord()
         this.$emit('changedDetails', true)
       }
     },

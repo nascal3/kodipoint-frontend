@@ -115,10 +115,20 @@ const setSelectedLandlord = ({ commit }, payload) => {
   commit('SET_SELECTED_LANDLORD', payload)
 }
 
+/**
+ * Removes details of the landlord that has been selected
+ * @method resetSelectedLandlord
+ * @param  {Object} commit vuex mutations
+ */
+const resetSelectedLandlord = ({ commit }) => {
+  commit('RESET_SELECTED_LANDLORD')
+}
+
 export {
   getLandlords,
   addNewLandlord,
   searchLandlords,
   fetchSearchLandlords,
-  setSelectedLandlord
+  setSelectedLandlord,
+  resetSelectedLandlord
 }

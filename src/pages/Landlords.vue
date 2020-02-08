@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row>
       <v-col cols="12" sm="2">
-        <landlord-list class="landlord-list" :reload="changed"></landlord-list>
+        <landlord-list class="landlord-list" :reloadValue="changed"></landlord-list>
       </v-col>
       <v-col cols="12" sm="10" v-if="showSection">
         <landlord-details class="landlord-table-card" @changedDetails="changedDetails"></landlord-details>
@@ -21,7 +21,7 @@ import LandlordList from '@/components/landlords/LandlordList'
 export default {
   name: 'Landlords',
   data: () => ({
-    changed: false
+    changed: null
   }),
   components: {
     LandlordDetails,
@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     changedDetails (value) {
-      this.changed = value
+      if (value) this.changed = +new Date()
     }
   }
 }
