@@ -148,10 +148,7 @@ export default {
       if (value.formSubmitted) this.infiniteId += 1
     },
     getAllLandlords ($event) {
-      const payload = {
-        page: this.page
-      }
-      this.getLandlords({ ...$event, ...payload })
+      this.getLandlords({ ...$event })
     },
     imageSource (imagePath) {
       if (!imagePath) return this.placeholderImage

@@ -1,28 +1,28 @@
 import { api } from '@/middleware/config'
 
 /**
- * Fetch all landlords
- * @method getLandlords
+ * Fetch all tenants
+ * @method getAllTenants
  * @param  {Object} commit vuex mutations
  * @param  {Object} state of the vuex store
  * @param  {Object} payload values of page event
  */
-const getLandlords = async ({ commit, state }, payload) => {
+const getAllTenants = async ({ commit, state }, payload) => {
   const limit = 100
-  const offset = Object.keys(state.landlords).length > 0 ? state.landlords.length : 0
+  const offset = Object.keys(state.tenants).length > 0 ? state.tenants.length : 0
   const params = {
     limit,
     offset
   }
-  const url = `/api/landlords/all`
+  const url = `/api/tenants/all`
   commit('SET_ERROR_STATE', false)
 
   try {
     const response = await api.get(url, params)
     const data = response.data.result
     if (response.status === 200) {
-      response.data.result = state.landlords.length === 0 ? data : [...state.landlords, ...data]
-      commit('GET_LANDLORDS', response.data.result)
+      response.data.result = state.tenants.length === 0 ? data : [...state.tenants, ...data]
+      commit('GET_ALL_TENANTS', response.data.result)
       payload.loaded()
       if (data.length < limit) {
         payload.complete()
@@ -35,24 +35,23 @@ const getLandlords = async ({ commit, state }, payload) => {
 }
 
 /**
- * Add and edit landlord
- * @method  addNewLandlord
+ * Add and edit tenant
+ * @method  addNewTenant
  * @param  {Object} commit vuex mutations
  * @param  {Object} dispatch vuex actions
- * @param  {Object} payload property values
+ * @param  {Object} payload tenant attributes
  */
-const addNewLandlord = async ({ commit, dispatch }, payload) => {
+const addNewTenant = async ({ commit, dispatch }, payload) => {
   const data = JSON.parse(payload.getAll('json'))
 
   commit('SHOW_LOADER', true)
-  commit('USER_ID_DUPLICATION_ERROR', false)
   commit('auth/USER_DUPLICATION_ERROR', false, { root: true })
   const url = data.edit ? '/api/landlords/profile/edit' : '/api/landlords/register'
 
   try {
     const response = await api.post(url, payload)
     if (response.status === 200) {
-      commit('RESET_LANDLORDS')
+      commit('RESET_TENANTS')
       commit('SHOW_LOADER', false)
       return response.data
     }
@@ -68,27 +67,27 @@ const addNewLandlord = async ({ commit, dispatch }, payload) => {
 }
 
 /**
- * Starts search of landlords
- * @method searchLandlords
+ * Starts search of tenants
+ * @method searchTenants
  * @param  {Object} commit vuex mutations
  * @param {Object} payload search terms
  */
-const searchLandlords = ({ commit, dispatch }, payload) => {
-  commit('RESET_SEARCH_LANDLORDS')
+const searchTenants = ({ commit, dispatch }, payload) => {
+  commit('RESET_SEARCH_TENANTS')
   commit('UPDATE_NO_RESULTS', false)
-  dispatch('fetchSearchLandlords', payload)
+  dispatch('fetchSearchTenants', payload)
 }
 
 /**
  * fetch all searched landlord results and set them in the state
- * @method fetchSearchLandlords
+ * @method fetchSearchTenants
  * @param  {Object} commit vuex mutations
  * @param  {Object} state of the vuex store
- * @param  {Object} payload containing search term of landlord to be searched
+ * @param  {Object} payload containing search term of tenant to be searched
  * @return {Promise}
  */
 // @ts-ignore
-const fetchSearchLandlords = async ({ commit, state }, payload) => {
+const fetchSearchTenants = async ({ commit, state }, payload) => {
   const url = `/api/landlords/search`
   const params = {
     'search_phrase': payload.trim()
@@ -99,7 +98,7 @@ const fetchSearchLandlords = async ({ commit, state }, payload) => {
     if (state.landlordSearchResults.length) { return }
     if (result.data.results.length) {
       commit('UPDATE_NO_RESULTS', false)
-      commit('LANDLORD_SEARCH_RESULTS', result.data.results)
+      commit('TENANT_SEARCH_RESULTS', result.data.results)
       return
     }
     commit('UPDATE_NO_RESULTS', true)
@@ -110,29 +109,29 @@ const fetchSearchLandlords = async ({ commit, state }, payload) => {
 }
 
 /**
- * Sets details of the landlord that has been selected
- * @method setSelectedLandlord
+ * Sets details of the tenant that has been selected
+ * @method setSelectedTenant
  * @param  {Object} commit vuex mutations
  * @param {Object} payload contains landlord details
  */
-const setSelectedLandlord = ({ commit }, payload) => {
-  commit('SET_SELECTED_LANDLORD', payload)
+const setSelectedTenant = ({ commit }, payload) => {
+  commit('SET_SELECTED_TENANT', payload)
 }
 
 /**
- * Removes details of the landlord that has been selected
- * @method resetSelectedLandlord
+ * Removes details of the tenant that has been selected
+ * @method resetSelectedTenant
  * @param  {Object} commit vuex mutations
  */
-const resetSelectedLandlord = ({ commit }) => {
-  commit('RESET_SELECTED_LANDLORD')
+const resetSelectedTenant = ({ commit }) => {
+  commit('RESET_SELECTED_TENANT')
 }
 
 export {
-  getLandlords,
-  addNewLandlord,
-  searchLandlords,
-  fetchSearchLandlords,
-  setSelectedLandlord,
-  resetSelectedLandlord
+  getAllTenants,
+  addNewTenant,
+  searchTenants,
+  fetchSearchTenants,
+  setSelectedTenant,
+  resetSelectedTenant
 }

@@ -199,7 +199,6 @@ export default {
     },
     getAllProperties ($event) {
       const payload = {
-        page: this.page,
         user_id: this.landlordSelected ? this.landlordSelected.user_id : 0
       }
       this.getProperties({ ...$event, ...payload })
