@@ -30,7 +30,9 @@
          <v-list-item
            v-for="landlord in allLandlords"
            @click="getLandlord(landlord)"
-           :key="landlord.landlord_id">
+           :key="landlord.landlord_id"
+           :class="{'v-list-item--active': landlord.landlord_id === selectedLandlord.landlord_id }"
+         >
            <v-list-item-icon>
              <v-avatar color="primary">
                <v-img :src="imageSource(landlord.avatar)"></v-img>
@@ -95,7 +97,8 @@ export default {
       showErrorState: 'showErrorState',
       landlords: 'landlords',
       landlordSearchResults: 'landlordSearchResults',
-      noSearchResults: 'noSearchResults'
+      noSearchResults: 'noSearchResults',
+      selectedLandlord: 'selectedLandlord'
     }),
     allLandlords () {
       return this.searchLandlordName.length ? this.landlordSearchResults : this.landlords
