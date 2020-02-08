@@ -2,14 +2,17 @@
     <v-navigation-drawer
         app
         v-model="drawer"
-        width="185"
+        width="130"
         :src="bg"
         clipped-left
         permanent
         dark
     >
-        <v-list-item class="menu-logo-section" >
-            <v-img class="menu-logo" :src="require('@/assets/images/kodiPoint_logo.png')"></v-img>
+        <v-list-item class="menu-user-section" >
+            <v-avatar>
+                <v-img src="https://randomuser.me/api/portraits/women/81.jpg"></v-img>
+            </v-avatar>
+            <div class="user-name">{{user.name}}</div>
         </v-list-item>
 
         <v-list shaped dense>
@@ -31,6 +34,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'Navigation',
   data: () => ({
@@ -38,6 +43,9 @@ export default {
     bg: 'src/assets/images/menu_bg.jpg'
   }),
   computed: {
+    ...mapGetters('auth', {
+      user: 'user'
+    }),
     items () {
       const tokenVals = localStorage.getItem('kodiAuthToken')
       const role = JSON.parse(tokenVals).user.role
