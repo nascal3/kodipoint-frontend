@@ -20,9 +20,9 @@
       </v-col>
     </v-row>
 
-    <v-dialog v-model="dialog">
+    <v-overlay light :value="dialog">
       <landlord-form @closeModal="closeModal" :edit="edit" :landlordInfo="landlordInfo"></landlord-form>
-    </v-dialog>
+    </v-overlay>
   </v-card>
 </template>
 

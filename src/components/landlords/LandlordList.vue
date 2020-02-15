@@ -133,14 +133,7 @@ export default {
       this.selectedID = landlord.user_id
       this.setSelectedLandlord(landlord)
     },
-    openDialog (landlord) {
-      if (landlord) {
-        this.edit = true
-        this.landlordInfo = landlord
-      } else if (!landlord) {
-        this.edit = false
-        this.landlordInfo = null
-      }
+    openDialog () {
       this.dialog = true
     },
     closeModal (value) {

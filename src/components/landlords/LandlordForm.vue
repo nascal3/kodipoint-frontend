@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card class="landlord-info-form" light>
     <v-card-title class="heading">
       <div class="title">
         {{editForm ? 'Edit Landlord' : 'Add landlord'}}
