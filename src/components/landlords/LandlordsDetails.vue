@@ -7,7 +7,7 @@
             <v-img :src="imageSource(landlordInfo.avatar, true)"></v-img>
           </v-avatar>
         </div>
-        <v-btn class="mx-2" fab small>
+        <v-btn class="edit-fab-btn mx-2" @click="openDialog(landlordInfo)" fab small>
           <v-icon color="primary" @click="openDialog(landlordInfo)">mdi-pencil</v-icon>
         </v-btn>
       </v-col>

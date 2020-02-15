@@ -1,7 +1,7 @@
 // edit property form styles
 
 .property-container {
-  max-height: 69vh;
+  max-height: 77%;
 
   .v-card {
     &__title {
@@ -43,8 +43,18 @@
   max-height: 46rem;
 
   table {
+    thead{
+      tr {
+        th {
+          font-size: 1.2rem;
+        }
+      }
+    }
     tbody {
       tr {
+        td {
+          font-size: 1.2rem;
+        }
         td:nth-child(7) {
           .v-image {
             max-width: 10rem;
