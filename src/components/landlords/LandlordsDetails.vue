@@ -7,8 +7,8 @@
             <v-img :src="imageSource(landlordInfo.avatar, true)"></v-img>
           </v-avatar>
         </div>
-        <v-btn class="edit-fab-btn mx-2" @click="openDialog(landlordInfo)" fab small>
-          <v-icon color="primary" @click="openDialog(landlordInfo)">mdi-pencil</v-icon>
+        <v-btn class="edit-fab-btn mx-2" @click="openEditDialog()" fab small>
+          <v-icon color="primary">mdi-pencil</v-icon>
         </v-btn>
       </v-col>
       <v-col class="right-section" cols="12" md="10">
@@ -19,30 +19,17 @@
         </div>
       </v-col>
     </v-row>
-
-    <v-overlay light :value="dialog">
-      <landlord-form @closeModal="closeModal" :edit="edit" :landlordInfo="landlordInfo"></landlord-form>
-    </v-overlay>
   </v-card>
 </template>
 
 <script>
-import LandlordForm from '@/components/landlords/LandlordForm'
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'LandlordsTable',
-  components: {
-    LandlordForm
-  },
   data: () => ({
-    infiniteId: +new Date(),
-    page: 1,
-    dialog: false,
-    edit: false,
     placeholderImage: require(`@/assets/images/avatar.jpg`),
-    landlordInfo: {},
-    selectedID: null
+    landlordInfo: {}
   }),
   computed: {
     ...mapGetters('landlord', {
@@ -57,22 +44,8 @@ export default {
     }
   },
   methods: {
-    ...mapActions('landlord', {
-      getLandlords: 'getLandlords',
-      searchLandlords: 'searchLandlords',
-      setSelectedLandlord: 'setSelectedLandlord',
-      resetSelectedLandlord: 'resetSelectedLandlord'
-    }),
-    openDialog (landlord) {
-      Object.keys(landlord).length ? this.edit = true : this.edit = false
-      this.dialog = true
-    },
-    closeModal (value) {
-      this.dialog = value.openState
-      if (value.formSubmitted) {
-        this.resetSelectedLandlord()
-        this.$emit('changedDetails', true)
-      }
+    openEditDialog () {
+      this.$emit('openEditDialog', this.landlordInfo)
     },
     imageSource (imagePath) {
       if (!imagePath) return this.placeholderImage
