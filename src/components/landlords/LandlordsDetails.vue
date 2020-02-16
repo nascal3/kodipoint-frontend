@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     openEditDialog () {
-      this.$emit('openEditDialog', this.landlordInfo)
+      this.$emit('openEditDialog', this.landlordSelected)
     },
     imageSource (imagePath) {
       if (!imagePath) return this.placeholderImage

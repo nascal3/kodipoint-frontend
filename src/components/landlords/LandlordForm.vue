@@ -2,19 +2,19 @@
   <v-card class="landlord-info-form" light>
     <v-card-title class="heading">
       <div class="title">
-        {{editForm ? 'Edit Landlord' : 'Add landlord'}}
+        {{edit ? 'Edit Landlord' : 'Add landlord'}}
       </div>
       <v-icon class="close-icon" color="primary" @click="closeForm(false)">
         mdi-close
       </v-icon>
       <v-progress-linear
-        v-if="!userInfoLoaded && editForm"
+        v-if="!userInfoLoaded && edit"
         indeterminate
         color="primary"
       ></v-progress-linear>
     </v-card-title>
     <v-card-text class="content">
-      <div class="display-1 d-flex justify-center align-center" v-if="!userInfoLoaded && editForm">
+      <div class="display-1 d-flex justify-center align-center" v-if="!userInfoLoaded && edit">
         Loading data ...
       </div>
       <v-form enctype="multipart/form-data" v-model="valid" @submit.prevent="addLandlord">
@@ -230,7 +230,7 @@
               block
               :color="btnColor"
             >
-              {{ editForm ? 'Save Changes' : 'Add Landlord'}}
+              {{ edit ? 'Save Changes' : 'Add Landlord'}}
             </v-btn>
           </v-col>
           <v-col cols="12" md="6">
@@ -258,8 +258,7 @@ export default {
   props: {
     edit: {
       type: Boolean,
-      default: false,
-      required: true
+      default: false
     },
     landlordInfo: {
       type: Object
@@ -299,14 +298,6 @@ export default {
       userDuplicationError: ['auth/userDuplicationError'],
       userIdDuplicationError: ['landlord/userIdDuplicationError']
     }),
-    editForm () {
-      if (this.landlordInfo) {
-        this.updateFormValues(this.landlordInfo)
-      } else if (!this.landlordInfo) {
-        this.clearFormValues()
-      }
-      return this.edit
-    },
     imageSource () {
       const imagePath = this.landlordInfo ? this.landlordInfo.avatar : null
       if (!imagePath) return this.placeholderImage
@@ -321,6 +312,13 @@ export default {
     ...mapActions('landlord', {
       addNewLandlord: 'addNewLandlord'
     }),
+    editForm () {
+      if (this.edit && Object.keys(this.landlordInfo).length) {
+        this.updateFormValues(this.landlordInfo)
+      } else {
+        this.clearFormValues()
+      }
+    },
     onSelect () {
       this.file = this.$refs.landlordPicture.internalValue
       if (this.file) this.validUploadedFile(this.file.type)
@@ -370,7 +368,7 @@ export default {
         this.bankSwift = ''
         this.imageValue = []
         this.role = { roleText: 'Landlord', roleValue: 'landlord' }
-      }, 5)
+      }, 500)
     },
     async addLandlord () {
       const params = {
@@ -402,6 +400,9 @@ export default {
         throw new Error(e.message)
       }
     }
+  },
+  created () {
+    this.editForm()
   }
 }
 </script>

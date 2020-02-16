@@ -5,7 +5,7 @@
        class=" btn-text "
        color="primary"
        block
-       @click="openDialog()"
+       @click="openAddDialog()"
      >
        <v-icon left>mdi-plus</v-icon>
        Add landlord
@@ -57,16 +57,11 @@
        </v-list-item-group>
      </v-list>
    </section>
-
-   <v-dialog v-model="dialog">
-     <landlord-form @closeModal="closeModal" :edit="edit" :landlordInfo="landlordInfo"></landlord-form>
-   </v-dialog>
  </v-card>
 </template>
 
 <script>
 import InfiniteLoading from 'vue-infinite-loading'
-import LandlordForm from '@/components/landlords/LandlordForm'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -77,8 +72,7 @@ export default {
     }
   },
   components: {
-    InfiniteLoading,
-    LandlordForm
+    InfiniteLoading
   },
   data: () => ({
     infiniteId: +new Date(),
@@ -133,8 +127,8 @@ export default {
       this.selectedID = landlord.user_id
       this.setSelectedLandlord(landlord)
     },
-    openDialog () {
-      this.dialog = true
+    openAddDialog () {
+      this.$emit('openAddDialog', {})
     },
     closeModal (value) {
       this.dialog = value.openState
