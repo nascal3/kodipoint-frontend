@@ -3,8 +3,8 @@
     <v-row no-gutters>
       <v-col class="left-section" cols="12" md="2">
         <div class="picture-border d-flex justify-center align-center">
-          <v-avatar v-if="landlordInfo.name" color="primary">
-            <v-img :src="imageSource(landlordInfo.avatar, true)"></v-img>
+          <v-avatar v-if="tenantInfo.name" color="primary">
+            <v-img :src="imageSource(tenantInfo.avatar, true)"></v-img>
           </v-avatar>
         </div>
         <v-btn class="edit-fab-btn mx-2" @click="openEditDialog()" fab small>
@@ -13,9 +13,9 @@
       </v-col>
       <v-col class="right-section" cols="12" md="10">
         <div class="info-section d-flex flex-column justify-center align-start">
-          <div class="landlord-name">{{landlordInfo.name}}</div>
-          <div class="landlord-email">{{landlordInfo.email}}</div>
-          <div class="landlord-phone">{{landlordInfo.phone}}</div>
+          <div class="tenant-name">{{tenantInfo.name}}</div>
+          <div class="tenant-email">{{tenantInfo.email}}</div>
+          <div class="tenant-phone">{{tenantInfo.phone}}</div>
         </div>
       </v-col>
     </v-row>
@@ -26,26 +26,26 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'LandlordsDetails',
+  name: 'TenantsDetails',
   data: () => ({
     placeholderImage: require(`@/assets/images/avatar.jpg`),
-    landlordInfo: {}
+    tenantInfo: {}
   }),
   computed: {
-    ...mapGetters('landlord', {
+    ...mapGetters('tenants', {
       showLoader: 'showLoader',
       showErrorState: 'showErrorState',
-      landlordSelected: 'selectedLandlord'
+      selectedTenant: 'selectedTenant'
     })
   },
   watch: {
-    landlordSelected (newValue) {
-      this.landlordInfo = newValue
+    selectedTenant (newValue) {
+      this.tenantInfo = newValue
     }
   },
   methods: {
     openEditDialog () {
-      this.$emit('openEditDialog', this.landlordSelected)
+      this.$emit('openEditDialog', this.selectedTenant)
     },
     imageSource (imagePath) {
       if (!imagePath) return this.placeholderImage
@@ -54,11 +54,11 @@ export default {
     }
   },
   created () {
-    this.landlordInfo = this.landlordSelected
+    this.tenantInfo = this.selectedTenant
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  @import 'src/styles/layout/landlordsDetails';
+  @import 'src/styles/layout/tenantsDetails';
 </style>

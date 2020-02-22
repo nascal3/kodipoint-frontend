@@ -5,7 +5,7 @@
         <tenant-list class="landlord-list" @openAddDialog="openDialog" :reloadValue="changed" />
       </v-col>
       <v-col cols="12" sm="10" v-if="showSection">
-<!--        <landlord-details class="landlord-table-card" @openEditDialog="openDialog" />-->
+        <tenant-details class="landlord-table-card" @openEditDialog="openDialog" />
 <!--        <property-table :landlordSelected="landlordSelected"></property-table>-->
       </v-col>
     </v-row>
@@ -16,12 +16,35 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import TenantList from '@/components/tenants/TenantList'
+import TenantDetails from '@/components/tenants/TenantsDetails'
 
 export default {
   name: 'Tenants',
+  data: () => ({
+    changed: null,
+    dialog: false,
+    edit: false,
+    tenantInfo: {}
+  }),
   components: {
-    TenantList
+    TenantList,
+    TenantDetails
+  },
+  computed: {
+    ...mapGetters('tenants', {
+      tenantSelected: 'selectedTenant'
+    }),
+    showSection () {
+      console.log('BB', this.tenantSelected)
+      return Object.keys(this.tenantSelected).length
+    }
+  },
+  watch: {
+    tenantSelected (newValues) {
+      this.tenantInfo = newValues
+    }
   }
 }
 </script>

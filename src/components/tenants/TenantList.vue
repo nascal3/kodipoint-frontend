@@ -29,7 +29,7 @@
        <v-list-item-group color="primary">
          <v-list-item
            v-for="tenant in allTenants"
-           @click="getLandlord(tenant)"
+           @click="getTenant(tenant)"
            :key="tenant.id"
            :class="{'v-list-item--active': tenant.id === selectedTenant.id }"
          >
