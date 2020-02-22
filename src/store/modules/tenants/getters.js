@@ -45,7 +45,7 @@ const tenants = (state) => state.tenants
  * @param  {Object} state vuex state object
  * @return {Array} Contains searched tenants results
  */
-const tenantsSearchResults = (state) => state.tenantSearchResults
+const tenantSearchResults = (state) => state.tenantSearchResults
 
 /**
  * Retrieve the details of the tenant that is selected
@@ -58,7 +58,7 @@ const selectedTenant = (state) => state.selectedTenant
 export {
   tenants,
   showLoader,
-  tenantsSearchResults,
+  tenantSearchResults,
   showErrorState,
   userIdDuplicationError,
   noSearchResults,

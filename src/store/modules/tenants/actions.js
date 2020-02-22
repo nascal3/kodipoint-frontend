@@ -2,12 +2,12 @@ import { api } from '@/middleware/config'
 
 /**
  * Fetch all tenants
- * @method getAllTenants
+ * @method getTenants
  * @param  {Object} commit vuex mutations
  * @param  {Object} state of the vuex store
  * @param  {Object} payload values of page event
  */
-const getAllTenants = async ({ commit, state }, payload) => {
+const getTenants = async ({ commit, state }, payload) => {
   const limit = 100
   const offset = Object.keys(state.tenants).length > 0 ? state.tenants.length : 0
   const params = {
@@ -79,7 +79,7 @@ const searchTenants = ({ commit, dispatch }, payload) => {
 }
 
 /**
- * fetch all searched landlord results and set them in the state
+ * fetch all searched tenants results and set them in the state
  * @method fetchSearchTenants
  * @param  {Object} commit vuex mutations
  * @param  {Object} state of the vuex store
@@ -88,14 +88,14 @@ const searchTenants = ({ commit, dispatch }, payload) => {
  */
 // @ts-ignore
 const fetchSearchTenants = async ({ commit, state }, payload) => {
-  const url = `/api/landlords/search`
+  const url = `/api/tenants/search`
   const params = {
     'search_phrase': payload.trim()
   }
 
   try {
     const result = await api.post(url, params)
-    if (state.landlordSearchResults.length) { return }
+    if (state.tenantSearchResults.length) { return }
     if (result.data.results.length) {
       commit('UPDATE_NO_RESULTS', false)
       commit('TENANT_SEARCH_RESULTS', result.data.results)
@@ -104,7 +104,7 @@ const fetchSearchTenants = async ({ commit, state }, payload) => {
     commit('UPDATE_NO_RESULTS', true)
   } catch (error) {
     commit('SET_ERROR_STATE', true)
-    throw Error(error.message)
+    throw new Error(error)
   }
 }
 
@@ -128,7 +128,7 @@ const resetSelectedTenant = ({ commit }) => {
 }
 
 export {
-  getAllTenants,
+  getTenants,
   addNewTenant,
   searchTenants,
   fetchSearchTenants,

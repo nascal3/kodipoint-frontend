@@ -1,6 +1,6 @@
 <template>
  <v-card class="list-container">
-   <div class="add-landlord-btn-container d-flex justify-end align-center">
+   <div class="add-tenant-btn-container d-flex justify-end align-center">
      <v-btn
        class=" btn-text "
        color="primary"
@@ -8,38 +8,38 @@
        @click="openAddDialog()"
      >
        <v-icon left>mdi-plus</v-icon>
-       Add landlord
+       Add tenant
      </v-btn>
    </div>
    <section class="search-list">
     <v-row no-gutters>
-      <div class="search-landlord">
+      <div class="search-tenant">
         <v-text-field
-          v-model="searchLandlordName"
-          placeholder="Search landlord"
+          v-model="searchTenantName"
+          placeholder="Search tenant"
           prepend-icon="search"
-          @input="searchLandlord"
+          @input="searchTenant"
         ></v-text-field>
       </div>
     </v-row>
    </section>
 
-   <section class="landlord-item-list">
+   <section class="tenant-item-list">
      <v-list>
        <v-list-item-group color="primary">
          <v-list-item
-           v-for="landlord in allLandlords"
-           @click="getLandlord(landlord)"
-           :key="landlord.landlord_id"
-           :class="{'v-list-item--active': landlord.landlord_id === selectedLandlord.landlord_id }"
+           v-for="tenant in allTenants"
+           @click="getLandlord(tenant)"
+           :key="tenant.id"
+           :class="{'v-list-item--active': tenant.id === selectedTenant.id }"
          >
            <v-list-item-icon>
              <v-avatar color="primary">
-               <v-img :src="imageSource(landlord.avatar)"></v-img>
+               <v-img :src="imageSource(tenant.avatar)"></v-img>
              </v-avatar>
            </v-list-item-icon>
            <v-list-item-content>
-             <v-list-item-title v-text="landlord.name"></v-list-item-title>
+             <v-list-item-title v-text="tenant.name"></v-list-item-title>
            </v-list-item-content>
          </v-list-item>
          <v-list-item v-if="showErrorState">
@@ -52,7 +52,7 @@
          <infinite-loading
            v-if="hideLoadMessage && !showErrorState"
            :identifier="infiniteId"
-           @infinite="getAllLandlords"
+           @infinite="getAllTenants"
          ></infinite-loading>
        </v-list-item-group>
      </v-list>
@@ -65,7 +65,7 @@ import InfiniteLoading from 'vue-infinite-loading'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  name: 'LandlordList',
+  name: 'TenantList',
   props: {
     reloadValue: {
       type: Number
@@ -76,7 +76,7 @@ export default {
   },
   data: () => ({
     infiniteId: +new Date(),
-    searchLandlordName: '',
+    searchTenantName: '',
     dialog: false,
     edit: false,
     isSearching: false,
@@ -85,31 +85,31 @@ export default {
     selectedID: null
   }),
   computed: {
-    ...mapGetters('landlord', {
+    ...mapGetters('tenants', {
       showLoader: 'showLoader',
       showErrorState: 'showErrorState',
-      landlords: 'landlords',
-      landlordSearchResults: 'landlordSearchResults',
+      tenants: 'tenants',
+      tenantSearchResults: 'tenantSearchResults',
       noSearchResults: 'noSearchResults',
-      selectedLandlord: 'selectedLandlord'
+      selectedTenant: 'selectedTenant'
     }),
-    allLandlords () {
-      return this.searchLandlordName.length ? this.landlordSearchResults : this.landlords
+    allTenants () {
+      return this.searchTenantName.length ? this.tenantSearchResults : this.tenants
     },
     hideLoadMessage () {
-      return this.searchLandlordName.length <= 0
+      return this.searchTenantName.length <= 0
     },
     noSearchResultsFound () {
-      return this.searchLandlordName.length && !this.landlordSearchResults.length
+      return this.searchTenantName.length && !this.tenantSearchResults.length
     }
   },
   watch: {
     reloadValue (newVal) {
       if ((this.infiniteId !== newVal)) this.infiniteId += 1
     },
-    searchLandlordName (newValue) {
+    searchTenantName (newValue) {
       if (!newValue.length) {
-        this.$store.commit('landlord/RESET_LANDLORDS')
+        this.$store.commit('tenants/RESET_TENANTS')
       }
     },
     noSearchResults () {
@@ -117,14 +117,14 @@ export default {
     }
   },
   methods: {
-    ...mapActions('landlord', {
-      getLandlords: 'getLandlords',
-      searchLandlords: 'searchLandlords',
-      setSelectedLandlord: 'setSelectedLandlord'
+    ...mapActions('tenants', {
+      getTenants: 'getTenants',
+      searchTenants: 'searchTenants',
+      setSelectedTenant: 'setSelectedTenant'
     }),
-    getLandlord (landlord) {
-      this.selectedID = landlord.user_id
-      this.setSelectedLandlord(landlord)
+    getTenant (tenant) {
+      this.selectedID = tenant.id
+      this.setSelectedTenant(tenant)
     },
     openAddDialog () {
       this.$emit('openAddDialog', {})
@@ -133,28 +133,28 @@ export default {
       this.dialog = value.openState
       if (value.formSubmitted) this.infiniteId += 1
     },
-    getAllLandlords ($event) {
-      this.getLandlords({ ...$event })
+    getAllTenants ($event) {
+      this.getTenants({ ...$event })
     },
     imageSource (imagePath) {
       if (!imagePath) return this.placeholderImage
       const baseURL = process.env.BASE_URL
       return `${baseURL}/file${imagePath}`
     },
-    searchLandlord () {
-      const payload = this.searchLandlordName
+    searchTenant () {
+      const payload = this.searchTenantName
       if (payload.length) {
         this.isSearching = true
-        this.searchLandlords(payload)
+        this.searchTenants(payload)
       }
     }
   },
   beforeDestroy () {
-    this.$store.commit('landlord/RESET_LANDLORDS')
+    this.$store.commit('tenants/RESET_TENANTS')
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  @import 'src/styles/layout/landlordList';
+  @import 'src/styles/layout/tenantList';
 </style>
