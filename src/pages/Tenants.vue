@@ -1,11 +1,11 @@
 <template>
   <v-container fluid>
-    <v-row>
-      <v-col cols="12" sm="2">
-        <tenant-list class="landlord-list" @openAddDialog="openDialog" :reloadValue="changed" />
+    <v-row class="content">
+      <v-col class="list-area" cols="12" sm="2">
+        <tenant-list class="list" @openAddDialog="openDialog" :reloadValue="changed" />
       </v-col>
       <v-col cols="12" sm="10" v-if="showSection">
-        <tenant-details class="landlord-table-card" @openEditDialog="openDialog" />
+        <tenant-details class="table-card" @openEditDialog="openDialog" />
 <!--        <property-table :landlordSelected="landlordSelected"></property-table>-->
       </v-col>
     </v-row>
@@ -67,5 +67,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import 'src/styles/pages/tenants';
+  @import 'src/styles/components/defaultInfoPage';
 </style>

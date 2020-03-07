@@ -1,6 +1,6 @@
 <template>
  <v-card class="list-container">
-   <div class="add-landlord-btn-container d-flex justify-end align-center">
+   <div class="add-btn-container d-flex justify-end align-center">
      <v-btn
        class=" btn-text "
        color="primary"
@@ -13,7 +13,7 @@
    </div>
    <section class="search-list">
     <v-row no-gutters>
-      <div class="search-landlord">
+      <div class="search-item">
         <v-text-field
           v-model="searchLandlordName"
           placeholder="Search landlord"
@@ -24,7 +24,7 @@
     </v-row>
    </section>
 
-   <section class="landlord-item-list">
+   <section class="items-list">
      <v-list>
        <v-list-item-group color="primary">
          <v-list-item
@@ -156,5 +156,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import 'src/styles/layout/landlordList';
+  @import 'src/styles/components/sideBarItemList';
 </style>

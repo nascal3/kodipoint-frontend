@@ -1,5 +1,5 @@
 <template>
-  <v-card class="property-info-form" light>
+  <v-card class="modal-info-form" light>
     <v-card-title  class="heading">
       <div class="title">
         {{editForm ? 'Edit Property' : 'Add Property'}}
@@ -147,7 +147,7 @@
           <v-col cols="12" md="6" class="d-flex justify-center">
             <v-img
               v-if="edit"
-              class="modal-property-image"
+              class="modal-data-image"
               :src="imageSource"
             ></v-img>
           </v-col>
@@ -351,5 +351,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import 'src/styles/layout/propertyForm';
+  @import 'src/styles/components/modalForms';
 </style>
