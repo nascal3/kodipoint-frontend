@@ -13,9 +13,9 @@
       </v-col>
       <v-col class="right-section" cols="12" md="10">
         <div class="info-section d-flex flex-column justify-center align-start">
-          <div class="landlord-name">{{landlordInfo.name}}</div>
-          <div class="landlord-email">{{landlordInfo.email}}</div>
-          <div class="landlord-phone">{{landlordInfo.phone}}</div>
+          <div class="user-name">{{landlordInfo.name}}</div>
+          <div class="user-email">{{landlordInfo.email}}</div>
+          <div class="user-phone">{{landlordInfo.phone}}</div>
         </div>
       </v-col>
     </v-row>
@@ -60,5 +60,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import 'src/styles/layout/landlordsDetails';
+  @import 'src/styles/components/userDetailsBanner';
 </style>
