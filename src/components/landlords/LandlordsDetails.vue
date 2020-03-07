@@ -1,7 +1,7 @@
 <template>
   <v-card class="details-container">
     <v-row no-gutters>
-      <v-col class="left-section" cols="12" md="2">
+      <v-col class="left-section">
         <div class="picture-border d-flex justify-center align-center">
           <v-avatar v-if="landlordInfo.name" color="primary">
             <v-img :src="imageSource(landlordInfo.avatar)"></v-img>
@@ -11,7 +11,7 @@
           <v-icon color="primary">mdi-pencil</v-icon>
         </v-btn>
       </v-col>
-      <v-col class="right-section" cols="12" md="10">
+      <v-col class="right-section">
         <div class="info-section d-flex flex-column justify-center align-start">
           <div class="user-name">{{landlordInfo.name}}</div>
           <div class="user-email">{{landlordInfo.email}}</div>
