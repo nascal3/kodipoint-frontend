@@ -4,7 +4,7 @@
       <v-col class="left-section" cols="12" md="2">
         <div class="picture-border d-flex justify-center align-center">
           <v-avatar v-if="landlordInfo.name" color="primary">
-            <v-img :src="imageSource(landlordInfo.avatar, true)"></v-img>
+            <v-img :src="imageSource(landlordInfo.avatar)"></v-img>
           </v-avatar>
         </div>
         <v-btn class="edit-fab-btn mx-2" @click="openEditDialog()" fab small>

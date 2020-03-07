@@ -8,7 +8,7 @@
     </v-row>
 
     <v-row no-gutters>
-      <v-col cols="12" md="6">
+      <v-col class="search-section" cols="12" md="6">
         <div class="search-property">
           <v-text-field
               v-model="searchPropertyName"
@@ -18,7 +18,7 @@
           ></v-text-field>
         </div>
       </v-col>
-      <v-col cols="12" md="6">
+      <v-col class="add-button-section" cols="12" md="6">
         <div class="property-btn-container d-flex justify-end align-center">
           <v-btn
             class=" btn-text "

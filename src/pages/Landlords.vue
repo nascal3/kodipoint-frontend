@@ -1,10 +1,10 @@
 <template>
   <v-container fluid>
-    <v-row>
-      <v-col cols="12" sm="2">
+    <v-row class="content">
+      <v-col class="landlord-list-area" cols="12" sm="2">
         <landlord-list class="landlord-list" @openAddDialog="openDialog" :reloadValue="changed" />
       </v-col>
-      <v-col cols="12" sm="10" v-if="showSection">
+      <v-col class="landlord-info-area" cols="12" sm="10" v-if="showSection">
         <landlord-details class="landlord-table-card" @openEditDialog="openDialog" />
         <property-table :landlordSelected="landlordSelected"></property-table>
       </v-col>

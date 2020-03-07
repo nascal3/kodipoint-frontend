@@ -1,7 +1,9 @@
 // edit property form styles
 
 .property-container {
-  max-height: 77%;
+  position: fixed;
+  top: 23rem;
+  width: 73.5%;
 
   .v-card {
     &__title {
@@ -20,10 +22,12 @@
   }
 }
 
-
-.search-property {
-  margin: 1.2rem;
-  width: 40%;
+.search-section {
+  height: 8rem;
+  .search-property {
+    margin: 1.2rem;
+    width: 40%;
+  }
 }
 
 .landlord-info {
@@ -34,13 +38,16 @@
   }
 }
 
-.property-btn-container {
-  height: 9rem;
-  margin: 1.2rem;
+.add-button-section {
+  height: 8rem;
+  .property-btn-container {
+    margin: 1.2rem;
+  }
 }
 
+
 .v-data-table__wrapper {
-  max-height: 46rem;
+  max-height: 51rem;
 
   table {
     thead{

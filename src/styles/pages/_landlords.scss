@@ -1,9 +1,20 @@
 // styles for the landlords page
+.content {
+  height: 100vh;
 
-.landlord-table-card {
-  margin-bottom: 1.5rem;
-}
+  .landlord-list-area {
+    position: relative;
 
-.landlord-list {
-  position: fixed;
+    .landlord-list {
+      position: fixed;
+    }
+  }
+
+  .landlord-info-area {
+    position: relative;
+
+    .landlord-table-card {
+      margin-bottom: 1.5rem;
+    }
+  }
 }

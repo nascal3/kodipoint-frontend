@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pa-1">
+  <v-card class="property-info-form" light>
     <v-card-title  class="heading">
       <div class="title">
         {{editForm ? 'Edit Property' : 'Add Property'}}

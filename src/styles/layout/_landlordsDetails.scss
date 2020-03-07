@@ -1,34 +1,39 @@
 
 .details-container {
+  position: fixed;
   background-color: $white;
   padding: 1rem;
+  width: 73.5%;
 
   .left-section {
     position: relative;
+    height: 11rem;
     .picture-border {
       border: 2px dashed $kodi_orange;
-      height: 14.5rem;
-      width: 14.5rem;
+      height: 10.5rem;
+      width: 10.5rem;
       border-radius: 50%;
 
       .v-avatar {
-        height: 13rem !important;
-        min-width: 13rem !important;
-        width: 13rem !important;
+        height: 9rem !important;
+        min-width: 9rem !important;
+        width: 9rem !important;
       }
     }
 
     button.edit-fab-btn {
       position: absolute;
-      bottom: 5px;
-      left: 90px
+      bottom: 1.2rem;
+      left: 6.3rem;
+      width: 3.5rem;
+      height: 3.5rem;
     }
   }
 
   .right-section {
     .info-section {
       padding-left: 1rem;
-      height: 14.5rem;
+      height: 11rem;
 
       .landlord {
         &-name {
