@@ -2,11 +2,11 @@
   <v-container fluid>
     <v-row class="content">
       <v-col class="list-area" cols="12" sm="2">
-        <landlord-list class="list" @openAddDialog="openDialog" :reloadValue="changed" />
+        <landlord-list @openAddDialog="openDialog" :reloadValue="changed" />
       </v-col>
       <v-col class="info-area" cols="12" sm="10" v-if="showSection">
         <landlord-details class="table-card" @openEditDialog="openDialog" />
-        <property-table :landlordSelected="landlordSelected"></property-table>
+        <property-table :landlordSelected="landlordSelected" />
       </v-col>
     </v-row>
     <v-overlay light :value="dialog">

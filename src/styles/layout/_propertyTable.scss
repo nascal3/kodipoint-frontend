@@ -1,10 +1,11 @@
 // edit property form styles
-
-.property-container {
+.place-below-banner {
   position: fixed;
   top: 23rem;
   width: 73.5%;
+}
 
+.property-container {
   .v-card {
     &__title {
       margin-bottom: 2rem;

@@ -1,5 +1,5 @@
 <template>
-  <v-card class="landlord-info-form" light>
+  <v-card class="modal-info-form" light>
     <v-card-title class="heading">
       <div class="title">
         {{edit ? 'Edit Tenant' : 'Add Tenant'}}
@@ -212,7 +212,7 @@
             </transition>
           </v-col>
           <v-col cols="12" md="6" class="d-flex justify-center">
-            <v-avatar class="modal-landlord-image" color="primary">
+            <v-avatar class="modal-data-image" color="primary">
               <v-img
                 v-if="edit"
                 :src="imageSource"
@@ -408,5 +408,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import 'src/styles/layout/landlordForm';
+  @import 'src/styles/components/modalForms';
 </style>

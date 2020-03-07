@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row class="content">
       <v-col class="list-area" cols="12" sm="2">
-        <tenant-list class="list" @openAddDialog="openDialog" :reloadValue="changed" />
+        <tenant-list @openAddDialog="openDialog" :reloadValue="changed" />
       </v-col>
       <v-col cols="12" sm="10" v-if="showSection">
         <tenant-details class="table-card" @openEditDialog="openDialog" />

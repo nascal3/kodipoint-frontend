@@ -1,5 +1,5 @@
 <template>
-  <v-card class="property-container">
+  <v-card class="property-container" :class="{'place-below-banner': landlordPage === true }">
     <v-row no-gutters>
       <v-col cols="12" md="12">
         <v-card-title class="title">Properties</v-card-title>
@@ -218,7 +218,13 @@ export default {
         this.isSearching = true
         this.searchProperties(payload)
       }
+    },
+    landlordPage () {
+      return this.$router.currentRoute.name === 'landlords'
     }
+  },
+  created () {
+    this.landlordPage()
   },
   beforeDestroy () {
     this.$store.commit('property/RESET_PROPERTIES')
