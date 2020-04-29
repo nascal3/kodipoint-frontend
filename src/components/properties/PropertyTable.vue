@@ -121,7 +121,6 @@
     <v-dialog v-model="tenantDialog">
       <tenant-form
         @closeTenantModal="closeTenantModal"
-        :landlordInfo="landlordSelected"
       />
     </v-dialog>
   </v-card>

@@ -21,7 +21,7 @@ const showErrorState = (state) => state.errorState
  * @param  {Object} state vuex state object
  * @return {boolean} Contains the show error state
  */
-const userIdDuplicationError = (state) => state.userIdDuplicationError
+const tenantIdDuplicationError = (state) => state.tenantIdDuplicationError
 
 /**
  * Show no search results state
@@ -60,7 +60,7 @@ export {
   showLoader,
   tenantSearchResults,
   showErrorState,
-  userIdDuplicationError,
+  tenantIdDuplicationError,
   noSearchResults,
   selectedTenant
 }

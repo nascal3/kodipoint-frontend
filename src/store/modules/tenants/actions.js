@@ -46,7 +46,7 @@ const addNewTenant = async ({ commit, dispatch }, payload) => {
 
   commit('SHOW_LOADER', true)
   commit('auth/USER_DUPLICATION_ERROR', false, { root: true })
-  const url = data.edit ? '/api/landlords/profile/edit' : '/api/landlords/register'
+  const url = data.edit ? '/api/tenants/profile/edit' : '/api/tenants/register'
 
   try {
     const response = await api.post(url, payload)
@@ -58,9 +58,9 @@ const addNewTenant = async ({ commit, dispatch }, payload) => {
   } catch (err) {
     commit('SHOW_LOADER', false)
     if (err.response.status === 422) {
-      err.response.data.Error === 'The following Email/Username already exists!'
-        ? commit('auth/USER_DUPLICATION_ERROR', true, { root: true })
-        : commit('USER_ID_DUPLICATION_ERROR', true)
+      err.response.data.Error === 'The following national ID already exists!'
+        ? commit('TENANT_ID_DUPLICATION_ERROR', true)
+        : commit('auth/USER_DUPLICATION_ERROR', true, { root: true })
     }
     throw new Error(err)
   }

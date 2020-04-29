@@ -47,13 +47,13 @@ const SET_ERROR_STATE = (state, payload) => {
 }
 
 /**
- * Set error state of the user national ID/KRA Pin already exists/registered
+ * Set error state of the user national ID already exists/registered
  * @method TENANT_ID_DUPLICATION_ERROR
  * @param  {Object} state vuex state object
  * @param  {boolean} payload state of error
  */
 const TENANT_ID_DUPLICATION_ERROR = (state, payload) => {
-  state.userIdDuplicationError = payload
+  state.tenantIdDuplicationError = payload
 }
 
 /**
