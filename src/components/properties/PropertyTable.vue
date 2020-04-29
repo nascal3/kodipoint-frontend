@@ -23,10 +23,18 @@
           <v-btn
             class=" btn-text "
             color="secondary"
-            @click="openDialog()"
+            @click="openPropertyDialog()"
           >
             <v-icon left>mdi-plus</v-icon>
               Add property
+            </v-btn>
+          <v-btn
+            class="btn-text "
+            color="primary"
+            @click="openTenantDialog()"
+          >
+            <v-icon left>mdi-plus</v-icon>
+              Add tenant
             </v-btn>
         </div>
       </v-col>
@@ -102,14 +110,19 @@
       </template>
     </v-simple-table>
 
-    <v-dialog v-model="dialog">
+    <v-dialog v-model="propertyDialog">
       <property-form
-        @closeModal="closeModal"
+        @closePropertyModal="closePropertyModal"
         :edit="edit"
         :propertyInfo="propertyInfo"
         :landlordInfo="landlordSelected"
-      >
-      </property-form>
+      />
+    </v-dialog>
+    <v-dialog v-model="tenantDialog">
+      <tenant-form
+        @closeTenantModal="closeTenantModal"
+        :landlordInfo="landlordSelected"
+      />
     </v-dialog>
   </v-card>
 </template>
@@ -118,12 +131,14 @@
 import InfiniteLoading from 'vue-infinite-loading'
 import PropertyForm from '@/components/properties/PropertyForm'
 import { mapGetters, mapActions } from 'vuex'
+import TenantForm from '@/components/tenants/TenantForm'
 
 export default {
   name: 'EditProperty',
   components: {
     InfiniteLoading,
-    PropertyForm
+    PropertyForm,
+    TenantForm
   },
   props: {
     landlordSelected: {
@@ -134,7 +149,8 @@ export default {
     infiniteId: +new Date(),
     page: 1,
     searchPropertyName: '',
-    dialog: false,
+    propertyDialog: false,
+    tenantDialog: false,
     edit: false,
     isSearching: false,
     placeholderImage: require(`@/assets/images/noImage.jpg`),
@@ -179,7 +195,7 @@ export default {
       getProperties: 'getProperties',
       searchProperties: 'searchProperties'
     }),
-    openDialog (property) {
+    openPropertyDialog (property) {
       if (property) {
         this.edit = true
         this.propertyInfo = property
@@ -187,11 +203,17 @@ export default {
         this.edit = false
         this.propertyInfo = null
       }
-      this.dialog = true
+      this.propertyDialog = true
     },
-    closeModal (value) {
-      this.dialog = value.openState
+    openTenantDialog () {
+      this.tenantDialog = true
+    },
+    closePropertyModal (value) {
+      this.propertyDialog = value.openState
       if (value.formSubmitted) this.infiniteId += 1
+    },
+    closeTenantModal (value) {
+      this.tenantDialog = value.openState
     },
     servicesPills (property) {
       const serviceString = property.property_services

@@ -260,7 +260,7 @@ export default {
       type: Boolean,
       default: false
     },
-    tenantInfo: {
+    landlordInfo: {
       type: Object
     }
   },
@@ -331,7 +331,7 @@ export default {
         'openState': false,
         'formSubmitted': formSubmitted
       }
-      this.$emit('closeModal', payload)
+      this.$emit('closeTenantModal', payload)
     },
     async getUserInfo (userID) {
       await this.$store.dispatch('auth/singleUser', userID)

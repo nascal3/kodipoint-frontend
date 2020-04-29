@@ -278,7 +278,7 @@ export default {
         'openState': false,
         'formSubmitted': formSubmitted
       }
-      this.$emit('closeModal', payload)
+      this.$emit('closePropertyModal', payload)
     },
     updateFormValues (property) {
       this.btnColor = 'primary'
