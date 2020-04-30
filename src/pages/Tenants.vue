@@ -10,7 +10,7 @@
       </v-col>
     </v-row>
     <v-overlay light :value="dialog">
-      <tenant-form @closeModal="closeModal" :edit="edit" :tenant-info="tenantInfo" />
+      <tenant-form @closeTenantModal="closeModal" :edit="edit" :tenant-info="tenantInfo" />
     </v-overlay>
   </v-container>
 </template>
@@ -48,8 +48,8 @@ export default {
     }
   },
   methods: {
-    ...mapActions('landlord', {
-      resetSelectedLandlord: 'resetSelectedLandlord'
+    ...mapActions('tenants', {
+      resetSelectedTenant: 'resetSelectedTenant'
     }),
     openDialog (tenant) {
       this.edit = !!Object.keys(tenant).length
@@ -58,7 +58,7 @@ export default {
     closeModal (value) {
       this.dialog = value.openState
       if (value.formSubmitted) {
-        this.resetSelectedLandlord()
+        this.resetSelectedTenant()
         this.changed = +new Date()
       }
     }

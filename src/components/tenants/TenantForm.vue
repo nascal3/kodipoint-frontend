@@ -186,7 +186,7 @@ export default {
       tenantIdDuplicationError: ['tenants/tenantIdDuplicationError']
     }),
     imageSource () {
-      const imagePath = this.landlordInfo ? this.landlordInfo.avatar : null
+      const imagePath = this.tenantInfo ? this.tenantInfo.avatar : null
       if (!imagePath) return this.placeholderImage
       const baseURL = process.env.BASE_URL
       return `${baseURL}/file${imagePath}`
