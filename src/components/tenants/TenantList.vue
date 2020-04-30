@@ -139,6 +139,7 @@ export default {
     },
     closeTenantModal (value) {
       this.tenantDialog = value.openState
+      if (value.formSubmitted) this.infiniteId += 1
     },
     getAllTenants ($event) {
       this.getTenants({ ...$event })
