@@ -5,7 +5,7 @@
        class=" btn-text "
        color="primary"
        block
-       @click="openAddDialog()"
+       @click="openTenantDialog()"
      >
        <v-icon left>mdi-plus</v-icon>
        Add tenant
@@ -57,12 +57,19 @@
        </v-list-item-group>
      </v-list>
    </section>
+
+   <v-dialog v-model="tenantDialog">
+     <tenant-form
+       @closeTenantModal="closeTenantModal"
+     />
+   </v-dialog>
  </v-card>
 </template>
 
 <script>
 import InfiniteLoading from 'vue-infinite-loading'
 import { mapGetters, mapActions } from 'vuex'
+import TenantForm from '@/components/tenants/TenantForm'
 
 export default {
   name: 'TenantList',
@@ -72,12 +79,13 @@ export default {
     }
   },
   components: {
-    InfiniteLoading
+    InfiniteLoading,
+    TenantForm
   },
   data: () => ({
     infiniteId: +new Date(),
     searchTenantName: '',
-    dialog: false,
+    tenantDialog: false,
     edit: false,
     isSearching: false,
     placeholderImage: require(`@/assets/images/avatar.jpg`),
@@ -126,12 +134,11 @@ export default {
       this.selectedID = tenant.id
       this.setSelectedTenant(tenant)
     },
-    openAddDialog () {
-      this.$emit('openAddDialog', {})
+    openTenantDialog () {
+      this.tenantDialog = true
     },
-    closeModal (value) {
-      this.dialog = value.openState
-      if (value.formSubmitted) this.infiniteId += 1
+    closeTenantModal (value) {
+      this.tenantDialog = value.openState
     },
     getAllTenants ($event) {
       this.getTenants({ ...$event })

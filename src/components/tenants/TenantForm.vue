@@ -219,8 +219,8 @@ export default {
       this.$emit('closeTenantModal', payload)
     },
     resetFormErrors () {
-      this.$store.commit('SET_ERROR_STATE', false)
-      this.$store.commit('TENANT_ID_DUPLICATION_ERROR', false)
+      this.$store.commit('tenants/SET_ERROR_STATE', false)
+      this.$store.commit('tenants/TENANT_ID_DUPLICATION_ERROR', false)
     },
     async getUserInfo (userID) {
       await this.$store.dispatch('auth/singleUser', userID)

@@ -28,14 +28,6 @@
             <v-icon left>mdi-plus</v-icon>
               Add property
             </v-btn>
-          <v-btn
-            class="btn-text "
-            color="primary"
-            @click="openTenantDialog()"
-          >
-            <v-icon left>mdi-plus</v-icon>
-              Add tenant
-            </v-btn>
         </div>
       </v-col>
     </v-row>
@@ -118,11 +110,6 @@
         :landlordInfo="landlordSelected"
       />
     </v-dialog>
-    <v-dialog v-model="tenantDialog">
-      <tenant-form
-        @closeTenantModal="closeTenantModal"
-      />
-    </v-dialog>
   </v-card>
 </template>
 
@@ -130,14 +117,12 @@
 import InfiniteLoading from 'vue-infinite-loading'
 import PropertyForm from '@/components/properties/PropertyForm'
 import { mapGetters, mapActions } from 'vuex'
-import TenantForm from '@/components/tenants/TenantForm'
 
 export default {
   name: 'EditProperty',
   components: {
     InfiniteLoading,
-    PropertyForm,
-    TenantForm
+    PropertyForm
   },
   props: {
     landlordSelected: {
@@ -149,7 +134,6 @@ export default {
     page: 1,
     searchPropertyName: '',
     propertyDialog: false,
-    tenantDialog: false,
     edit: false,
     isSearching: false,
     placeholderImage: require(`@/assets/images/noImage.jpg`),
@@ -204,15 +188,9 @@ export default {
       }
       this.propertyDialog = true
     },
-    openTenantDialog () {
-      this.tenantDialog = true
-    },
     closePropertyModal (value) {
       this.propertyDialog = value.openState
       if (value.formSubmitted) this.infiniteId += 1
-    },
-    closeTenantModal (value) {
-      this.tenantDialog = value.openState
     },
     servicesPills (property) {
       const serviceString = property.property_services
