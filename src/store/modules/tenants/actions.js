@@ -1,4 +1,5 @@
 import { api } from '@/middleware/config'
+import store from '@/store'
 
 /**
  * Fetch all tenants
@@ -10,11 +11,15 @@ import { api } from '@/middleware/config'
 const getTenants = async ({ commit, state }, payload) => {
   const limit = 100
   const offset = Object.keys(state.tenants).length > 0 ? state.tenants.length : 0
+  const token = store.getters['auth/token']
+  const url = token.user.role === 'landlord' || token.user.role === 'landlord/tenant'
+    ? '/api/tenants/landlord'
+    : '/api/tenants/all'
+
   const params = {
     limit,
     offset
   }
-  const url = `/api/tenants/all`
   commit('SET_ERROR_STATE', false)
 
   try {
@@ -79,14 +84,13 @@ const searchTenants = ({ commit, dispatch }, payload) => {
 }
 
 /**
- * fetch all searched tenants results and set them in the state
+ * Fetch all searched tenants results and set them in the state
  * @method fetchSearchTenants
  * @param  {Object} commit vuex mutations
  * @param  {Object} state of the vuex store
  * @param  {Object} payload containing search term of tenant to be searched
  * @return {Promise}
  */
-// @ts-ignore
 const fetchSearchTenants = async ({ commit, state }, payload) => {
   const url = `/api/tenants/search`
   const params = {
