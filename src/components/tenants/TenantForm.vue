@@ -215,7 +215,12 @@ export default {
         'openState': false,
         'formSubmitted': formSubmitted
       }
+      this.resetFormErrors()
       this.$emit('closeTenantModal', payload)
+    },
+    resetFormErrors () {
+      this.$store.commit('SET_ERROR_STATE', false)
+      this.$store.commit('TENANT_ID_DUPLICATION_ERROR', false)
     },
     async getUserInfo (userID) {
       await this.$store.dispatch('auth/singleUser', userID)
