@@ -92,17 +92,20 @@ const searchTenants = ({ commit, dispatch }, payload) => {
  * @return {Promise}
  */
 const fetchSearchTenants = async ({ commit, state }, payload) => {
-  const url = `/api/tenants/search`
+  const token = store.getters['auth/token']
+  const url = token.user.role === 'landlord' || token.user.role === 'landlord/tenant'
+    ? '/api/tenants/landlord/search'
+    : '/api/tenants/search'
   const params = {
     'search_phrase': payload.trim()
   }
 
   try {
-    const result = await api.post(url, params)
+    const data = await api.post(url, params)
     if (state.tenantSearchResults.length) { return }
-    if (result.data.results.length) {
+    if (data.data.result.length) {
       commit('UPDATE_NO_RESULTS', false)
-      commit('TENANT_SEARCH_RESULTS', result.data.results)
+      commit('TENANT_SEARCH_RESULTS', data.data.result)
       return
     }
     commit('UPDATE_NO_RESULTS', true)

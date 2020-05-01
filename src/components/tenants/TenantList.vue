@@ -42,6 +42,13 @@
              <v-list-item-title v-text="tenant.name"></v-list-item-title>
            </v-list-item-content>
          </v-list-item>
+         <v-list-item v-if="noSearchResultsFound">
+           <v-list-item-content>
+             <v-list-item-title class="text--disabled">
+               {{ isSearching ? 'Searching tenant...' : 'No results found' }}
+             </v-list-item-title>
+           </v-list-item-content>
+         </v-list-item>
          <v-list-item v-if="showErrorState">
            <v-list-item-content>
              <v-list-item-title class="text--disabled">
