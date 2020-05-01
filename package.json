@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "vue-cli-service build",
     "build-prod": "webpack --mode production --config webpack.config.js",
     "bundle-report": "webpack --profile --json > stats.json && webpack-bundle-analyzer ./stats.json dist/",
     "dev": "webpack-dev-server --inline --progress --hide-modules --config build/webpack.config.dev.js --watch",
