@@ -5,16 +5,20 @@ import { api } from '@/middleware/config'
  * @method getLandlords
  * @param  {Object} commit vuex mutations
  * @param  {Object} state of the vuex store
- * @param  {Object} payload values of name and national ID
+ * @param  {Object} payload values of page event
  */
 const getLandlords = async ({ commit, state }, payload) => {
   const limit = 100
-  const pageNum = payload ? payload.page : 1
-  const url = `/api/landlords/${pageNum}`
+  const offset = Object.keys(state.landlords).length > 0 ? state.landlords.length : 0
+  const params = {
+    limit,
+    offset
+  }
+  const url = `/api/landlords/all`
   commit('SET_ERROR_STATE', false)
 
   try {
-    const response = await api.get(url)
+    const response = await api.get(url, params)
     const data = response.data.result
     if (response.status === 200) {
       response.data.result = state.landlords.length === 0 ? data : [...state.landlords, ...data]
@@ -50,7 +54,7 @@ const addNewLandlord = async ({ commit, dispatch }, payload) => {
     if (response.status === 200) {
       commit('RESET_LANDLORDS')
       commit('SHOW_LOADER', false)
-      return response.data.success_code
+      return response.data
     }
   } catch (err) {
     commit('SHOW_LOADER', false)
@@ -66,8 +70,8 @@ const addNewLandlord = async ({ commit, dispatch }, payload) => {
 /**
  * Starts search of landlords
  * @method searchLandlords
- * @param  {Object} Object vuex context object
- * @param {*} payload search terms
+ * @param  {Object} commit vuex mutations
+ * @param {Object} payload search terms
  */
 const searchLandlords = ({ commit, dispatch }, payload) => {
   commit('RESET_SEARCH_LANDLORDS')
@@ -105,9 +109,30 @@ const fetchSearchLandlords = async ({ commit, state }, payload) => {
   }
 }
 
+/**
+ * Sets details of the landlord that has been selected
+ * @method setSelectedLandlord
+ * @param  {Object} commit vuex mutations
+ * @param {Object} payload contains landlord details
+ */
+const setSelectedLandlord = ({ commit }, payload) => {
+  commit('SET_SELECTED_LANDLORD', payload)
+}
+
+/**
+ * Removes details of the landlord that has been selected
+ * @method resetSelectedLandlord
+ * @param  {Object} commit vuex mutations
+ */
+const resetSelectedLandlord = ({ commit }) => {
+  commit('RESET_SELECTED_LANDLORD')
+}
+
 export {
   getLandlords,
   addNewLandlord,
   searchLandlords,
-  fetchSearchLandlords
+  fetchSearchLandlords,
+  setSelectedLandlord,
+  resetSelectedLandlord
 }

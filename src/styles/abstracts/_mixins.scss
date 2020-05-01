@@ -30,13 +30,12 @@
 
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    //background: #7b7b7b;
-    background: $primary;
+    background: $scroller-grey;
     border-radius: 1rem;
   }
 
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
-    background: $primary;
+    background: $scroller-grey;
   }
 }

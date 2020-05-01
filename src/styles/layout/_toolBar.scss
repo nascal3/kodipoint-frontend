@@ -6,6 +6,19 @@
   //box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.12);
   z-index: 3;
 
+  .toolbar-logo {
+    max-width: 6rem;
+    margin-left: 1rem;
+  }
+
+  .page-name {
+    color: $kodi_green;
+    font-size: 4rem;
+    font-weight: 300;
+    margin-left: 20%;
+    text-transform: capitalize;
+  }
+
   .user-avatar {
     margin-right: 1.5rem;
     .v-avatar {

@@ -8,17 +8,26 @@
 @import 'base/typography';
 
 @import 'components/buttons';
+@import 'components/defaultInfoPage';
+@import 'components/modalForms';
+@import 'components/sideBarItemList';
+@import 'components/userDetailsBanner';
 @import 'components/table';
 
 @import 'layout/propertyForm';
 @import 'layout/propertyTable';
+@import 'layout/tenantList';
+@import 'layout/tenantsDetails';
 @import 'layout/footer';
 @import 'layout/landlordForm';
-@import 'layout/landlordsTable';
+@import 'layout/landlordList';
+@import 'layout/landlordsDetails';
+@import 'layout/loginForm';
 @import 'layout/header';
 @import 'layout/navigation';
 @import 'layout/toolBar';
 
 @import 'pages/landlords';
 @import 'pages/properties';
+@import 'pages/tenants';
 @import 'pages/login';

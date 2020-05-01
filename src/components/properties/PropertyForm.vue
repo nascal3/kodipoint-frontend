@@ -1,14 +1,14 @@
 <template>
-  <v-card class="pa-1">
-    <section class="header-section">
-      <v-card-title class="card-title">
+  <v-card class="modal-info-form" light>
+    <v-card-title  class="heading">
+      <div class="title">
         {{editForm ? 'Edit Property' : 'Add Property'}}
-      </v-card-title>
+      </div>
       <v-icon class="close-icon" color="primary" @click="closeForm(false)">
         mdi-close
       </v-icon>
-    </section>
-    <v-card-text>
+    </v-card-title>
+    <v-card-text class="content">
       <v-form enctype="multipart/form-data" v-model="valid" @submit.prevent="addProperty">
         <v-row>
           <v-col cols="12" md="6">
@@ -147,7 +147,7 @@
           <v-col cols="12" md="6" class="d-flex justify-center">
             <v-img
               v-if="edit"
-              class="modal-property-image"
+              class="modal-data-image"
               :src="imageSource"
             ></v-img>
           </v-col>
@@ -278,7 +278,7 @@ export default {
         'openState': false,
         'formSubmitted': formSubmitted
       }
-      this.$emit('closeModal', payload)
+      this.$emit('closePropertyModal', payload)
     },
     updateFormValues (property) {
       this.btnColor = 'primary'
@@ -351,5 +351,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import 'src/styles/layout/propertyForm';
+  @import 'src/styles/components/modalForms';
 </style>

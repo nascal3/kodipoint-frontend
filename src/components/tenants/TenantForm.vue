@@ -2,35 +2,27 @@
   <v-card class="modal-info-form" light>
     <v-card-title class="heading">
       <div class="title">
-        {{edit ? 'Edit Landlord' : 'Add landlord'}}
+        {{edit ? 'Edit Tenant' : 'Add Tenant'}}
       </div>
       <v-icon class="close-icon" color="primary" @click="closeForm(false)">
         mdi-close
       </v-icon>
-      <v-progress-linear
-        v-if="!userInfoLoaded && edit"
-        indeterminate
-        color="primary"
-      ></v-progress-linear>
     </v-card-title>
     <v-card-text class="content">
-      <div class="display-1 d-flex justify-center align-center" v-if="!userInfoLoaded && edit">
-        Loading data ...
-      </div>
-      <v-form enctype="multipart/form-data" v-model="valid" @submit.prevent="addLandlord">
+      <v-form enctype="multipart/form-data" v-model="valid" @submit.prevent="addTenant">
         <div class="section-title">Personal information</div>
         <v-row>
           <v-col cols="12" md="6">
             <v-text-field
-                v-model="landlordName"
-                label="Landlord name*"
+                v-model="tenantName"
+                label="Tenant name*"
                 v-validate="'required'"
-                name="landlordName"
-                :error="errors.has('landlordName')"
+                name="tenantName"
+                :error="errors.has('tenantName')"
             ></v-text-field>
             <transition name="fade">
-              <span class="input-error" v-if="errors.has('landlordName')">
-                Please enter landlords' name
+              <span class="input-error" v-if="errors.has('tenantName')">
+                Please enter tenants' name
               </span>
             </transition>
           </v-col>
@@ -49,8 +41,8 @@
             </span>
             </transition>
             <transition name="fade">
-              <span class="input-error" v-if="userIdDuplicationError">
-                The following national ID or KRA Pin may already be registered
+              <span class="input-error" v-if="tenantIdDuplicationError">
+                The following national ID is already registered
               </span>
             </transition>
           </v-col>
@@ -94,106 +86,8 @@
         </v-row>
         <v-row>
           <v-col cols="12" md="6">
-            <v-select
-              v-model="role"
-              :items="roles"
-              item-text="text"
-              item-value="value"
-              label="Role Type"
-              class="roleSelector"
-            ></v-select>
-          </v-col>
-        </v-row>
-        <div class="section-title">Financial information</div>
-        <v-row>
-          <v-col cols="12" md="6">
-            <v-text-field
-              v-model="kraPIN"
-              label="KRA Pin*"
-              v-validate="'required'"
-              name="kraPIN"
-              :error="errors.has('kraPIN')"
-            ></v-text-field>
-            <transition name="fade">
-              <span class="input-error" v-if="errors.has('kraPIN')">
-                Please enter landlords' KRA Pin
-              </span>
-            </transition>
-            <transition name="fade">
-              <span class="input-error" v-if="userIdDuplicationError">
-                The following KRA Pin or national ID may already be registered
-              </span>
-            </transition>
-          </v-col>
-          <v-col cols="12" md="6">
-            <v-text-field
-              v-model="bankName"
-              label="Bank name*"
-              v-validate="'required'"
-              name="bankName"
-              data-vv-as="bank name"
-              :error="errors.has('bankName')"
-            ></v-text-field>
-            <transition name="fade">
-            <span class="input-error" v-if="errors.has('bankName')">
-              {{ errors.first('bankName') }}
-            </span>
-            </transition>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" md="6">
-            <v-text-field
-              v-model="bankBranch"
-              label="Bank branch*"
-              v-validate="'required'"
-              name="bankBranch"
-              data-vv-as="bank branch"
-              :error="errors.has('bankBranch')"
-            ></v-text-field>
-            <transition name="fade">
-              <span class="input-error" v-if="errors.has('bankBranch')">
-                {{ errors.first('bankBranch') }}
-              </span>
-            </transition>
-          </v-col>
-          <v-col cols="12" md="6">
-            <v-text-field
-              v-model="bankAcc"
-              label="Bank account number*"
-              v-validate="'required'"
-              name="bankAcc"
-              data-vv-as="bank account number"
-              :error="errors.has('bankAcc')"
-            ></v-text-field>
-            <transition name="fade">
-              <span class="input-error" v-if="errors.has('bankAcc')">
-                {{ errors.first('bankAcc') }}
-              </span>
-            </transition>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" md="6">
-            <v-text-field
-              v-model="bankSwift"
-              label="Bank SWIFT Code*"
-              v-validate="'required'"
-              name="bankSwift"
-              data-vv-as="bank SWIFT Code"
-              :error="errors.has('bankSwift')"
-            ></v-text-field>
-            <transition name="fade">
-              <span class="input-error" v-if="errors.has('bankSwift')">
-                {{ errors.first('bankSwift') }}
-              </span>
-            </transition>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" md="6">
             <v-file-input
-                ref="landlordPicture"
+                ref="tenantPicture"
                 prepend-icon="mdi-camera"
                 :value=imageValue
                 :rules="UploadImageRules"
@@ -201,7 +95,7 @@
                 chips
                 show-size
                 accept="image/*"
-                label="Upload landlord picture"
+                label="Upload tenant picture"
                 @change="onSelect"
             >
             </v-file-input>
@@ -230,7 +124,7 @@
               block
               :color="btnColor"
             >
-              {{ edit ? 'Save Changes' : 'Add Landlord'}}
+              {{ edit ? 'Save Changes' : 'Add Tenant'}}
             </v-btn>
           </v-col>
           <v-col cols="12" md="6">
@@ -254,34 +148,28 @@
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
-  name: 'AddProperty',
+  name: 'TenantForm',
   props: {
     edit: {
       type: Boolean,
       default: false
     },
-    landlordInfo: {
+    tenantInfo: {
       type: Object
     }
   },
   data: () => ({
     valid: false,
-    landlordName: '',
+    tenantName: '',
     phone: '',
     email: '',
     nationalID: '',
-    kraPIN: '',
-    bankName: '',
-    bankBranch: '',
-    bankAcc: '',
-    bankSwift: '',
     file: '',
     userID: '',
     imageValue: [],
     validFile: true,
     placeholderImage: require(`@/assets/images/avatar.jpg`),
     btnColor: 'secondary',
-    role: { text: 'Landlord', value: 'landlord' },
     roles: [
       { text: 'Landlord', value: 'landlord' },
       { text: 'Landlord/Tenant', value: 'landlord/tenant' }
@@ -292,35 +180,31 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      showLoader: ['property/showLoader'],
-      showErrorState: ['property/showErrorState'],
-      landlordUserInfo: ['auth/singleUser'],
+      showLoader: ['tenants/showLoader'],
+      showErrorState: ['tenants/showErrorState'],
       userDuplicationError: ['auth/userDuplicationError'],
-      userIdDuplicationError: ['landlord/userIdDuplicationError']
+      tenantIdDuplicationError: ['tenants/tenantIdDuplicationError']
     }),
     imageSource () {
-      const imagePath = this.landlordInfo ? this.landlordInfo.avatar : null
+      const imagePath = this.tenantInfo ? this.tenantInfo.avatar : null
       if (!imagePath) return this.placeholderImage
       const baseURL = process.env.BASE_URL
       return `${baseURL}/file${imagePath}`
-    },
-    userInfoLoaded () {
-      return Object.keys(this.landlordUserInfo).length
     }
   },
   methods: {
-    ...mapActions('landlord', {
-      addNewLandlord: 'addNewLandlord'
+    ...mapActions('tenants', {
+      addNewTenant: 'addNewTenant'
     }),
     editForm () {
-      if (this.edit && Object.keys(this.landlordInfo).length) {
-        this.updateFormValues(this.landlordInfo)
+      if (this.edit && Object.keys(this.tenantInfo).length) {
+        this.updateFormValues(this.tenantInfo)
       } else {
         this.clearFormValues()
       }
     },
     onSelect () {
-      this.file = this.$refs.landlordPicture.internalValue
+      this.file = this.$refs.tenantPicture.internalValue
       if (this.file) this.validUploadedFile(this.file.type)
     },
     validUploadedFile (fileType) {
@@ -331,58 +215,42 @@ export default {
         'openState': false,
         'formSubmitted': formSubmitted
       }
-      this.$emit('closeModal', payload)
+      this.resetFormErrors()
+      this.$emit('closeTenantModal', payload)
+    },
+    resetFormErrors () {
+      this.$store.commit('tenants/SET_ERROR_STATE', false)
+      this.$store.commit('tenants/TENANT_ID_DUPLICATION_ERROR', false)
     },
     async getUserInfo (userID) {
       await this.$store.dispatch('auth/singleUser', userID)
     },
-    async updateFormValues (landlord) {
+    async updateFormValues (tenant) {
       this.btnColor = 'primary'
-      this.userID = landlord.user_id
+      this.userID = tenant.user_id
       await this.getUserInfo(this.userID)
-      this.landlordName = landlord.name
-      this.phone = landlord.phone
-      this.email = landlord.email
-      this.nationalID = landlord.national_id
-      this.kraPIN = landlord.kra_pin
-      this.bankName = landlord.bank_name
-      this.bankBranch = landlord.bank_branch
-      this.bankAcc = landlord.bank_acc
-      this.bankSwift = landlord.bank_swift
-      this.role = {
-        text: this.landlordUserInfo.role === 'landlord' ? 'Landlord' : 'Landlord/Tenant',
-        value: this.landlordUserInfo.role
-      }
+      this.tenantName = tenant.name
+      this.phone = tenant.phone
+      this.email = tenant.email
+      this.nationalID = tenant.national_id
     },
     async clearFormValues () {
       this.btnColor = 'secondary'
       await setTimeout(() => {
-        this.landlordName = ''
+        this.tenantName = ''
         this.phone = ''
         this.email = ''
         this.nationalID = ''
-        this.kraPIN = ''
-        this.bankName = ''
-        this.bankBranch = ''
-        this.bankAcc = ''
-        this.bankSwift = ''
         this.imageValue = []
-        this.role = { roleText: 'Landlord', roleValue: 'landlord' }
       }, 500)
     },
-    async addLandlord () {
+    async addTenant () {
       const params = {
         'user_id': this.userID,
-        'name': this.landlordName,
-        'role': this.role.value || this.role,
+        'name': this.tenantName,
         'national_id': this.nationalID,
         'phone': this.phone,
         'email': this.email,
-        'kra_pin': this.kraPIN,
-        'bank_name': this.bankName,
-        'bank_branch': this.bankBranch,
-        'bank_acc': this.bankAcc,
-        'bank_swift': this.bankSwift,
         'edit': this.edit
       }
       try {
@@ -391,7 +259,7 @@ export default {
         const formData = new FormData()
         formData.append('file', this.file)
         formData.append('json', JSON.stringify(params))
-        const success = await this.addNewLandlord(formData)
+        const success = await this.addNewTenant(formData)
         if (success) {
           this.clearFormValues()
           this.closeForm(success)

@@ -1,24 +1,14 @@
 <template>
-  <v-card>
+  <v-card class="property-container" :class="{'place-below-banner': landlordPage === true }">
     <v-row no-gutters>
-      <v-col cols="12" md="6">
-        <v-card-title class="card-title">Properties</v-card-title>
-        <v-card-subtitle class="card-subtitle">View/Edit properties</v-card-subtitle>
-      </v-col>
-      <v-col v-if="landlordSelected" cols="12" md="6">
-        <div class="landlord-info d-flex align-center justify-end">
-          <span class="landlord-avatar">
-            <v-avatar v-if="landlordSelected.name" color="primary">
-              <v-img :src="imageSource(landlordSelected.avatar, true)"></v-img>
-            </v-avatar>
-          </span>
-          <span class="landlord-name">{{landlordSelected.name}}</span>
-        </div>
+      <v-col cols="12" md="12">
+        <v-card-title class="title">Properties</v-card-title>
+        <v-card-subtitle class="subtitle">View/Edit properties</v-card-subtitle>
       </v-col>
     </v-row>
 
     <v-row no-gutters>
-      <v-col cols="12" md="6">
+      <v-col class="search-section" cols="12" md="6">
         <div class="search-property">
           <v-text-field
               v-model="searchPropertyName"
@@ -28,12 +18,12 @@
           ></v-text-field>
         </div>
       </v-col>
-      <v-col cols="12" md="6">
+      <v-col class="add-button-section" cols="12" md="6">
         <div class="property-btn-container d-flex justify-end align-center">
           <v-btn
             class=" btn-text "
             color="secondary"
-            @click="openDialog()"
+            @click="openPropertyDialog()"
           >
             <v-icon left>mdi-plus</v-icon>
               Add property
@@ -112,14 +102,13 @@
       </template>
     </v-simple-table>
 
-    <v-dialog v-model="dialog">
+    <v-dialog v-model="propertyDialog">
       <property-form
-        @closeModal="closeModal"
+        @closePropertyModal="closePropertyModal"
         :edit="edit"
         :propertyInfo="propertyInfo"
         :landlordInfo="landlordSelected"
-      >
-      </property-form>
+      />
     </v-dialog>
   </v-card>
 </template>
@@ -144,7 +133,7 @@ export default {
     infiniteId: +new Date(),
     page: 1,
     searchPropertyName: '',
-    dialog: false,
+    propertyDialog: false,
     edit: false,
     isSearching: false,
     placeholderImage: require(`@/assets/images/noImage.jpg`),
@@ -189,7 +178,7 @@ export default {
       getProperties: 'getProperties',
       searchProperties: 'searchProperties'
     }),
-    openDialog (property) {
+    openPropertyDialog (property) {
       if (property) {
         this.edit = true
         this.propertyInfo = property
@@ -197,10 +186,10 @@ export default {
         this.edit = false
         this.propertyInfo = null
       }
-      this.dialog = true
+      this.propertyDialog = true
     },
-    closeModal (value) {
-      this.dialog = value.openState
+    closePropertyModal (value) {
+      this.propertyDialog = value.openState
       if (value.formSubmitted) this.infiniteId += 1
     },
     servicesPills (property) {
@@ -209,7 +198,6 @@ export default {
     },
     getAllProperties ($event) {
       const payload = {
-        page: this.page,
         user_id: this.landlordSelected ? this.landlordSelected.user_id : 0
       }
       this.getProperties({ ...$event, ...payload })
@@ -229,7 +217,13 @@ export default {
         this.isSearching = true
         this.searchProperties(payload)
       }
+    },
+    landlordPage () {
+      return this.$router.currentRoute.name === 'landlords'
     }
+  },
+  created () {
+    this.landlordPage()
   },
   beforeDestroy () {
     this.$store.commit('property/RESET_PROPERTIES')

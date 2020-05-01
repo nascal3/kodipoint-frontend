@@ -5,15 +5,20 @@ import { api } from '@/middleware/config'
  * @method getProperties
  * @param  {Object} commit vuex mutations
  * @param  {Object} state of the vuex store
- * @param  {Object} payload values of email and password
+ * @param  {Object} payload values of page event
  */
 const getProperties = async ({ commit, state }, payload) => {
   const limit = 100
-  const pageNum = payload ? payload.page : 1
-  const url = `/api/properties/landlord/${pageNum}`
+  const offset = Object.keys(state.properties).length > 0 ? state.properties.length : 0
+  const params = {
+    limit,
+    offset,
+    user_id: payload.user_id
+  }
+  const url = `/api/properties/landlord`
 
   try {
-    const response = await api.post(url, payload)
+    const response = await api.post(url, params)
     const data = response.data.result
     if (response.status === 200) {
       response.data.result = state.properties.length === 0 ? data : [...state.properties, ...data]

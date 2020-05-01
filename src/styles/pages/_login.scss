@@ -2,125 +2,66 @@
 
 .login {
 
-  .v-responsive.v-image {
-    &:before {
-      content: "";
-      background-image: linear-gradient(to bottom right, $black ,$kodi_green , $kodi_orange);
-      width: 100%;
-      height: 100%;
-      opacity: .9;
+  &-info-container {
+    .v-image {
+      &:before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        content: "";
+        background-image: linear-gradient(to bottom right, $kodi_orange, $black ,$kodi_green );
+        width: 100%;
+        height: 100%;
+        opacity: .9;
+      }
+      &.login-bg {
+        height: 100vh;
+      }
     }
-  }
-
-  &-bg {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: 100%;
-  }
-
-  &-body {
-    height: 100vh;
   }
 
   &-form-container {
-    width: 80rem;
-    min-height: 50rem;
-    opacity: .7;
+    background-color: $white;
+    z-index: 1;
   }
 
-  &-left-section {
-    height: 500px;
+  .form {
+    &-section {
+      &-logo {
+        margin-top: 5rem;
 
-    .login-logo {
-      max-width: 50%;
-    }
-  }
-
-  &-right-section {
-    height: 500px;
-    display: flex;
-    flex-direction: column;
-    padding: 0 6rem;
-
-    .form-header {
-      font-size: 4.5rem;
-      font-weight: 300;
-      text-transform: uppercase;
-      margin-bottom: 1.5rem;
-      color: $kodi_orange;
-    }
-
-    .login-error {
-      color: $error;
-      font-size: 1.4rem;
-      margin-top: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    .input-error {
-      position: relative;
-      font-size: 1.2rem;
-      color: $error;
-      bottom: 2rem;
-    }
-
-    form {
-      width: 100%;
-
-      .reset-password {
-        display: block;
-        position: relative;
-        cursor: pointer;
-        font-size: 1.2rem;
-        color: $kodi_green;
-
-        span {
-          position: absolute;
-          right: 0;
+        .login-logo {
+          max-width: 25%;
         }
       }
+    }
 
-      .login-btn {
-        position: relative;
-        top: 2.6rem;
-        font-size: 1.6rem;
+    &-container {
+      margin-top: 10rem;
+      min-height: 34rem;
+
+      &-header {
+        font-size: 4.5rem;
         font-weight: 300;
+        color: $kodi_orange;
+      }
+      &-subheader {
+        font-size: 1.5rem;
+        font-style: italic;
+        font-weight: 300;
+        margin-bottom: 1.5rem;
+        color: $accent;
       }
 
-      .v-card {
-        min-width: 3.33rem;
-        border-radius: 8px;
-
-        &__title {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 2rem;
-          font-weight: 600;
+      &-tabs {
+        width: 80%;
+        .v-tab {
+          font-size: 1.3rem;
         }
+      }
 
-        &__text {
-          text-align: center;
-          font-size: 1.4rem;
-          color: $black;
-          line-height: 2rem;
-          letter-spacing: normal;
-
-          span {
-            color: $kodi_green;
-          }
-        }
-
-        &__actions {
-          display: flex;
-          justify-content: flex-end;
-          padding: 8px 20px 17px 8px;
-
-          .modal-btn {
-            width: 6.7rem;
-          }
-        }
+      .v-tabs-items {
+        width: 80%;
       }
     }
   }

@@ -1,11 +1,11 @@
 const state = {
-  landlords: [],
-  landlordSearchResults: [],
-  selectedLandlord: {},
+  tenants: [],
+  tenantSearchResults: [],
+  selectedTenant: {},
   noSearchResults: false,
   showLoader: false,
   errorState: false,
-  userIdDuplicationError: false
+  tenantIdDuplicationError: false
 }
 
 export default state

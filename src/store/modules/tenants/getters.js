@@ -21,7 +21,7 @@ const showErrorState = (state) => state.errorState
  * @param  {Object} state vuex state object
  * @return {boolean} Contains the show error state
  */
-const userIdDuplicationError = (state) => state.userIdDuplicationError
+const tenantIdDuplicationError = (state) => state.tenantIdDuplicationError
 
 /**
  * Show no search results state
@@ -32,35 +32,35 @@ const userIdDuplicationError = (state) => state.userIdDuplicationError
 const noSearchResults = (state) => state.noSearchResults
 
 /**
- * Retrieve the landlords
- * @method landlords
+ * Retrieve the tenants
+ * @method tenants
  * @param  {Object} state vuex state object
- * @return {Array} Contains landlords
+ * @return {Array} Contains tenants
  */
-const landlords = (state) => state.landlords
+const tenants = (state) => state.tenants
 
 /**
- * Retrieve the searched properties
- * @method landlordSearchResults
+ * Retrieve the searched tenants
+ * @method tenantsSearchResults
  * @param  {Object} state vuex state object
- * @return {Array} Contains properties
+ * @return {Array} Contains searched tenants results
  */
-const landlordSearchResults = (state) => state.landlordSearchResults
+const tenantSearchResults = (state) => state.tenantSearchResults
 
 /**
- * Retrieve the details of the landlord that is selected
- * @method selectedLandlord
+ * Retrieve the details of the tenant that is selected
+ * @method selectedTenant
  * @param  {Object} state vuex state object
- * @return {Object} Contains details of the landlord that is selected
+ * @return {Object} Contains details of the tenant that is selected
  */
-const selectedLandlord = (state) => state.selectedLandlord
+const selectedTenant = (state) => state.selectedTenant
 
 export {
-  landlords,
+  tenants,
   showLoader,
-  landlordSearchResults,
+  tenantSearchResults,
   showErrorState,
-  userIdDuplicationError,
+  tenantIdDuplicationError,
   noSearchResults,
-  selectedLandlord
+  selectedTenant
 }
