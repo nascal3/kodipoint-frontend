@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import { checkAuth, checkToken } from '@/services/authGuards'
 import Login from '@/pages/Login'
-import About from '@/pages/About'
+import Terms from '@/pages/Terms'
 import Landlords from '@/pages/Landlords'
 import Summary from '@/pages/Properties'
 import Tenants from '@/pages/Tenants'
@@ -38,9 +38,9 @@ export default new Router({
       beforeEnter: checkAuth
     },
     {
-      path: '/about',
-      name: 'about',
-      component: About
+      path: '/terms',
+      name: 'terms',
+      component: Terms
     }
   ]
 })
