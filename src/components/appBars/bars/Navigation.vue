@@ -10,7 +10,7 @@
     >
         <v-list-item class="menu-user-section" >
             <v-avatar>
-                <v-img src="https://randomuser.me/api/portraits/women/81.jpg"></v-img>
+                <v-img :src=email></v-img>
             </v-avatar>
             <div class="user-name">{{user.name}}</div>
         </v-list-item>
@@ -36,20 +36,24 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import store from '@/store'
 
 export default {
   name: 'Navigation',
   data: () => ({
     drawer: true,
-    bg: 'src/assets/images/menu_bg.jpg'
+    bg: 'src/assets/images/menu_bg.jpg',
+    token: {}
   }),
   computed: {
     ...mapGetters('auth', {
       user: 'user'
     }),
+    email () {
+      return `https://api.adorable.io/avatars/201/${this.token.user.email}.png`
+    },
     pages () {
-      const tokenVals = localStorage.getItem('kodiAuthToken')
-      const role = JSON.parse(tokenVals).user.role
+      const role = this.token.user.role
       if (role === 'admin') {
         return [
           { title: 'Landlords', icon: 'mdi-account-tie', route: '/landlords' },
@@ -74,6 +78,9 @@ export default {
     setPageTitle (page) {
       this.$emit('changePageTitle', page.title)
     }
+  },
+  created () {
+    this.token = store.getters['auth/token']
   }
 }
 </script>
