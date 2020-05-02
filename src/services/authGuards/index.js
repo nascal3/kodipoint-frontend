@@ -11,7 +11,7 @@ const redirectPage = (role) => {
   } else if (role === 'landlord' || role === 'landlord/tenant') {
     return { name: 'properties' }
   } else if (role === 'tenant') {
-    return { name: 'tenants' }
+    return { name: 'finance' }
   }
 }
 

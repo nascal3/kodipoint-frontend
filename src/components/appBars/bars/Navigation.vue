@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import { routePermissions } from '@/config'
 import { mapGetters } from 'vuex'
 import store from '@/store'
 
@@ -54,22 +55,16 @@ export default {
     },
     pages () {
       const role = this.token.user.role
-      if (role === 'admin') {
-        return [
-          { title: 'Landlords', icon: 'mdi-account-tie', route: '/landlords' },
-          { title: 'Tenants', icon: 'mdi-account-group', route: '/tenants' },
-          { title: 'Finance', icon: 'mdi-bank', route: '/finance' }
-        ]
-      } else if (role === 'landlord' || role === 'landlord/tenant') {
-        return [
-          { title: 'Properties', icon: 'mdi-home-city', route: '/properties' },
-          { title: 'Tenants', icon: 'mdi-account-group', route: '/tenants' },
-          { title: 'Finance', icon: 'mdi-bank', route: '/finance' }
-        ]
+      if (role === 'super') {
+        return routePermissions.superUser
+      } else if (role === 'admin') {
+        return routePermissions.adminUser
+      } else if (role === 'landlord') {
+        return routePermissions.landlordUser
+      } else if (role === 'landlord/tenant') {
+        return routePermissions.landlordTenantUser
       } else if (role === 'tenant') {
-        return [
-          { title: 'Finance', icon: 'mdi-bank', route: '/finance' }
-        ]
+        return routePermissions.tenantUser
       }
       return []
     }
