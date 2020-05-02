@@ -10,7 +10,7 @@ import Tenants from '@/pages/Tenants'
 Vue.use(Router)
 
 export default new Router({
-  // base: '/dist',
+  // base: '/system',
   mode: 'history',
   routes: [
     {
