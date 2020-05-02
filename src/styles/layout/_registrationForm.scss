@@ -10,17 +10,9 @@
 form {
   width: 100%;
 
-  .reset-password {
-    display: block;
-    position: relative;
-    cursor: pointer;
+  .terms {
     font-size: 1.2rem;
-    color: $kodi_green;
-
-    span {
-      position: absolute;
-      right: 0;
-    }
+    color: $accent;
   }
 
   .login-btn {
