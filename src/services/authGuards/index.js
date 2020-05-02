@@ -6,12 +6,12 @@
  */
 const redirectPage = (role) => {
   if (!role) return { name: 'error' }
-  if (role === 'admin') {
+  if (role === 'admin' || role === 'super') {
     return { name: 'landlords' }
   } else if (role === 'landlord' || role === 'landlord/tenant') {
     return { name: 'properties' }
   } else if (role === 'tenant') {
-    return { name: 'summary' }
+    return { name: 'tenants' }
   }
 }
 
