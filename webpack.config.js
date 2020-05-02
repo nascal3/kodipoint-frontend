@@ -15,9 +15,9 @@ function resolve (dir) {
 module.exports = {
   entry: './src/index.js',
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'system'),
     filename: '[name].[contenthash].js',
-    publicPath: '/'
+    publicPath: '/system/'
   },
   module: {
     rules: [

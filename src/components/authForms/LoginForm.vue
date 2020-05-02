@@ -35,8 +35,8 @@
         <v-card light class="mx-auto" elevation="12" opacity="0.53">
           <v-card-title>Forgot Password ?</v-card-title>
           <v-card-text>
-            Please call <span>0800 300 200</span> or <br>
-            email <span>business@safeboda.com</span> for assistance
+            Please call <span>+254 718 769 663</span> or <br>
+            email <span>info@kodipoint.com</span> for assistance
           </v-card-text>
           <v-card-actions>
             <v-btn class="modal-btn" depressed color="primary" @click="overlay = false">OK</v-btn>
