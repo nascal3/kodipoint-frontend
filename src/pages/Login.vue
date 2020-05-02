@@ -26,7 +26,7 @@
 
                       <v-tabs-items v-model="tab">
                         <v-tab-item class="tab-container">
-                          <login-form></login-form>
+                          <login-form/>
                         </v-tab-item>
                         <v-tab-item>
                           register form here
