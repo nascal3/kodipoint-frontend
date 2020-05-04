@@ -1,18 +1,47 @@
 <template>
     <section>
         <v-form ref="form" v-model="valid" @submit.prevent="onRegister">
+
+            <v-text-field
+                v-model="name"
+                v-validate="'required'"
+                name="name"
+                label="Full name*"
+                :error="errors.has('name')"
+            ></v-text-field>
+            <transition name="fade">
+                <span class="input-error" v-if="errors.has('name')">{{ errors.first('name') }}</span>
+            </transition>
+
+            <v-text-field
+                v-model="phone"
+                label="Phone number*"
+                v-validate="'required|min:17 '"
+                name="phone"
+                persistent-hint
+                :error="errors.has('phone')"
+                v-mask="['(+###) ####-#####']"
+            ></v-text-field>
+            <transition name="fade">
+                <div class="input-error" v-if="errors.has('phone')">
+                    {{errors.items[0].rule === 'min' ? 'Please insert complete phone number!' : 'Please insert a phone number!' }}
+                </div>
+            </transition>
+
             <v-text-field
                 v-model="email"
                 v-validate="'required|email'"
                 name="email"
-                label="Email"
+                label="Email*"
                 :error="errors.has('email')"
             ></v-text-field>
             <transition name="fade">
                 <span class="input-error" v-if="errors.has('email')">{{ errors.first('email') }}</span>
             </transition>
             <transition name="fade">
-                <div class="input-error" v-if="authEmailError">The following email is already registered!</div>
+                <div class="input-error" v-if="authEmailDuplicationError">
+                    The following email is already registered!
+                </div>
             </transition>
 
             <v-text-field
@@ -20,7 +49,7 @@
                 v-model="password"
                 v-validate="'required'"
                 name="password"
-                label="Password"
+                label="Password*"
                 :error="errors.has('password')"
             ></v-text-field>
             <transition name="fade">
@@ -78,19 +107,43 @@ export default {
   data: () => ({
     valid: false,
     email: '',
+    name: '',
+    phone: '',
     password: '',
     role: 'landlord',
     agree: false
   }),
   computed: {
     ...mapGetters('auth', {
-      authEmailError: 'authEmailError',
+      authEmailDuplicationError: 'authEmailDuplicationError',
       showLoader: 'showLoader'
     })
   },
   methods: {
-    onRegister () {
+    async onRegister () {
+      const userData = {
+        name: this.name,
+        phone: this.phone,
+        username: this.email,
+        password: this.password,
+        role: this.role
+      }
+      try {
+        this.valid = await this.$validator.validateAll()
+        if (!this.valid) return
+        const response = await this.$store.dispatch('auth/createUser', userData)
+        if (response) {
+          response.user.role === 'tenant'
+            ? await this.$router.replace('/tenant')
+            : await this.$router.replace('/profile')
 
+          const firstName = response.user.name.split(' ')[0]
+          const options = { icon: 'check_circle_outline' }
+          this.$toasted.show(`Welcome ${firstName}`, options)
+        }
+      } catch (e) {
+        throw new Error(e.message)
+      }
     }
   }
 }

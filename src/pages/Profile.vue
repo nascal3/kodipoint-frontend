@@ -1,12 +1,12 @@
 <template>
     <section>
-        Terms and conditions
+        profile
     </section>
 </template>
 
 <script>
 export default {
-  name: 'Terms'
+  name: 'Profile'
 }
 </script>
 

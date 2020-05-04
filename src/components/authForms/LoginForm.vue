@@ -86,7 +86,8 @@ export default {
         password: this.password
       }
       try {
-        await this.$validator.validateAll()
+        this.valid = await this.$validator.validateAll()
+        if (!this.valid) return
         await this.$store.dispatch('auth/login', userData)
         const options = { icon: 'check_circle_outline' }
         if (this.loggedIn && this.token) {
@@ -96,7 +97,7 @@ export default {
           this.$toasted.show(`Welcome ${firstName}`, options)
         }
       } catch (e) {
-        console.error(e.message)
+        throw new Error(e.message)
       }
     }
   }
