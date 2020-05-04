@@ -2,6 +2,10 @@
 
 .login {
 
+  .row {
+    height: 100vh;
+  }
+
   &-info-container {
     .v-image {
       &:before {
@@ -15,7 +19,7 @@
         opacity: .9;
       }
       &.login-bg {
-        height: 100vh;
+        height: 100%;
       }
     }
   }

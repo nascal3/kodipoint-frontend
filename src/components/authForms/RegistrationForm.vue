@@ -24,7 +24,7 @@
             ></v-text-field>
             <transition name="fade">
                 <div class="input-error" v-if="errors.has('phone')">
-                    {{errors.items[0].rule === 'min' ? 'Please insert complete phone number!' : 'Please insert a phone number!' }}
+                    {{errors.items[0].rule === 'min' ? 'Please insert complete phone number!' : 'Please insert a phone number' }}
                 </div>
             </transition>
 
@@ -88,7 +88,7 @@
                 type="submit"
                 :loading="showLoader"
                 :disabled="showLoader || !agree"
-                class="login-btn"
+                class="signIn-btn"
                 depressed
                 block
                 color="secondary"
