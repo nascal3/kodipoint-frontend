@@ -79,7 +79,11 @@
             ></v-text-field>
             <transition name="fade">
               <div class="input-error" v-if="errors.has('phone')">
-                {{errors.items[0].rule === 'min' ? 'Please insert complete phone number!' : 'Please insert a phone number!' }}
+                {{
+                  errors.items[0].rule === 'min'
+                    ? 'Please insert complete phone number! e.g (+254) 7234-56789'
+                    : 'Please insert a phone number'
+                }}
               </div>
             </transition>
           </v-col>
