@@ -85,7 +85,7 @@ export default {
   methods: {
     async onLogin () {
       const userData = {
-        username: this.email,
+        email: this.email,
         password: this.password
       }
       try {
