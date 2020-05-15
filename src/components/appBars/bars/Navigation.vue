@@ -43,7 +43,7 @@ export default {
   name: 'Navigation',
   data: () => ({
     drawer: true,
-    bg: 'src/assets/images/menu_bg.jpg',
+    bg: require('@/assets/images/menu_bg.jpg'),
     token: {}
   }),
   computed: {
