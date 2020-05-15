@@ -7,6 +7,7 @@ const state = {
   user: userInfo.user,
   showLoader: false,
   authError: false,
+  authEmailDuplicationError: false,
   singleUser: {},
   loggedIn: JSON.parse(status) || false,
   userDuplicationError: false

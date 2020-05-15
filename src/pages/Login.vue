@@ -12,24 +12,24 @@
 
                     <div class="form-container d-flex flex-column justify-center align-center">
                       <div class="form-container-header">
-                        {{tab ? 'Register' : 'Sign in'}}
+                        {{tab === 'register' ? 'Sign up' : 'Sign in'}}
                       </div>
                       <div class="form-container-subheader">
-                        {{tab ? 'Register for an account' : 'Login into your account'}}
+                        {{tab === 'register' ? 'Register for an account' : 'Login into your account'}}
                       </div>
 
                       <v-tabs class="form-container-tabs" v-model="tab">
-                        <v-tabs-slider></v-tabs-slider>
-                        <v-tab>Login</v-tab>
-                        <v-tab>Register</v-tab>
+                        <v-tabs-slider/>
+                        <v-tab href="#login">Login</v-tab>
+                        <v-tab href="#register">Register</v-tab>
                       </v-tabs>
 
                       <v-tabs-items v-model="tab">
-                        <v-tab-item class="tab-container">
+                        <v-tab-item value="login" class="tab-container">
                           <login-form/>
                         </v-tab-item>
-                        <v-tab-item>
-                          register form here
+                        <v-tab-item value="register">
+                          <registration-form/>
                         </v-tab-item>
                       </v-tabs-items>
 
@@ -42,11 +42,13 @@
 
 <script>
 import LoginForm from '@/components/authForms/LoginForm'
+import RegistrationForm from '@/components/authForms/RegistrationForm'
 
 export default {
   name: 'Login',
   components: {
-    LoginForm
+    LoginForm,
+    RegistrationForm
   },
   data: () => ({
     tab: null

@@ -1,12 +1,5 @@
 // login form styles
 
-.login-error {
-  color: $error;
-  font-size: 1.4rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-}
-
 .input-error {
   position: relative;
   font-size: 1.2rem;
@@ -17,20 +10,15 @@
 form {
   width: 100%;
 
-  .reset-password {
-    cursor: pointer;
+  .terms {
     font-size: 1.2rem;
-    color: $kodi_green;
-
-    span {
-      float: right;
-      margin-bottom: 2rem;
-    }
+    color: $accent;
   }
 
-  .login-btn {
+  .signIn-btn {
     font-size: 1.6rem;
     font-weight: 300;
+    margin-bottom: 2rem;
   }
 
   .v-card {

@@ -12,6 +12,7 @@
       <v-list-item
         v-for="item in items"
         :key="item.title"
+        router :to="item.route"
         link
       >
         <v-list-item-icon>
@@ -38,8 +39,8 @@ export default {
   name: 'UserDropMenu',
   data: () => ({
     items: [
-      { title: 'Profile', icon: 'mdi-account-settings' },
-      { title: 'Settings', icon: 'mdi-settings' }
+      { title: 'Profile', icon: 'mdi-account-settings', route: '/profile' },
+      { title: 'Settings', icon: 'mdi-settings', route: '/settings' }
     ]
   }),
   methods: {
