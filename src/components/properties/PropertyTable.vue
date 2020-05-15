@@ -156,6 +156,9 @@ export default {
     },
     noSearchResultsFound () {
       return this.searchPropertyName.length && !this.propertySearchResults.length
+    },
+    landlordPage () {
+      return this.$router.currentRoute.name === 'landlords'
     }
   },
   watch: {
@@ -217,13 +220,7 @@ export default {
         this.isSearching = true
         this.searchProperties(payload)
       }
-    },
-    landlordPage () {
-      return this.$router.currentRoute.name === 'landlords'
     }
-  },
-  created () {
-    this.landlordPage()
   },
   beforeDestroy () {
     this.$store.commit('property/RESET_PROPERTIES')

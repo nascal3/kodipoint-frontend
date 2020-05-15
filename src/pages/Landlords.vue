@@ -41,7 +41,7 @@ export default {
       landlordSelected: 'selectedLandlord'
     }),
     showSection () {
-      return Object.keys(this.landlordSelected).length
+      return Object.keys(this.landlordSelected).length > 0
     }
   },
   watch: {

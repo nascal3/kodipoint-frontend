@@ -39,7 +39,7 @@ export default {
       tenantSelected: 'selectedTenant'
     }),
     showSection () {
-      return Object.keys(this.tenantSelected).length
+      return Object.keys(this.tenantSelected).length > 0
     }
   },
   watch: {
