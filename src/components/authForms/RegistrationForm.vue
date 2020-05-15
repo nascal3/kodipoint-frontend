@@ -49,15 +49,37 @@
             </transition>
 
             <v-text-field
-                type="password"
-                v-model="password"
-                v-validate="'required'"
-                name="password"
-                label="Password*"
-                :error="errors.has('password')"
+                    :type="show1 ? 'text' : 'password'"
+                    :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                    v-model="password"
+                    v-validate="'required'"
+                    name="password"
+                    label="Password*"
+                    @input="checkPasswordMatch"
+                    :error="errors.has('password')"
+                    @click:append="show1 = !show1"
             ></v-text-field>
             <transition name="fade">
                 <span class="input-error" v-if="errors.has('password')">{{ errors.first('password') }}</span>
+            </transition>
+
+            <v-text-field
+                :type="show2 ? 'text' : 'password'"
+                :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+                v-model="repeatPassword"
+                v-validate="'required'"
+                name="repeatPassword"
+                data-vv-as="re typed password"
+                label="Re-type Password*"
+                @input="checkPasswordMatch"
+                :error="errors.has('repeatPassword')"
+                @click:append="show2 = !show2"
+            ></v-text-field>
+            <transition name="fade">
+                <div class="input-error" v-if="errors.has('repeatPassword')">{{ errors.first('repeatPassword') }}</div>
+            </transition>
+            <transition name="fade">
+                <div class="input-error" v-if="passwordMatch">Password you entered doesn't match</div>
             </transition>
 
             <v-radio-group v-model="role" row>
@@ -97,7 +119,7 @@
                 block
                 color="secondary"
             >
-                Register
+                Sign up
             </v-btn>
         </v-form>
     </section>
@@ -110,9 +132,13 @@ export default {
   name: 'RegistrationForm',
   data: () => ({
     valid: false,
+    show1: false,
+    show2: false,
     email: '',
     name: '',
     phone: '',
+    passwordMatch: false,
+    repeatPassword: '',
     password: '',
     role: 'landlord',
     agree: false
@@ -124,6 +150,9 @@ export default {
     })
   },
   methods: {
+    checkPasswordMatch () {
+      this.passwordMatch = this.password !== this.repeatPassword
+    },
     async onRegister () {
       const userData = {
         name: this.name,
@@ -133,6 +162,7 @@ export default {
         role: this.role
       }
       try {
+        if (this.passwordMatch) return
         this.valid = await this.$validator.validateAll()
         if (!this.valid) return
         const response = await this.$store.dispatch('auth/createUser', userData)

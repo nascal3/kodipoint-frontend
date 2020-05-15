@@ -16,12 +16,14 @@
       </transition>
 
       <v-text-field
-        type="password"
+        :type="show ? 'text' : 'password'"
+        :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
         v-model="password"
         v-validate="'required'"
         name="password"
         label="Password"
         :error="errors.has('password')"
+        @click:append="show = !show"
       ></v-text-field>
       <transition name="fade">
         <span class="input-error" v-if="errors.has('password')">{{ errors.first('password') }}</span>
@@ -67,6 +69,7 @@ export default {
   name: 'LoginForm',
   data: () => ({
     valid: false,
+    show: false,
     email: '',
     password: '',
     overlay: false

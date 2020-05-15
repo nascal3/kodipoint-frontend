@@ -12,7 +12,7 @@
 
                     <div class="form-container d-flex flex-column justify-center align-center">
                       <div class="form-container-header">
-                        {{tab === 'register' ? 'Register' : 'Sign in'}}
+                        {{tab === 'register' ? 'Sign up' : 'Sign in'}}
                       </div>
                       <div class="form-container-subheader">
                         {{tab === 'register' ? 'Register for an account' : 'Login into your account'}}
