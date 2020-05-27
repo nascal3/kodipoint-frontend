@@ -51,7 +51,7 @@
 
 
 .v-data-table__wrapper {
-  max-height: 51rem;
+  max-height: 50vh;
 
   table {
     thead{
@@ -72,6 +72,14 @@
             max-height: 6rem;
             overflow: hidden;
             margin: 5px;
+          }
+        }
+        td:nth-child(8) {
+          .v-chip {
+            margin: 2px !important;
+            &__content {
+              font-size: 12px;
+            }
           }
         }
         td:nth-child(9) {
