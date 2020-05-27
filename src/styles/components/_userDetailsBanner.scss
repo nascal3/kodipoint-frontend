@@ -2,13 +2,12 @@
 .details-container {
   position: fixed;
   background-color: $white;
-  padding: 1rem;
   width: 72.5%;
 
   .left-section {
     position: relative;
-    height: 11rem;
-    max-width: 13%;
+    padding-left: 1rem;
+    height: 13rem;
     .picture-border {
       border: 2px dashed $kodi_orange;
       height: 10.5rem;
@@ -29,10 +28,7 @@
       width: 3.5rem;
       height: 3.5rem;
     }
-  }
 
-  .right-section {
-    max-width: 87%;
     .info-section {
       padding-left: 1rem;
       height: 11rem;
@@ -56,5 +52,8 @@
         }
       }
     }
+  }
+
+  .right-section {
   }
 }
