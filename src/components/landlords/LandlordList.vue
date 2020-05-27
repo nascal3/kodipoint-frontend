@@ -1,8 +1,8 @@
 <template>
  <v-card class="list-container">
-   <div class="add-btn-container d-flex justify-end align-center">
+   <div class="add-btn-container d-flex justify-center align-center">
      <v-btn
-       class=" btn-text "
+       class="btn-text"
        color="primary"
        block
        @click="openAddDialog()"

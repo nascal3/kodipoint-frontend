@@ -2,13 +2,12 @@
 .place-below-banner {
   position: fixed;
   top: 23rem;
-  width: 73.5%;
+  width: 72.5%;
 }
 
 .property-container {
   .v-card {
     &__title {
-      margin-bottom: 2rem;
       &.title {
         font-size: 2.4rem !important;
       }

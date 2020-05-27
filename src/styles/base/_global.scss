@@ -17,10 +17,14 @@
   .v-list {
     &-item {
       &__title {
-        font-size: 1.6rem !important;
+        font-size: 1.3rem !important;
       }
     }
   }
+}
+
+.v-input {
+  font-size: 1.3rem;
 }
 
 .input-error {
