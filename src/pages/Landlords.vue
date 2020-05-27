@@ -5,7 +5,7 @@
         <landlord-list @openAddDialog="openDialog" :reloadValue="changed" />
       </v-col>
       <v-col class="info-area" cols="12" sm="10" v-if="showSection">
-        <landlord-details class="table-card" @openEditDialog="openDialog" />
+        <user-details-banner class="table-card" @openEditDialog="openDialog" />
         <property-table :landlordSelected="landlordSelected" />
       </v-col>
     </v-row>
@@ -18,7 +18,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import PropertyTable from '@/components/properties/PropertyTable'
-import LandlordDetails from '@/components/landlords/LandlordsDetails'
+import UserDetailsBanner from '@/components/utils/UserDetailsBanner'
 import LandlordList from '@/components/landlords/LandlordList'
 import LandlordForm from '@/components/landlords/LandlordForm'
 
@@ -31,10 +31,10 @@ export default {
     landlordInfo: {}
   }),
   components: {
-    LandlordDetails,
     PropertyTable,
     LandlordList,
-    LandlordForm
+    LandlordForm,
+    UserDetailsBanner
   },
   computed: {
     ...mapGetters('landlord', {

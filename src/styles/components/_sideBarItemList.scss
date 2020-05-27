@@ -7,7 +7,10 @@
   overflow: hidden;
 
   .add-btn-container {
-    margin: 1rem;
+    padding: 1rem;
+    .v-btn {
+      min-width: 15rem;
+    }
   }
 
   .search-list {
@@ -25,10 +28,15 @@
 
   .v-list-item {
     &__icon {
-      margin-right: 1.5rem;
+      margin: 8px;
+      .v-avatar {
+        height: 40px !important;
+        min-width: 40px !important;
+        width: 40px !important;
+      }
     }
     &__title {
-      font-size: 1.4rem;
+      font-size: 1.3rem;
     }
   }
 }

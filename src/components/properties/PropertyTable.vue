@@ -3,7 +3,7 @@
     <v-row no-gutters>
       <v-col cols="12" md="12">
         <v-card-title class="title">Properties</v-card-title>
-        <v-card-subtitle class="subtitle">View/Edit properties</v-card-subtitle>
+<!--        <v-card-subtitle class="subtitle">View/Edit properties</v-card-subtitle>-->
       </v-col>
     </v-row>
 
@@ -71,7 +71,7 @@
                 </v-chip>
               </td>
               <td>
-                <v-icon color="primary" @click="openDialog(property)">mdi-pencil</v-icon>
+                <v-icon color="primary" @click="openPropertyDialog(property)">mdi-pencil</v-icon>
               </td>
             </tr>
           </template>

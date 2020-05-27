@@ -10,6 +10,7 @@
     </v-card-title>
     <v-card-text class="content">
       <v-form enctype="multipart/form-data" v-model="valid" @submit.prevent="addProperty">
+        <div class="section-title">Property details</div>
         <v-row>
           <v-col cols="12" md="6">
             <v-text-field
@@ -66,7 +67,7 @@
             </transition>
           </v-col>
         </v-row>
-        <div class="contact-title">Contact person</div>
+        <div class="section-title">Contact person</div>
         <v-radio-group v-model="contact" row>
           <v-radio label="Landlord" color="primary" value="landlord"></v-radio>
           <v-radio label="Other" color="primary" value="other"></v-radio>
@@ -127,6 +128,7 @@
         <span class="input-hint">
           Separate each service with a comma.
         </span>
+        <div class="section-title">Property image</div>
         <v-row>
           <v-col cols="12" md="6">
             <v-file-input
