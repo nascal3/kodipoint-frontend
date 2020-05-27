@@ -71,7 +71,7 @@
                 </v-chip>
               </td>
               <td>
-                <v-icon color="primary" @click="openDialog(property)">mdi-pencil</v-icon>
+                <v-icon color="primary" @click="openPropertyDialog(property)">mdi-pencil</v-icon>
               </td>
             </tr>
           </template>
