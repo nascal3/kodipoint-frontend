@@ -5,7 +5,7 @@
         <tenant-list @openAddDialog="openDialog" :reloadValue="changed" />
       </v-col>
       <v-col cols="12" sm="10" v-if="showSection">
-        <tenant-details class="table-card" @openEditDialog="openDialog" />
+        <user-details-banner class="table-card" @openEditDialog="openDialog" />
 <!--        <property-table :landlordSelected="landlordSelected"></property-table>-->
       </v-col>
     </v-row>
@@ -18,7 +18,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import TenantList from '@/components/tenants/TenantList'
-import TenantDetails from '@/components/tenants/TenantsDetails'
+import UserDetailsBanner from '@/components/utils/UserDetailsBanner'
 import TenantForm from '@/components/tenants/TenantForm'
 
 export default {
@@ -31,8 +31,8 @@ export default {
   }),
   components: {
     TenantList,
-    TenantDetails,
-    TenantForm
+    TenantForm,
+    UserDetailsBanner
   },
   computed: {
     ...mapGetters('tenants', {

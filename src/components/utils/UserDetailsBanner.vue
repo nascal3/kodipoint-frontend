@@ -5,8 +5,8 @@
         <v-row no-gutters>
           <v-col cols="12" sm="5">
             <div class="picture-border d-flex justify-center align-center">
-              <v-avatar v-if="landlordInfo.name" color="primary">
-                <v-img :src="imageSource(landlordInfo.avatar)"></v-img>
+              <v-avatar v-if="userInfo.name" color="primary">
+                <v-img :src="imageSource(userInfo.avatar)"></v-img>
               </v-avatar>
             </div>
             <v-btn class="edit-fab-btn mx-2" @click="openEditDialog()" fab small>
@@ -15,9 +15,9 @@
           </v-col>
           <v-col cols="12" sm="7">
             <div class="info-section d-flex flex-column justify-center align-start">
-              <div class="user-name">{{landlordInfo.name}}</div>
-              <div class="user-email">{{landlordInfo.email}}</div>
-              <div class="user-phone">{{landlordInfo.phone}}</div>
+              <div class="user-name">{{userInfo.name}}</div>
+              <div class="user-email">{{userInfo.email}}</div>
+              <div class="user-phone">{{userInfo.phone}}</div>
             </div>
           </v-col>
         </v-row>
@@ -35,23 +35,25 @@ export default {
   name: 'LandlordsDetails',
   data: () => ({
     placeholderImage: require(`@/assets/images/avatar.jpg`),
-    landlordInfo: {}
+    userInfo: {}
   }),
   computed: {
-    ...mapGetters('landlord', {
-      showLoader: 'showLoader',
-      showErrorState: 'showErrorState',
-      landlordSelected: 'selectedLandlord'
+    ...mapGetters({
+      landlordSelected: ['landlord/selectedLandlord'],
+      tenantSelected: ['tenants/selectedTenant']
     })
   },
   watch: {
     landlordSelected (newValue) {
-      this.landlordInfo = newValue
+      this.userInfo = newValue
+    },
+    tenantSelected (newValue) {
+      this.userInfo = newValue
     }
   },
   methods: {
     openEditDialog () {
-      this.$emit('openEditDialog', this.landlordSelected)
+      this.$emit('openEditDialog', this.userInfo)
     },
     imageSource (imagePath) {
       if (!imagePath) return this.placeholderImage
@@ -60,7 +62,9 @@ export default {
     }
   },
   created () {
-    this.landlordInfo = this.landlordSelected
+    this.$router.currentRoute.name === 'landlords'
+      ? this.userInfo = this.landlordSelected
+      : this.userInfo = this.tenantSelected
   }
 }
 </script>
