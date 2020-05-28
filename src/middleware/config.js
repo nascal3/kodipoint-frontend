@@ -11,7 +11,6 @@ const commonHeaders = {
 }
 
 const api = axios.create({
-  // baseURL: 'https://kodiend.com',
   baseURL: process.env.BASE_URL,
   headers: commonHeaders
 })
