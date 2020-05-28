@@ -5,6 +5,7 @@ const state = {
   noSearchResults: false,
   showLoader: false,
   errorState: false,
+  approvedLandlord: false,
   userIdDuplicationError: false
 }
 

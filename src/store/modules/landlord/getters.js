@@ -55,6 +55,14 @@ const landlordSearchResults = (state) => state.landlordSearchResults
  */
 const selectedLandlord = (state) => state.selectedLandlord
 
+/**
+ * Retrieve the approved Landlord state
+ * @method approvedLandlord
+ * @param  {Object} state vuex state object
+ * @return {Boolean} Contains landlords  approved state
+ */
+const approvedLandlord = (state) => state.approvedLandlord
+
 export {
   landlords,
   showLoader,
@@ -62,5 +70,6 @@ export {
   showErrorState,
   userIdDuplicationError,
   noSearchResults,
-  selectedLandlord
+  selectedLandlord,
+  approvedLandlord
 }

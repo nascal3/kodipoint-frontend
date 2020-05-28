@@ -95,6 +95,16 @@ const SET_SELECTED_LANDLORD = (state, payload) => {
   state.selectedLandlord = payload
 }
 
+/**
+ * Get approved landlord state properties
+ * @method GET_APPROVED_LANDLORD_STATE
+ * @param  {Object} state vuex state object
+ * @param  {Boolean} payload contains error state
+ */
+const GET_APPROVED_LANDLORD_STATE = (state, payload) => {
+  state.approvedLandlord = payload
+}
+
 export {
   RESET_LANDLORDS,
   RESET_SELECTED_LANDLORD,
@@ -105,5 +115,6 @@ export {
   SET_ERROR_STATE,
   USER_ID_DUPLICATION_ERROR,
   RESET_SEARCH_LANDLORDS,
-  SET_SELECTED_LANDLORD
+  SET_SELECTED_LANDLORD,
+  GET_APPROVED_LANDLORD_STATE
 }

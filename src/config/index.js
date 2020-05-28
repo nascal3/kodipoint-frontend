@@ -1,39 +1,39 @@
-const superRoutes = [
+const superUserRoutes = [
   { title: 'Landlords', icon: 'mdi-account-tie', route: '/landlords' },
   { title: 'Tenants', icon: 'mdi-account-group', route: '/tenants' },
   { title: 'Finance', icon: 'mdi-bank', route: '/finance' }
 ]
 
-const adminRoutes = [
+const adminUserRoutes = [
   { title: 'Landlords', icon: 'mdi-account-tie', route: '/landlords' },
   { title: 'Tenants', icon: 'mdi-account-group', route: '/tenants' },
   { title: 'Finance', icon: 'mdi-bank', route: '/finance' }
 ]
 
-const landlordRoutes = [
+const landlordUserRoutes = [
   { title: 'Properties', icon: 'mdi-home-city', route: '/properties' },
   { title: 'Tenants', icon: 'mdi-account-group', route: '/tenants' },
   { title: 'Finance', icon: 'mdi-bank', route: '/finance' }
 ]
 
-const tenantRoutes = [
+const tenantUserRoutes = [
   { title: 'Finance', icon: 'mdi-bank', route: '/finance' }
 ]
 
-const landlordTenantRoutes = [
+const landlordTenantUserRoutes = [
   { title: 'Properties', icon: 'mdi-home-city', route: '/properties' },
   { title: 'Tenants', icon: 'mdi-account-group', route: '/tenants' },
   { title: 'Finance', icon: 'mdi-bank', route: '/finance' }
 ]
 
-const routePermissions = {
-  'superUser': superRoutes,
-  'adminUser': adminRoutes,
-  'landlordUser': landlordRoutes,
-  'tenantUser': tenantRoutes,
-  'landlordTenantUser': landlordTenantRoutes
+const mappedRoutePermissions = {
+  'superUser': superUserRoutes,
+  'adminUser': adminUserRoutes,
+  'landlordUser': landlordUserRoutes,
+  'tenantUser': tenantUserRoutes,
+  'landlordTenantUser': landlordTenantUserRoutes
 }
 
 export {
-  routePermissions
+  mappedRoutePermissions
 }

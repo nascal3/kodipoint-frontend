@@ -1,6 +1,5 @@
 // *** AUTOMATICALLY IMPORT/ADD VUEX MODULES TO "/store/index.js" ***
 
-// @ts-ignore
 import camelCase from 'lodash/camelCase'
 
 const requireModule = require.context('./', true, /\.js$/) // extract ts files inside modules folder

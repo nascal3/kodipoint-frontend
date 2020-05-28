@@ -5,10 +5,11 @@ import { api } from '@/middleware/config'
  * @method getProperties
  * @param  {Object} commit vuex mutations
  * @param  {Object} state of the vuex store
+ * @param  {Object} rootGetters of the vuex store
  * @param  {Object} payload values of page event
  */
-const getProperties = async ({ commit, state }, payload) => {
-  const limit = 100
+const getProperties = async ({ commit, state, rootGetters }, payload) => {
+  const limit = rootGetters['configs/setPageSize']
   const offset = Object.keys(state.properties).length > 0 ? state.properties.length : 0
   const params = {
     limit,

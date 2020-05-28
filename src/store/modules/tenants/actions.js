@@ -6,10 +6,11 @@ import store from '@/store'
  * @method getTenants
  * @param  {Object} commit vuex mutations
  * @param  {Object} state of the vuex store
+ * @param  {Object} rootGetters of the vuex store
  * @param  {Object} payload values of page event
  */
-const getTenants = async ({ commit, state }, payload) => {
-  const limit = 100
+const getTenants = async ({ commit, state, rootGetters }, payload) => {
+  const limit = rootGetters['configs/setPageSize']
   const offset = Object.keys(state.tenants).length > 0 ? state.tenants.length : 0
   const token = store.getters['auth/token']
   const url = token.user.role === 'landlord' || token.user.role === 'landlord/tenant'

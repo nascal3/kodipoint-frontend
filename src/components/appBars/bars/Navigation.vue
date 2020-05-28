@@ -21,6 +21,7 @@
                 :key="page.title"
                 router :to="page.route"
                 link
+                :disabled="approved"
                 @click="setPageTitle(page)"
             >
                 <v-list-item-icon>
@@ -35,38 +36,41 @@
 </template>
 
 <script>
-import { routePermissions } from '@/config'
+import { mappedRoutePermissions } from '@/config'
 import { mapGetters } from 'vuex'
-import store from '@/store'
 
 export default {
   name: 'Navigation',
   data: () => ({
     drawer: true,
-    bg: require('@/assets/images/menu_bg.jpg'),
-    token: {}
+    bg: require('@/assets/images/menu_bg.jpg')
   }),
   computed: {
-    ...mapGetters('auth', {
-      user: 'user'
+    ...mapGetters({
+      user: ['auth/user'],
+      token: ['auth/token'],
+      loggedInUserInfo: ['configs/loggedInUserInfo']
     }),
+    approved () {
+      if (this.token.user.role === 'landlord' || this.token.user.role === 'landlordTenant') {
+        return !this.loggedInUserInfo.approved
+      }
+      return false
+    },
     email () {
       return `https://api.adorable.io/avatars/201/${this.token.user.email}.png`
     },
     pages () {
       const role = this.token.user.role
-      if (role === 'super') {
-        return routePermissions.superUser
-      } else if (role === 'admin') {
-        return routePermissions.adminUser
-      } else if (role === 'landlord') {
-        return routePermissions.landlordUser
-      } else if (role === 'landlord/tenant') {
-        return routePermissions.landlordTenantUser
-      } else if (role === 'tenant') {
-        return routePermissions.tenantUser
+      const navPermissions = {
+        superU: 'superUser',
+        admin: 'adminUser',
+        landlord: 'landlordUser',
+        landlordTenant: 'landlordTenantUser',
+        tenant: 'tenantUser'
       }
-      return []
+      const mappedRouter = navPermissions[role]
+      return mappedRoutePermissions[mappedRouter]
     }
   },
   methods: {
@@ -75,7 +79,7 @@ export default {
     }
   },
   created () {
-    this.token = store.getters['auth/token']
+    this.$store.dispatch('configs/getLoggedInUserInfo')
   }
 }
 </script>
