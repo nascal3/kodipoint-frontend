@@ -85,7 +85,7 @@
             <v-radio-group v-model="role" row>
                 <v-radio label="Landlord" value="landlord"></v-radio>
                 <v-radio label="Tenant" value="tenant"></v-radio>
-                <v-radio label="Both" value="landlord/tenant"></v-radio>
+                <v-radio label="Both" value="landlordTenant"></v-radio>
             </v-radio-group>
 
             <v-checkbox v-model="agree">

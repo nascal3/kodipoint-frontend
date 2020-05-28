@@ -37,7 +37,7 @@
           <v-col cols="12" md="6">
             <v-text-field
               v-model="nationalID"
-              label="National ID*"
+              label="National ID/ Passport number*"
               v-validate="'required'"
               name="nationalID"
               data-vv-as="national ID"
@@ -181,17 +181,11 @@
           <v-col cols="12" md="6">
             <v-text-field
               v-model="bankSwift"
-              label="Bank SWIFT Code*"
-              v-validate="'required'"
+              label="Bank SWIFT Code"
               name="bankSwift"
               data-vv-as="bank SWIFT Code"
               :error="errors.has('bankSwift')"
             ></v-text-field>
-            <transition name="fade">
-              <span class="input-error" v-if="errors.has('bankSwift')">
-                {{ errors.first('bankSwift') }}
-              </span>
-            </transition>
           </v-col>
         </v-row>
         <div class="section-title">Landlord picture</div>
@@ -289,7 +283,7 @@ export default {
     role: { text: 'Landlord', value: 'landlord' },
     roles: [
       { text: 'Landlord', value: 'landlord' },
-      { text: 'Landlord/Tenant', value: 'landlord/tenant' }
+      { text: 'Landlord & Tenant', value: 'landlordTenant' }
     ],
     UploadImageRules: [
       value => !value || value.size < 1000000 || 'Image size should be less than 1 MB!'
@@ -355,7 +349,7 @@ export default {
       this.bankAcc = landlord.bank_acc
       this.bankSwift = landlord.bank_swift
       this.role = {
-        text: this.landlordUserInfo.role === 'landlord' ? 'Landlord' : 'Landlord/Tenant',
+        text: this.landlordUserInfo.role === 'landlord' ? 'Landlord' : 'Landlord & Tenant',
         value: this.landlordUserInfo.role
       }
     },
