@@ -168,7 +168,6 @@ export default {
       }
     },
     noSearchResults () {
-      console.log('searching', this.isSearching, 'no results', this.noSearchResults)
       this.isSearching = !this.noSearchResults
     },
     landlordSelected () {

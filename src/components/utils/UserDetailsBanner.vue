@@ -1,9 +1,9 @@
 <template>
   <v-card class="details-container">
     <v-row no-gutters>
-      <v-col class="left-section" cols="12" sm="4">
-        <v-row no-gutters>
-          <v-col cols="12" sm="5">
+      <v-col class="left-section" cols="12" sm="5">
+        <v-row>
+          <v-col cols="12" sm="4">
             <div class="picture-border d-flex justify-center align-center">
               <v-avatar v-if="userInfo.name" color="primary">
                 <v-img :src="imageSource(userInfo.avatar)"></v-img>
@@ -13,7 +13,7 @@
               <v-icon color="primary">mdi-pencil</v-icon>
             </v-btn>
           </v-col>
-          <v-col cols="12" sm="7">
+          <v-col cols="12" sm="8">
             <div class="info-section d-flex flex-column justify-center align-start">
               <div class="user-name">{{userInfo.name}}</div>
               <div class="user-email">{{userInfo.email}}</div>
@@ -22,7 +22,7 @@
           </v-col>
         </v-row>
       </v-col>
-      <v-col class="right-section" cols="12" sm="8">
+      <v-col class="right-section" cols="12" sm="7">
       </v-col>
     </v-row>
   </v-card>
