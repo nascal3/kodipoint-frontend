@@ -66,6 +66,16 @@ const PROPERTY_SEARCH_RESULTS = (state, payload) => {
   state.propertySearchResults = payload
 }
 
+/**
+ * Set error state for duplicate LR number
+ * @method LR_NUMBER_DUPLICATION_ERROR
+ * @param  {Object} state vuex state object
+ * @param  {Boolean} payload contains error state
+ */
+const LR_NUMBER_DUPLICATION_ERROR = (state, payload) => {
+  state.lrNumberDuplicationError = payload
+}
+
 export {
   RESET_PROPERTIES,
   GET_PROPERTIES,
@@ -73,5 +83,6 @@ export {
   UPDATE_NO_RESULTS,
   SHOW_LOADER,
   SET_ERROR_STATE,
-  RESET_SEARCH_EMPLOYEES
+  RESET_SEARCH_EMPLOYEES,
+  LR_NUMBER_DUPLICATION_ERROR
 }

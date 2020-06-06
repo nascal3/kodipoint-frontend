@@ -56,6 +56,10 @@ const addNewProperty = async ({ commit, dispatch }, payload) => {
     }
   } catch (err) {
     commit('SHOW_LOADER', false)
+    if (err.response.status === 422) {
+      commit('LR_NUMBER_DUPLICATION_ERROR', true)
+      throw err
+    }
     commit('SET_ERROR_STATE', true)
     throw new Error(err)
   }

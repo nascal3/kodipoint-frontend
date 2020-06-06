@@ -9,22 +9,16 @@
       </v-icon>
     </v-card-title>
     <v-card-text class="content">
-      <v-form enctype="multipart/form-data" v-model="valid" @submit.prevent="addProperty">
+      <v-form ref="form" enctype="multipart/form-data" v-model="valid" @submit.prevent="addProperty">
         <div class="section-title">Property details</div>
         <v-row>
           <v-col cols="12" md="6">
             <v-text-field
                 v-model="propertyName"
                 label="Property name*"
-                v-validate="'required'"
+                :rules="[rules.propertyRequired]"
                 name="propertyName"
-                :error="errors.has('propertyName')"
             ></v-text-field>
-            <transition name="fade">
-              <span class="input-error" v-if="errors.has('propertyName')">
-                Please enter property name
-              </span>
-            </transition>
           </v-col>
           <v-col cols="12" md="6">
             <v-select
@@ -40,31 +34,24 @@
             <v-text-field
                 v-model="lrNumber"
                 label="LR number*"
-                v-validate="'required'"
                 name="lrNumber"
-                :error="errors.has('lrNumber')"
+                :rules="[rules.lrRequired]"
+                :error="lrNumberDuplicationError"
             ></v-text-field>
             <transition name="fade">
-              <span class="input-error" v-if="errors.has('lrNumber')">
-                Please enter LR Number
-              </span>
+              <div class="input-error" v-if="lrNumberDuplicationError">
+                The following LR number is already registered
+              </div>
             </transition>
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
                 v-model="nosUnits"
                 label="Number of units*"
-                v-validate="'required|max:4'"
+                :rules="[rules.unitsRequired]"
                 name="nosUnits"
-                data-vv-as="number of units"
                 v-mask="['####']"
-                :error="errors.has('nosUnits')"
             ></v-text-field>
-            <transition name="fade">
-            <span class="input-error" v-if="errors.has('nosUnits')">
-              {{ errors.first('nosUnits') }}
-            </span>
-            </transition>
           </v-col>
         </v-row>
         <div class="section-title">Contact person</div>
@@ -79,36 +66,19 @@
                 <v-text-field
                     v-model="contactPerson"
                     label="Contacts' name*"
-                    v-validate="'required'"
+                    :rules="[rules.contactRequired]"
                     name="contactPerson"
-                    :error="errors.has('contactPerson')"
                 ></v-text-field>
-                <transition name="fade">
-                  <span class="input-error" v-if="errors.has('contactPerson')">
-                    Please insert contacts' name
-                  </span>
-                </transition>
               </v-col>
               <v-col cols="12" md="6">
                 <v-text-field
                     v-model="contactPhone"
                     label="Contacts' phone number*"
-                    v-validate="'required|min:17 '"
+                    :rules="[rules.phoneRequired, rules.numberMin]"
                     name="contactPhone"
                     persistent-hint
-                    :error="errors.has('contactPhone')"
-                    data-vv-as="contacts' phone number"
-                    v-mask="['(+###) ####-#####']"
+                    v-mask="['(+###) #### #####']"
                 ></v-text-field>
-                <transition name="fade">
-                  <div class="input-error" v-if="errors.has('phone')">
-                    {{
-                      errors.items[0].rule === 'min'
-                        ? 'Please insert complete phone number! e.g (+254) 7234-56789'
-                        : 'Please insert a phone number'
-                    }}
-                  </div>
-                </transition>
               </v-col>
             </v-row>
           </section>
@@ -125,30 +95,15 @@
           @keyup.tab="updateTags"
           @paste="updateTags">
         </v-combobox>
-        <span class="input-hint">
-          Separate each service with a comma.
-        </span>
+        <div class="input-hint">
+          Press enter after typing a service.
+        </div>
         <div class="section-title">Property image</div>
         <v-row>
-          <v-col cols="12" md="6">
-            <v-file-input
-                ref="propertyImage"
-                prepend-icon="mdi-camera"
-                :value=imageValue
-                :rules="UploadImageRules"
-                :error="!validFile"
-                chips
-                show-size
-                accept="image/*"
-                label="Upload Property Image"
-                @change="onSelect"
-            >
-            </v-file-input>
-            <transition name="fade">
-              <span class="file-error" v-if="!validFile">
-                Please upload an image file.
-              </span>
-            </transition>
+          <v-col cols="12" md="6" class="d-flex justify-center align-center">
+            <div class="upload-picture-section d-flex justify-center align-center flex-column">
+              <upload-image @setImage="setImage" />
+            </div>
           </v-col>
           <v-col cols="12" md="6" class="d-flex justify-center">
             <v-img
@@ -194,6 +149,7 @@
 </template>
 
 <script>
+import UploadImage from '@/helpers/UploadImage'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -211,6 +167,9 @@ export default {
       type: Object
     }
   },
+  components: {
+    UploadImage
+  },
   data: () => ({
     valid: false,
     propertyName: '',
@@ -222,8 +181,6 @@ export default {
     description: '',
     services: ['garbage collection', 'water', 'security'],
     items: [],
-    file: '',
-    imageValue: [],
     validFile: true,
     placeholderImage: require(`@/assets/images/noImage.jpg`),
     search: '',
@@ -235,12 +192,18 @@ export default {
       'Apartments & Business premises',
       'Warehouse'
     ],
-    UploadImageRules: [
-      value => !value || value.size < 1000000 || 'Image size should be less than 1 MB!'
-    ]
+    rules: {
+      propertyRequired: value => !!value || 'Property name required',
+      lrRequired: value => !!value || 'Please enter LR Number',
+      unitsRequired: value => !!value || 'Please enter number of units',
+      contactRequired: value => !!value || 'Please insert contacts\' name',
+      phoneRequired: value => !!value || 'Please insert a phone number',
+      numberMin: v => v.length >= 17 || 'Please insert complete phone number! e.g (+254) 7234 56789'
+    }
   }),
   computed: {
     ...mapGetters({
+      lrNumberDuplicationError: ['property/lrNumberDuplicationError'],
       showLoader: ['property/showLoader'],
       showErrorState: ['property/showErrorState'],
       user: ['auth/user']
@@ -264,6 +227,10 @@ export default {
     ...mapActions('property', {
       addNewProperty: 'addNewProperty'
     }),
+    setImage (values) {
+      this.image = values.image
+      this.validFile = values.validImage
+    },
     updateTags () {
       this.$nextTick(() => {
         this.services.push(...this.search.split(','))
@@ -271,13 +238,6 @@ export default {
           this.search = ''
         })
       })
-    },
-    onSelect () {
-      this.file = this.$refs.propertyImage.internalValue
-      if (this.file) this.validUploadedFile(this.file.type)
-    },
-    validUploadedFile (fileType) {
-      this.validFile = fileType.split('/')[0] === 'image'
     },
     closeForm (formSubmitted) {
       const payload = {
@@ -304,16 +264,13 @@ export default {
       this.contact = 'landlord'
       this.services = ['garbage collection', 'water', 'security']
       this.propertyType = 'Apartments'
-      await setTimeout(() => {
-        this.propertyName = ''
-        this.lrNumber = ''
-        this.nosUnits = ''
-        this.description = ''
-        this.file = ''
-        this.imageValue = []
-        this.contactPerson = ''
-        this.contactPhone = ''
-      }, 5)
+      this.propertyName = ''
+      this.lrNumber = ''
+      this.nosUnits = ''
+      this.description = ''
+      this.image = ''
+      this.contactPerson = ''
+      this.contactPhone = ''
     },
     async addProperty () {
       if (this.contact === 'landlord') {
@@ -338,10 +295,11 @@ export default {
         'edit': this.edit
       }
       try {
-        const valid = await this.$validator.validateAll()
-        if (!valid || !this.validFile) return
+        this.valid = this.$refs.form.validate()
+        console.log(this.valid, this.validFile)
+        if (!this.valid || !this.validFile) return
         const formData = new FormData()
-        formData.append('file', this.file)
+        formData.append('file', this.image)
         formData.append('json', JSON.stringify(params))
         const success = await this.addNewProperty(formData)
         if (success) {

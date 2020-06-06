@@ -39,10 +39,19 @@ const properties = (state) => state.properties
  */
 const propertySearchResults = (state) => state.propertySearchResults
 
+/**
+ * Retrieve LR number duplication error state
+ * @method lrNumberDuplicationError
+ * @param  {Object} state vuex state object
+ * @return {Boolean} Contains state of error
+ */
+const lrNumberDuplicationError = (state) => state.lrNumberDuplicationError
+
 export {
   properties,
   showLoader,
   propertySearchResults,
   showErrorState,
-  noSearchResults
+  noSearchResults,
+  lrNumberDuplicationError
 }
