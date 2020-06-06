@@ -23,7 +23,7 @@
      </image-uploader>
      <transition name="fade">
          <div class="file-error" v-if="!validFile">
-             Please upload an image file.
+             Invalid image file!
          </div>
      </transition>
  </section>

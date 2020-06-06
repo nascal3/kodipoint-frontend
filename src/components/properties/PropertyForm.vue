@@ -103,6 +103,11 @@
           <v-col cols="12" md="6" class="d-flex justify-center align-center">
             <div class="upload-picture-section d-flex justify-center align-center flex-column">
               <upload-image @setImage="setImage" />
+              <transition name="fade">
+                <div class="file-error" v-if="!hasImage">
+                  Please upload an image.
+                </div>
+              </transition>
             </div>
           </v-col>
           <v-col cols="12" md="6" class="d-flex justify-center">
@@ -181,6 +186,7 @@ export default {
     description: '',
     services: ['garbage collection', 'water', 'security'],
     items: [],
+    image: null,
     validFile: true,
     placeholderImage: require(`@/assets/images/noImage.jpg`),
     search: '',
@@ -221,6 +227,12 @@ export default {
       if (!imagePath) return this.placeholderImage
       const baseURL = process.env.BASE_URL
       return `${baseURL}/file${imagePath}`
+    },
+    hasImage () {
+      if (this.edit) {
+        return this.validFile
+      }
+      return this.image
     }
   },
   methods: {
@@ -296,8 +308,7 @@ export default {
       }
       try {
         this.valid = this.$refs.form.validate()
-        console.log(this.valid, this.validFile)
-        if (!this.valid || !this.validFile) return
+        if (!this.valid || !this.hasImage) return
         const formData = new FormData()
         formData.append('file', this.image)
         formData.append('json', JSON.stringify(params))

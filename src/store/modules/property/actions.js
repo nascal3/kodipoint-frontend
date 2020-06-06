@@ -1,6 +1,15 @@
 import { api } from '@/middleware/config'
 
 /**
+ * Reset Errors
+ * @method resetErrors
+ */
+const resetErrors = ({ commit }) => {
+  commit('SET_ERROR_STATE', false)
+  commit('LR_NUMBER_DUPLICATION_ERROR', false)
+}
+
+/**
  * Fetch properties of specific landlord
  * @method getProperties
  * @param  {Object} commit vuex mutations
@@ -46,7 +55,7 @@ const addNewProperty = async ({ commit, dispatch }, payload) => {
   const data = JSON.parse(payload.getAll('json'))
   const url = data.edit ? '/api/properties/edit' : '/api/properties/register'
 
-  commit('SHOW_LOADER', true)
+  dispatch('resetErrors')
   try {
     const response = await api.post(url, payload)
     if (response.status === 200) {
@@ -103,6 +112,7 @@ const fetchSearchProperties = async ({ commit, state }, payload) => {
 }
 
 export {
+  resetErrors,
   getProperties,
   addNewProperty,
   searchProperties,
