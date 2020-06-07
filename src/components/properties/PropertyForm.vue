@@ -54,6 +54,26 @@
             ></v-text-field>
           </v-col>
         </v-row>
+        <div class="section-title">Property location</div>
+        <div class="section-subtitle">Click on the property location in map to select the property location</div>
+        <v-row>
+          <v-col cols="12">
+            <div class="map-container">
+              <div class="location-input">
+                <v-text-field
+                  v-model="propertyLocation"
+                  label="Property location*"
+                  :rules="[rules.propertyLocationRequired]"
+                  name="propertyLocation"
+                  class="location-name"
+                  readonly
+                  solo
+                ></v-text-field>
+              </div>
+              <Map @locationName="setLocationName" />
+            </div>
+          </v-col>
+        </v-row>
         <div class="section-title">Contact person</div>
         <v-radio-group v-model="contact" row>
           <v-radio label="Landlord" color="primary" value="landlord"></v-radio>
@@ -155,6 +175,7 @@
 
 <script>
 import UploadImage from '@/helpers/UploadImage'
+import Map from '@/helpers/Map'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -173,7 +194,8 @@ export default {
     }
   },
   components: {
-    UploadImage
+    UploadImage,
+    Map
   },
   data: () => ({
     valid: false,
@@ -192,6 +214,7 @@ export default {
     search: '',
     btnColor: 'secondary',
     propertyType: 'Apartments',
+    propertyLocation: '',
     properties: [
       'Apartments',
       'Business premises',
@@ -200,6 +223,7 @@ export default {
     ],
     rules: {
       propertyRequired: value => !!value || 'Property name required',
+      propertyLocationRequired: value => !!value || 'Property location required',
       lrRequired: value => !!value || 'Please enter LR Number',
       unitsRequired: value => !!value || 'Please enter number of units',
       contactRequired: value => !!value || 'Please insert contacts\' name',
@@ -242,6 +266,9 @@ export default {
     setImage (values) {
       this.image = values.image
       this.validFile = values.validImage
+    },
+    setLocationName (location) {
+      this.propertyLocation = location
     },
     updateTags () {
       this.$nextTick(() => {

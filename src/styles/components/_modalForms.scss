@@ -16,7 +16,7 @@
         position: fixed;
         border-bottom: solid 1px $table_hover_bg_color;
         width: 59.4rem;
-        z-index: 1;
+        z-index: 4;
       }
 
       .title {
@@ -52,11 +52,57 @@
   }
 }
 
-.section-title {
-  color: $secondary;
-  font-weight: 300;
-  font-size: 1.8rem;
-  margin-top: 1rem;
+.section {
+  &-title {
+    color: $secondary;
+    font-weight: 300;
+    font-size: 1.8rem;
+    margin-top: 1rem;
+  }
+  &-subtitle {
+    color: $accent;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 1rem;
+    margin-top: .8rem;
+  }
+}
+
+.map-container {
+  position: relative;
+  width: 54rem;
+  height: 30rem;
+
+  .location-input {
+    position: absolute;
+    z-index: 2;
+    right: 1rem;
+    top: 1rem;
+    height: 4.2rem;
+    overflow: hidden;
+
+    .location-name {
+      width: 32.5rem;
+      .v-input__control {
+        min-height: 4rem;
+      }
+    }
+  }
+
+  .vue-map {
+    .gm-style-iw-c {
+      button {
+        top: 0 !important;
+        right: 0 !important;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 2rem !important;
+        height: 2rem !important;
+        background-color: $kodi_orange !important;
+      }
+    }
+  }
 }
 
 .input-hint {
