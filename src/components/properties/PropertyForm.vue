@@ -55,7 +55,7 @@
           </v-col>
         </v-row>
         <div class="section-title">Property location</div>
-        <div class="section-subtitle">Click on the property location in map to select the property location</div>
+        <div class="section-subtitle">Click on the property location in map to select/set the property location.</div>
         <v-row>
           <v-col cols="12">
             <div class="map-container">
@@ -70,7 +70,7 @@
                   solo
                 ></v-text-field>
               </div>
-              <Map @locationName="setLocationName" />
+              <Map :editLocation="edit" :propertyCoordinates="locationCoordinates" @locationName="setLocationName" />
             </div>
             <transition name="fade">
                 <div class="file-error" v-if="showMapValidationError">
@@ -221,6 +221,7 @@ export default {
     propertyType: 'Apartments',
     propertyLocation: '',
     propertyCoordinates: '',
+    locationCoordinates: null,
     properties: [
       'Apartments',
       'Business premises',
@@ -307,6 +308,9 @@ export default {
       this.description = property.description
       this.services = property.property_services.split(',')
       this.propertyType = property.property_type
+      this.propertyLocation = property.property_location
+      this.locationCoordinates = property.property_coordinates
+        ? JSON.parse(property.property_coordinates) : null
     },
     async clearFormValues () {
       this.btnColor = 'secondary'

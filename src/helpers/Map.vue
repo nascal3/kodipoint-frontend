@@ -2,10 +2,9 @@
     <GmapMap
         ref="mapRef"
         :center="center"
-        :zoom="13"
+        :zoom="zoom"
         :options="options"
         @click="clicked"
-        :class="{'map-error': error === true }"
     >
         <GmapMarker
             :position="propertyLocation"
@@ -33,6 +32,11 @@ export default {
     propertyCoordinates: {
       type: Object,
       required: false
+    },
+    editLocation: {
+      type: Boolean,
+      default: false,
+      required: false
     }
   },
   components: {
@@ -40,6 +44,7 @@ export default {
   },
   data: () => ({
     center: mapCoordinates.nairobi,
+    zoom: 15,
     propertyLocation: null,
     locationName: '',
     infoContent: '',
@@ -52,6 +57,7 @@ export default {
       }
     },
     error: false,
+    noCoordinates: { lat: 0, lng: 0 },
     options: {
       'zoomControl': true,
       'mapTypeControl': true,
@@ -62,6 +68,12 @@ export default {
       'disableDefaultUi': true
     }
   }),
+  watch: {
+    async propertyCoordinates (newCoordinates) {
+      this.center = newCoordinates || this.noCoordinates
+      await this.mapInit()
+    }
+  },
   methods: {
     clicked (event) {
       this.infoWinOpen = false
@@ -80,28 +92,31 @@ export default {
     getLocationName (coordinates) {
       const geoCoder = new google.maps.Geocoder()
       const scope = this
-      geoCoder.geocode({ 'location': coordinates }, function (results, status) {
+      geoCoder.geocode({ 'location': coordinates }, (results, status) => {
+        const locationData = { 'name': '', 'coordinates': this.noCoordinates }
         if (status === 'OK') {
+          scope.error = false
           if (results[0]) {
             scope.locationName = results[0].formatted_address
-            const locationData = {
-              'name': scope.locationName,
-              'coordinates': coordinates
-            }
+
+            locationData.name = scope.locationName
+            locationData.coordinates = coordinates
             scope.$emit('locationName', locationData)
           } else {
             window.alert('No results found :(')
           }
         } else {
+          scope.$emit('locationName', locationData)
           scope.error = true
-          window.alert(`Oops...Geocoder failed due to: ${status}!\n Reload the page and try again.`)
+          window.alert(`Oops! Geocoder failed due to: ${status}!\nPlease set location on map.`)
         }
       })
     },
     async mapInit () {
-      const map = await this.$refs.mapRef.$mapPromise
-      map.panTo(this.center)
       this.propertyLocation = this.propertyCoordinates || this.center
+      if (this.editLocation) this.propertyLocation = this.propertyCoordinates || this.noCoordinates
+      const map = await this.$refs.mapRef.$mapPromise
+      map.panTo(this.propertyLocation)
       this.getLocationName(this.propertyLocation)
     }
   },
