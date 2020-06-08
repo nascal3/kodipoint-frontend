@@ -190,28 +190,13 @@
         </v-row>
         <div class="section-title">Landlord picture</div>
         <v-row>
-          <v-col cols="12" md="6">
-            <v-file-input
-                ref="landlordPicture"
-                prepend-icon="mdi-camera"
-                :value=imageValue
-                :rules="UploadImageRules"
-                :error="!validFile"
-                chips
-                show-size
-                accept="image/*"
-                label="Upload landlord picture"
-                @change="onSelect"
-            >
-            </v-file-input>
-            <transition name="fade">
-              <span class="file-error" v-if="!validFile">
-                Please upload an image file.
-              </span>
-            </transition>
+          <v-col cols="12" md="6" class="d-flex justify-center align-center">
+            <div class="upload-picture-section d-flex justify-center align-center flex-column">
+              <upload-image @setImage="setImage" />
+            </div>
           </v-col>
           <v-col cols="12" md="6" class="d-flex justify-center">
-            <v-avatar class="modal-data-image" color="primary">
+            <v-avatar class="modal-data-image">
               <v-img
                 v-if="edit"
                 :src="imageSource"
@@ -250,6 +235,7 @@
 </template>
 
 <script>
+import UploadImage from '@/helpers/UploadImage'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -262,6 +248,9 @@ export default {
     landlordInfo: {
       type: Object
     }
+  },
+  components: {
+    UploadImage
   },
   data: () => ({
     valid: false,
@@ -276,7 +265,7 @@ export default {
     bankSwift: '',
     file: '',
     userID: '',
-    imageValue: [],
+    image: null,
     validFile: true,
     placeholderImage: require(`@/assets/images/avatar.jpg`),
     btnColor: 'secondary',
@@ -318,12 +307,9 @@ export default {
         this.clearFormValues()
       }
     },
-    onSelect () {
-      this.file = this.$refs.landlordPicture.internalValue
-      if (this.file) this.validUploadedFile(this.file.type)
-    },
-    validUploadedFile (fileType) {
-      this.validFile = fileType.split('/')[0] === 'image'
+    setImage (values) {
+      this.image = values.image
+      this.validFile = values.validImage
     },
     closeForm (formSubmitted) {
       const payload = {
@@ -355,19 +341,17 @@ export default {
     },
     async clearFormValues () {
       this.btnColor = 'secondary'
-      await setTimeout(() => {
-        this.landlordName = ''
-        this.phone = ''
-        this.email = ''
-        this.nationalID = ''
-        this.kraPIN = ''
-        this.bankName = ''
-        this.bankBranch = ''
-        this.bankAcc = ''
-        this.bankSwift = ''
-        this.imageValue = []
-        this.role = { roleText: 'Landlord', roleValue: 'landlord' }
-      }, 500)
+      this.landlordName = ''
+      this.phone = ''
+      this.email = ''
+      this.nationalID = ''
+      this.kraPIN = ''
+      this.bankName = ''
+      this.bankBranch = ''
+      this.bankAcc = ''
+      this.bankSwift = ''
+      this.image = ''
+      this.role = { roleText: 'Landlord', roleValue: 'landlord' }
     },
     async addLandlord () {
       const params = {
@@ -388,7 +372,7 @@ export default {
         const valid = await this.$validator.validateAll()
         if (!valid || !this.validFile) return
         const formData = new FormData()
-        formData.append('file', this.file)
+        formData.append('file', this.image)
         formData.append('json', JSON.stringify(params))
         const success = await this.addNewLandlord(formData)
         if (success) {

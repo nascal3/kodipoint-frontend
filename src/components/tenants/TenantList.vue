@@ -34,7 +34,7 @@
            :class="{'v-list-item--active': tenant.id === selectedTenant.id }"
          >
            <v-list-item-icon>
-             <v-avatar color="primary">
+             <v-avatar>
                <v-img :src="imageSource(tenant.avatar)"></v-img>
              </v-avatar>
            </v-list-item-icon>

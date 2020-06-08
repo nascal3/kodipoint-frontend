@@ -34,7 +34,7 @@
            :class="{'v-list-item--active': landlord.landlord_id === selectedLandlord.landlord_id }"
          >
            <v-list-item-icon>
-             <v-avatar color="primary">
+             <v-avatar>
                <v-img :src="imageSource(landlord.avatar)"></v-img>
              </v-avatar>
            </v-list-item-icon>

@@ -45,6 +45,7 @@
 }
 
 .v-avatar {
+  background-color: $accent;
   &.modal-data-image {
     min-width: 10rem !important;
     height: 10rem !important;
