@@ -4,7 +4,7 @@
          :preview="true"
          :maxWidth="512"
          :className="['fileinput', { 'fileinput--loaded': hasImage }]"
-         :debug="1"
+         :debug="0"
          :autoRotate="true"
          outputFormat="file"
          accept="image/*"
