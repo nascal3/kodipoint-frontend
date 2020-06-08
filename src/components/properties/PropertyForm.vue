@@ -72,6 +72,11 @@
               </div>
               <Map @locationName="setLocationName" />
             </div>
+            <transition name="fade">
+                <div class="file-error" v-if="showMapValidationError">
+                  Please select the property location!
+                </div>
+            </transition>
           </v-col>
         </v-row>
         <div class="section-title">Contact person</div>
@@ -215,6 +220,7 @@ export default {
     btnColor: 'secondary',
     propertyType: 'Apartments',
     propertyLocation: '',
+    propertyCoordinates: '',
     properties: [
       'Apartments',
       'Business premises',
@@ -257,6 +263,9 @@ export default {
         return this.validFile
       }
       return this.image
+    },
+    showMapValidationError () {
+      return !this.propertyLocation.length
     }
   },
   methods: {
@@ -268,7 +277,8 @@ export default {
       this.validFile = values.validImage
     },
     setLocationName (location) {
-      this.propertyLocation = location
+      this.propertyLocation = location.name
+      this.propertyCoordinates = JSON.stringify(location.coordinates)
     },
     updateTags () {
       this.$nextTick(() => {
@@ -329,6 +339,8 @@ export default {
         'lr_nos': this.lrNumber,
         'nos_units': this.nosUnits,
         'description': this.description,
+        'property_location': this.propertyLocation,
+        'property_coordinates': this.propertyCoordinates,
         'property_services': this.services.join(','),
         'property_type': this.propertyType,
         'edit': this.edit

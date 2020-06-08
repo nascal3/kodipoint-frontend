@@ -5,8 +5,7 @@
         :zoom="13"
         :options="options"
         @click="clicked"
-        style="width: 100%; height: 100%"
-        v-if="!error"
+        :class="{'map-error': error === true }"
     >
         <GmapMarker
             :position="propertyLocation"
@@ -85,7 +84,11 @@ export default {
         if (status === 'OK') {
           if (results[0]) {
             scope.locationName = results[0].formatted_address
-            scope.$emit('locationName', scope.locationName)
+            const locationData = {
+              'name': scope.locationName,
+              'coordinates': coordinates
+            }
+            scope.$emit('locationName', locationData)
           } else {
             window.alert('No results found :(')
           }

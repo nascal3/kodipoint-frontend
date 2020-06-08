@@ -1,2 +1,18 @@
 // map component styles
 
+.vue-map-container {
+  width: 100%;
+  height: 100%;
+}
+.map-error {
+  &:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: lighten($accent, 30%);
+    content: '';
+    z-index: 3;
+  }
+}
