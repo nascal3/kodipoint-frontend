@@ -144,7 +144,8 @@ module.exports = {
     new CompressionPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
-        BASE_URL: JSON.stringify(process.env.BASE_URL)
+        BASE_URL: JSON.stringify('https://kodiend.com'),
+        API_KEY: JSON.stringify('AIzaSyBWMVg9uhO7-BieEMUB3cVzm9O78RGtugo')
       }
     })
   ],

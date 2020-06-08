@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build-prod": "BASE_URL=https://kodiend.com webpack --mode production --config webpack.config.js",
+    "build-prod": "webpack --mode production --config webpack.config.js",
     "bundle-report": "webpack --profile --json > stats.json && webpack-bundle-analyzer ./stats.json dist/",
     "dev": "webpack-dev-server --inline --progress --hide-modules --config build/webpack.config.dev.js --watch",
     "lint": "eslint . --fix"
