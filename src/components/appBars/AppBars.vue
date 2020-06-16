@@ -1,7 +1,7 @@
 <template>
     <nav>
-       <ToolBar :page-name="pageName"></ToolBar>
-       <Navigation @changePageTitle="setPageTitle"></Navigation>
+       <ToolBar/>
+       <Navigation @changePageTitle="setPageTitle" />
     </nav>
 </template>
 

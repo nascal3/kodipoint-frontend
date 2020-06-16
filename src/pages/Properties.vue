@@ -10,30 +10,16 @@
 
 <script>
 import PropertyTable from '@/components/properties/PropertyTable'
-import { mapGetters } from 'vuex'
+import checkLandlordApproval from '@/mixins/checkLandlordApproval'
 
 export default {
-  data: () => ({
-
-  }),
+  name: 'Properties',
+  mixins: [checkLandlordApproval],
   components: {
     PropertyTable
   },
-  computed: {
-    ...mapGetters({
-      token: ['auth/token'],
-      userInfo: ['configs/loggedInUserInfo']
-    })
-  },
-  methods: {
-    checkApproval () {
-      if (this.token.user.role === 'landlord' || this.token.user.role === 'landlordTenant') {
-        if (this.userInfo.approved) this.$router.push('/profile')
-      }
-    }
-  },
   created () {
-    this.checkApproval()
+    this.checkLandlordApproval()
   }
 }
 </script>

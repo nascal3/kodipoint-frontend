@@ -21,7 +21,6 @@
                 :key="page.title"
                 router :to="page.route"
                 link
-                :disabled="approved"
                 @click="setPageTitle(page)"
             >
                 <v-list-item-icon>
@@ -48,15 +47,8 @@ export default {
   computed: {
     ...mapGetters({
       user: ['auth/user'],
-      token: ['auth/token'],
-      loggedInUserInfo: ['configs/loggedInUserInfo']
+      token: ['auth/token']
     }),
-    approved () {
-      if (this.token.user.role === 'landlord' || this.token.user.role === 'landlordTenant') {
-        return !this.loggedInUserInfo.approved
-      }
-      return false
-    },
     email () {
       return `https://api.adorable.io/avatars/201/${this.token.user.email}.png`
     },
