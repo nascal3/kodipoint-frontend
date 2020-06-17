@@ -9,12 +9,8 @@
         dark
     >
         <v-list-item class="menu-user-section" >
-            <v-avatar>
-                <v-img :src="imageSource(loggedInUserInfo.avatar)"></v-img>
-            </v-avatar>
-            <div class="user-name">{{user.name}}</div>
+            <v-img :src="kodiPointLightLogo"></v-img>
         </v-list-item>
-
         <v-list shaped dense>
             <v-list-item
                 v-for="page in pages"
@@ -31,20 +27,29 @@
                 </v-list-item-content>
             </v-list-item>
         </v-list>
+
+        <v-spacer></v-spacer>
+
+        <v-footer absolute>
+            <v-col class="text-center" cols="12">
+                <router-link to="#">Terms & Conditions</router-link>
+                <router-link to="#">Privacy Policy</router-link> <br>
+                ©{{ new Date().getFullYear() }} KodiPoint
+            </v-col>
+        </v-footer>
     </v-navigation-drawer>
 </template>
 
 <script>
 import { mappedRoutePermissions } from '@/config'
 import { mapGetters } from 'vuex'
-import userProfileAvatar from '@/mixins/userProfileAvatar'
 
 export default {
   name: 'Navigation',
-  mixins: [userProfileAvatar],
   data: () => ({
     drawer: true,
-    bg: require('@/assets/images/menu_bg.jpg')
+    bg: require('@/assets/images/menu_bg.jpg'),
+    kodiPointLightLogo: require('@/assets/images/kodipoint_logo_light.png')
   }),
   computed: {
     ...mapGetters({
@@ -69,9 +74,6 @@ export default {
     setPageTitle (page) {
       this.$emit('changePageTitle', page.title)
     }
-  },
-  created () {
-    this.$store.dispatch('configs/getLoggedInUserInfo')
   }
 }
 </script>

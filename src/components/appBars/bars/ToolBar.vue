@@ -1,9 +1,11 @@
 <template>
     <v-app-bar flat app>
-        <v-img class="toolbar-logo" :src="require('@/assets/images/kodiPoint_logo.png')"></v-img>
         <v-spacer></v-spacer>
         <template>
             <v-row align="center" justify="end" no-gutters>
+                <v-avatar>
+                    <v-img :src="imageSource(loggedInUserInfo.avatar)"></v-img>
+                </v-avatar>
                 <span class="user-name">
                     <user-drop-menu/>
                 </span>
@@ -14,11 +16,22 @@
 
 <script>
 import UserDropMenu from '@/components/appBars/utils/UserDropMenu'
+import userProfileAvatar from '@/mixins/userProfileAvatar'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'ToolBar',
+  mixins: [userProfileAvatar],
   components: {
     UserDropMenu
+  },
+  computed: {
+    ...mapGetters({
+      loggedInUserInfo: ['configs/loggedInUserInfo']
+    })
+  },
+  created () {
+    this.$store.dispatch('configs/getLoggedInUserInfo')
   }
 }
 </script>

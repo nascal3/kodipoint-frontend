@@ -11,7 +11,7 @@ import Profile from '@/pages/Profile'
 Vue.use(Router)
 
 export default new Router({
-  base: '/system',
+  // base: '/system',
   mode: 'history',
   routes: [
     {
