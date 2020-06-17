@@ -1,9 +1,9 @@
 <template>
   <v-card class="details-container">
     <v-row no-gutters>
-      <v-col class="left-section" cols="12" sm="5">
+      <v-col class="left-section" cols="12" sm="7">
         <v-row>
-          <v-col cols="12" sm="4">
+          <div class="left-section-avatar">
             <div class="picture-border d-flex justify-center align-center">
               <v-avatar v-if="userInfo.name" color="primary">
                 <v-img :src="imageSource(userInfo.avatar)"></v-img>
@@ -12,17 +12,17 @@
             <v-btn class="edit-fab-btn mx-2" @click="openEditDialog()" fab small>
               <v-icon color="primary">mdi-pencil</v-icon>
             </v-btn>
-          </v-col>
-          <v-col cols="12" sm="8">
+          </div>
+          <div class="left-section-info">
             <div class="info-section d-flex flex-column justify-center align-start">
               <div class="user-name">{{userInfo.name}}</div>
               <div class="user-email">{{userInfo.email}}</div>
               <div class="user-phone">{{userInfo.phone}}</div>
             </div>
-          </v-col>
+          </div>
         </v-row>
       </v-col>
-      <v-col class="right-section" cols="12" sm="7">
+      <v-col class="right-section" cols="12" sm="5">
       </v-col>
     </v-row>
   </v-card>

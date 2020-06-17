@@ -29,29 +29,37 @@
       height: 3.5rem;
     }
 
-    .info-section {
-      padding-left: 1rem;
-      height: 11rem;
+    &-avatar {
+      margin-left: 1rem;
+    }
 
-      .user {
-        &-name {
-          text-transform: capitalize;
-          color: $kodi_green;
-          font-size: 2.6rem;
-          font-weight: 300;
-        }
-        &-email {
-          font-size: 1.6rem;
-          font-weight: 300;
-          margin-bottom: 1.5rem;
-        }
-        &-phone {
-          color: $kodi-orange;
-          font-size: 1.6rem;
-          font-weight: 300;
+    &-info {
+      margin-left: 1rem;
+      .info-section {
+        padding-left: 1rem;
+        height: 11rem;
+
+        .user {
+          &-name {
+            text-transform: capitalize;
+            color: $kodi_green;
+            font-size: 2.6rem;
+            font-weight: 300;
+          }
+          &-email {
+            font-size: 1.6rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+          }
+          &-phone {
+            color: $kodi-orange;
+            font-size: 1.6rem;
+            font-weight: 300;
+          }
         }
       }
     }
+
   }
 
   .right-section {
