@@ -10,7 +10,7 @@
     >
         <v-list-item class="menu-user-section" >
             <v-avatar>
-                <v-img :src=email></v-img>
+                <v-img :src="imageSource(loggedInUserInfo.avatar)"></v-img>
             </v-avatar>
             <div class="user-name">{{user.name}}</div>
         </v-list-item>
@@ -37,9 +37,11 @@
 <script>
 import { mappedRoutePermissions } from '@/config'
 import { mapGetters } from 'vuex'
+import userProfileAvatar from '@/mixins/userProfileAvatar'
 
 export default {
   name: 'Navigation',
+  mixins: [userProfileAvatar],
   data: () => ({
     drawer: true,
     bg: require('@/assets/images/menu_bg.jpg')
@@ -47,11 +49,9 @@ export default {
   computed: {
     ...mapGetters({
       user: ['auth/user'],
-      token: ['auth/token']
+      token: ['auth/token'],
+      loggedInUserInfo: ['configs/loggedInUserInfo']
     }),
-    email () {
-      return `https://api.adorable.io/avatars/201/${this.token.user.email}.png`
-    },
     pages () {
       const role = this.token.user.role
       const navPermissions = {

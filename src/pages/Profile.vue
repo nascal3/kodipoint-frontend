@@ -6,7 +6,7 @@
             prominent
             type="error"
         >
-            Your account is not yet approved for use
+            Your account is not yet approved for use!
         </v-alert>
         <v-row>
             <v-col cols="12" sm="4">

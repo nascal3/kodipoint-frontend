@@ -70,9 +70,11 @@
 <script>
 import InfiniteLoading from 'vue-infinite-loading'
 import { mapGetters, mapActions } from 'vuex'
+import userProfileAvatar from '@/mixins/userProfileAvatar'
 
 export default {
   name: 'LandlordList',
+  mixins: [userProfileAvatar],
   props: {
     reloadValue: {
       type: Number
@@ -87,7 +89,6 @@ export default {
     dialog: false,
     edit: false,
     isSearching: false,
-    placeholderImage: require(`@/assets/images/avatar.jpg`),
     landlordInfo: null,
     selectedID: null
   }),
@@ -142,11 +143,6 @@ export default {
     },
     getAllLandlords ($event) {
       this.getLandlords({ ...$event })
-    },
-    imageSource (imagePath) {
-      if (!imagePath) return this.placeholderImage
-      const baseURL = process.env.BASE_URL
-      return `${baseURL}/file${imagePath}`
     },
     searchLandlord () {
       const payload = this.searchLandlordName

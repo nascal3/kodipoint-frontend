@@ -44,10 +44,12 @@
 </template>
 
 <script>
+import userProfileAvatar from '@/mixins/userProfileAvatar'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'UserInfo',
+  mixins: [userProfileAvatar],
   props: {
     userInfo: {
       type: Object,
@@ -59,7 +61,6 @@ export default {
     }
   },
   data: () => ({
-    placeholderImage: require(`@/assets/images/avatar.jpg`),
     color: 'error',
     icon: 'error',
     statusMessage: 'Not approved',
@@ -97,11 +98,6 @@ export default {
     }
   },
   methods: {
-    imageSource (imagePath) {
-      if (!imagePath) return this.placeholderImage
-      const baseURL = process.env.BASE_URL
-      return `${baseURL}/file${imagePath}`
-    },
     setApprovedStatus (userData) {
       if (this.tokenData.user.role === 'landlord' || this.tokenData.user.role === 'landlordTenant') {
         if (userData.approved) {
