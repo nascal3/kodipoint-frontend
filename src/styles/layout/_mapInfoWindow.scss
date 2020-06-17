@@ -1,0 +1,12 @@
+// map info window styles
+
+.info-window {
+  &-title {
+    color: $kodi_green;
+    font-weight: 500;
+    margin-bottom: 3px;
+  }
+  &-text {
+    color: $kodi_orange;
+  }
+}

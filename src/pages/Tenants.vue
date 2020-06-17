@@ -20,9 +20,11 @@ import { mapGetters, mapActions } from 'vuex'
 import TenantList from '@/components/tenants/TenantList'
 import UserDetailsBanner from '@/components/utils/UserDetailsBanner'
 import TenantForm from '@/components/tenants/TenantForm'
+import checkLandlordApproval from '@/mixins/checkLandlordApproval'
 
 export default {
   name: 'Tenants',
+  mixins: [checkLandlordApproval],
   data: () => ({
     changed: null,
     dialog: false,
@@ -62,6 +64,9 @@ export default {
         this.changed = +new Date()
       }
     }
+  },
+  created () {
+    this.checkLandlordApproval()
   }
 }
 </script>

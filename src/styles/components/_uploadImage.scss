@@ -1,0 +1,16 @@
+// upload image component
+#fileInput {
+  display: none;
+}
+.upload-picture-section {
+
+  div {
+    margin-bottom: 1rem;
+    img {
+      max-width: 15rem;
+    }
+  }
+  figure {
+    cursor: pointer;
+  }
+}

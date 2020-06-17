@@ -34,7 +34,7 @@
            :class="{'v-list-item--active': tenant.id === selectedTenant.id }"
          >
            <v-list-item-icon>
-             <v-avatar color="primary">
+             <v-avatar>
                <v-img :src="imageSource(tenant.avatar)"></v-img>
              </v-avatar>
            </v-list-item-icon>
@@ -77,9 +77,11 @@
 import InfiniteLoading from 'vue-infinite-loading'
 import { mapGetters, mapActions } from 'vuex'
 import TenantForm from '@/components/tenants/TenantForm'
+import userProfileAvatar from '@/mixins/userProfileAvatar'
 
 export default {
   name: 'TenantList',
+  mixins: [userProfileAvatar],
   props: {
     reloadValue: {
       type: Number
@@ -95,7 +97,6 @@ export default {
     tenantDialog: false,
     edit: false,
     isSearching: false,
-    placeholderImage: require(`@/assets/images/avatar.jpg`),
     landlordInfo: null,
     selectedID: null
   }),
@@ -150,11 +151,6 @@ export default {
     },
     getAllTenants ($event) {
       this.getTenants({ ...$event })
-    },
-    imageSource (imagePath) {
-      if (!imagePath) return this.placeholderImage
-      const baseURL = process.env.BASE_URL
-      return `${baseURL}/file${imagePath}`
     },
     searchTenant () {
       const payload = this.searchTenantName

@@ -10,7 +10,7 @@
     >
         <v-list-item class="menu-user-section" >
             <v-avatar>
-                <v-img :src=email></v-img>
+                <v-img :src="imageSource(loggedInUserInfo.avatar)"></v-img>
             </v-avatar>
             <div class="user-name">{{user.name}}</div>
         </v-list-item>
@@ -21,7 +21,6 @@
                 :key="page.title"
                 router :to="page.route"
                 link
-                :disabled="approved"
                 @click="setPageTitle(page)"
             >
                 <v-list-item-icon>
@@ -38,9 +37,11 @@
 <script>
 import { mappedRoutePermissions } from '@/config'
 import { mapGetters } from 'vuex'
+import userProfileAvatar from '@/mixins/userProfileAvatar'
 
 export default {
   name: 'Navigation',
+  mixins: [userProfileAvatar],
   data: () => ({
     drawer: true,
     bg: require('@/assets/images/menu_bg.jpg')
@@ -51,15 +52,6 @@ export default {
       token: ['auth/token'],
       loggedInUserInfo: ['configs/loggedInUserInfo']
     }),
-    approved () {
-      if (this.token.user.role === 'landlord' || this.token.user.role === 'landlordTenant') {
-        return !this.loggedInUserInfo.approved
-      }
-      return false
-    },
-    email () {
-      return `https://api.adorable.io/avatars/201/${this.token.user.email}.png`
-    },
     pages () {
       const role = this.token.user.role
       const navPermissions = {

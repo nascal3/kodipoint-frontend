@@ -34,6 +34,11 @@ const mappedRoutePermissions = {
   'landlordTenantUser': landlordTenantUserRoutes
 }
 
+const mapCoordinates = {
+  'nairobi': { lat: -1.28333, lng: 36.81667 }
+}
+
 export {
-  mappedRoutePermissions
+  mappedRoutePermissions,
+  mapCoordinates
 }

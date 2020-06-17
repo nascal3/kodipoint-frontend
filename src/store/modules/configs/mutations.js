@@ -1,6 +1,6 @@
 
 /**
- * Get logged in users infomation
+ * Get logged in users information
  * @method LOGGEDIN_USER_INFO
  * @param  {Object} state vuex state object
  * @param  {Object} payload contains error state
