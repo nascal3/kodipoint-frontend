@@ -4,7 +4,7 @@
         <template>
             <v-row align="center" justify="end" no-gutters>
                 <v-avatar>
-                    <v-img :src="imageSource(loggedInUserInfo.avatar)"></v-img>
+                    <v-img :src="imageSource(loggedInUserInfo)"></v-img>
                 </v-avatar>
                 <span class="user-name">
                     <user-drop-menu/>

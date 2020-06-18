@@ -35,7 +35,7 @@
          >
            <v-list-item-icon>
              <v-avatar>
-               <v-img :src="imageSource(landlord.avatar)"></v-img>
+               <v-img :src="imageSource(landlord)"></v-img>
              </v-avatar>
            </v-list-item-icon>
            <v-list-item-content>

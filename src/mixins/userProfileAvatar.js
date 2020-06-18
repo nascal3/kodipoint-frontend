@@ -3,10 +3,10 @@ const userProfileAvatar = {
     placeholderImage: require(`@/assets/images/avatar.jpg`)
   }),
   methods: {
-    imageSource (imagePath) {
-      if (!imagePath) return this.placeholderImage
+    imageSource (userInfo) {
+      if (!userInfo || !userInfo.avatar) return this.placeholderImage
       const baseURL = process.env.BASE_URL
-      return `${baseURL}/file${imagePath}`
+      return `${baseURL}/file${userInfo.avatar}`
     }
   }
 }

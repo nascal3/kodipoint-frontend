@@ -97,10 +97,7 @@
           </v-col>
           <v-col cols="12" md="6" class="d-flex justify-center">
             <v-avatar class="modal-data-image">
-              <v-img
-                v-if="edit"
-                :src="imageSource"
-              ></v-img>
+              <v-img :src="imageSource(tenantData)"></v-img>
             </v-avatar>
           </v-col>
         </v-row>
@@ -137,54 +134,50 @@
 <script>
 import UploadImage from '@/helpers/UploadImage'
 import { mapActions, mapGetters } from 'vuex'
+import userProfileAvatar from '@/mixins/userProfileAvatar'
 
 export default {
   name: 'TenantForm',
+  mixins: [userProfileAvatar],
   props: {
     edit: {
       type: Boolean,
       default: false
     },
     tenantInfo: {
-      type: Object
+      type: Object,
+      default: () => {}
     }
   },
   components: {
     UploadImage
   },
-  data: () => ({
-    valid: false,
-    tenantName: '',
-    phone: '',
-    email: '',
-    nationalID: '',
-    file: '',
-    userID: '',
-    image: null,
-    validFile: true,
-    placeholderImage: require(`@/assets/images/avatar.jpg`),
-    btnColor: 'secondary',
-    roles: [
-      { text: 'Landlord', value: 'landlord' },
-      { text: 'Landlord/Tenant', value: 'landlord/tenant' }
-    ],
-    UploadImageRules: [
-      value => !value || value.size < 1000000 || 'Image size should be less than 1 MB!'
-    ]
-  }),
+  data: function () {
+    return {
+      valid: false,
+      tenantData: this.tenantInfo,
+      tenantName: '',
+      phone: '',
+      email: '',
+      nationalID: '',
+      file: '',
+      userID: '',
+      image: null,
+      validFile: true,
+      btnColor: 'secondary',
+      roles: [
+        { text: 'Landlord', value: 'landlord' },
+        { text: 'Landlord/Tenant', value: 'landlord/tenant' }
+      ]
+    }
+  },
   computed: {
     ...mapGetters({
       showLoader: ['tenants/showLoader'],
       showErrorState: ['tenants/showErrorState'],
       userDuplicationError: ['auth/userDuplicationError'],
       tenantIdDuplicationError: ['tenants/tenantIdDuplicationError']
-    }),
-    imageSource () {
-      const imagePath = this.tenantInfo ? this.tenantInfo.avatar : null
-      if (!imagePath) return this.placeholderImage
-      const baseURL = process.env.BASE_URL
-      return `${baseURL}/file${imagePath}`
-    }
+    })
   },
   methods: {
     ...mapActions('tenants', {
@@ -232,6 +225,7 @@ export default {
       this.email = ''
       this.nationalID = ''
       this.image = ''
+      this.tenantData = {}
     },
     async addTenant () {
       const params = {

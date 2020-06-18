@@ -4,7 +4,7 @@
             <v-col cols="12">
                 <div class="picture-section d-flex justify-center">
                     <v-avatar color="secondary">
-                        <v-img :src="imageSource(userInfo.avatar)"></v-img>
+                        <v-img :src="imageSource(userInfo)"></v-img>
                     </v-avatar>
                 </div>
                 <div class="user-name">
@@ -45,7 +45,6 @@
 
 <script>
 import userProfileAvatar from '@/mixins/userProfileAvatar'
-import { mapGetters } from 'vuex'
 
 export default {
   name: 'UserInfo',
@@ -64,7 +63,7 @@ export default {
     color: 'error',
     icon: 'error',
     statusMessage: 'Not approved',
-    profileCompletionValue: 30
+    profileCompletionValue: 50
   }),
   watch: {
     userInfo (newValue) {
@@ -79,9 +78,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({
-      loggedInUserInfo: ['configs/loggedInUserInfo']
-    }),
     role () {
       const role = this.tokenData.user.role
       const matchedRole = {
@@ -94,13 +90,13 @@ export default {
       return matchedRole[role]
     },
     progressBarColor () {
-      return this.profileCompletionValue >= 100 ? 'success' : 'info'
+      return this.profileCompletionValue >= 100 ? 'success' : 'primary'
     }
   },
   methods: {
-    setApprovedStatus (userData) {
+    setApprovedStatus () {
       if (this.tokenData.user.role === 'landlord' || this.tokenData.user.role === 'landlordTenant') {
-        if (userData.approved) {
+        if (this.userInfo.approved) {
           this.color = 'success'
           this.icon = 'mdi-checkbox-marked-circle'
           this.statusMessage = 'Approved'
@@ -109,7 +105,7 @@ export default {
     }
   },
   mounted () {
-    this.setApprovedStatus(this.userInfo)
+    this.setApprovedStatus()
   }
 
 }

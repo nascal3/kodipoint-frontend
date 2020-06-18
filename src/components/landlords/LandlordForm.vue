@@ -197,10 +197,7 @@
           </v-col>
           <v-col cols="12" md="6" class="d-flex justify-center">
             <v-avatar class="modal-data-image">
-              <v-img
-                v-if="edit"
-                :src="imageSource"
-              ></v-img>
+              <v-img :src="imageSource(landlordData)"></v-img>
             </v-avatar>
           </v-col>
         </v-row>
@@ -237,47 +234,49 @@
 <script>
 import UploadImage from '@/helpers/UploadImage'
 import { mapActions, mapGetters } from 'vuex'
+import userProfileAvatar from '@/mixins/userProfileAvatar'
 
 export default {
   name: 'AddProperty',
+  mixins: [userProfileAvatar],
   props: {
     edit: {
       type: Boolean,
       default: false
     },
     landlordInfo: {
-      type: Object
+      type: Object,
+      default: () => {}
     }
   },
   components: {
     UploadImage
   },
-  data: () => ({
-    valid: false,
-    landlordName: '',
-    phone: '',
-    email: '',
-    nationalID: '',
-    kraPIN: '',
-    bankName: '',
-    bankBranch: '',
-    bankAcc: '',
-    bankSwift: '',
-    file: '',
-    userID: '',
-    image: null,
-    validFile: true,
-    placeholderImage: require(`@/assets/images/avatar.jpg`),
-    btnColor: 'secondary',
-    role: { text: 'Landlord', value: 'landlord' },
-    roles: [
-      { text: 'Landlord', value: 'landlord' },
-      { text: 'Landlord & Tenant', value: 'landlordTenant' }
-    ],
-    UploadImageRules: [
-      value => !value || value.size < 1000000 || 'Image size should be less than 1 MB!'
-    ]
-  }),
+  data: function () {
+    return {
+      valid: false,
+      landlordData: this.landlordInfo,
+      landlordName: '',
+      phone: '',
+      email: '',
+      nationalID: '',
+      kraPIN: '',
+      bankName: '',
+      bankBranch: '',
+      bankAcc: '',
+      bankSwift: '',
+      file: '',
+      userID: '',
+      image: null,
+      validFile: true,
+      btnColor: 'secondary',
+      role: { text: 'Landlord', value: 'landlord' },
+      roles: [
+        { text: 'Landlord', value: 'landlord' },
+        { text: 'Landlord & Tenant', value: 'landlordTenant' }
+      ]
+    }
+  },
   computed: {
     ...mapGetters({
       showLoader: ['property/showLoader'],
@@ -286,12 +285,6 @@ export default {
       userDuplicationError: ['auth/userDuplicationError'],
       userIdDuplicationError: ['landlord/userIdDuplicationError']
     }),
-    imageSource () {
-      const imagePath = this.landlordInfo ? this.landlordInfo.avatar : null
-      if (!imagePath) return this.placeholderImage
-      const baseURL = process.env.BASE_URL
-      return `${baseURL}/file${imagePath}`
-    },
     userInfoLoaded () {
       return Object.keys(this.landlordUserInfo).length
     }
@@ -352,6 +345,7 @@ export default {
       this.bankSwift = ''
       this.image = ''
       this.role = { roleText: 'Landlord', roleValue: 'landlord' }
+      this.landlordData = {}
     },
     async addLandlord () {
       const params = {

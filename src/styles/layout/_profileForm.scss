@@ -1,0 +1,21 @@
+// profile form styles
+
+.input-error {
+  position: relative;
+  font-size: 1.2rem;
+  color: $error;
+  bottom: 2rem;
+}
+
+.profile-form-card {
+  padding: 2rem;
+
+  form {
+
+    .login-btn {
+      font-size: 1.6rem;
+      font-weight: 300;
+    }
+  }
+}
+
