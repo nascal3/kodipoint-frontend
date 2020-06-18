@@ -118,7 +118,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import UploadImage from '@/helpers/UploadImage'
 
 export default {
@@ -150,7 +150,7 @@ export default {
     validFile: true,
     rules: {
       nameRequired: value => !!value || 'Full name required',
-      nationalIdRequired: value => !!value || 'nation ID or passport required',
+      nationalIdRequired: value => !!value || 'Nation ID or Passport number required',
       kraPINRequired: value => !!value || 'Please enter landlords\' KRA Pin',
       bankNameRequired: value => !!value || 'Please enter bank name',
       bankBranchRequired: value => !!value || 'Please insert bank branch',
@@ -166,8 +166,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      showLoader: ['property/showLoader'],
-      showErrorState: ['property/showErrorState'],
+      showLoader: ['profile/showLoader'],
+      showErrorState: ['profile/showErrorState'],
       userDuplicationError: ['auth/userDuplicationError'],
       userIdDuplicationError: ['landlord/userIdDuplicationError']
     }),
@@ -176,6 +176,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions('profile', {
+      editUserProfile: 'editUserProfile'
+    }),
     setImage (values) {
       this.image = values.image
       this.validFile = values.validImage
@@ -190,8 +193,30 @@ export default {
       this.bankAcc = userInfo.bank_acc
       this.bankSwift = userInfo.bank_swift
     },
-    editProfile () {
+    async editProfile () {
+      const params = {
+        'name': this.fullName,
+        'national_id': this.nationalID,
+        'phone': this.phone,
+        'kra_pin': this.kraPIN,
+        'bank_name': this.bankName,
+        'bank_branch': this.bankBranch,
+        'bank_acc': this.bankAcc,
+        'bank_swift': this.bankSwift
+      }
+      try {
+        const valid = await this.$validator.validateAll()
+        if (!valid || !this.validFile) return
+        const formData = new FormData()
+        formData.append('file', this.image)
+        formData.append('json', JSON.stringify(params))
+        const success = await this.editUserProfile()
+        if (success) {
 
+        }
+      } catch (error) {
+        throw (error)
+      }
     }
   },
   mounted () {

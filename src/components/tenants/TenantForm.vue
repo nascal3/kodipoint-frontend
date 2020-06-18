@@ -241,7 +241,7 @@ export default {
         if (!valid || !this.validFile) return
         const formData = new FormData()
         formData.append('file', this.image)
-        formData.append('json', JSON.stringify(params))
+        formData.append('data', JSON.stringify(params))
         const success = await this.addNewTenant(formData)
         if (success) {
           this.clearFormValues()

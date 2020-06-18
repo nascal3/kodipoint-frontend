@@ -3,7 +3,7 @@
         <v-row>
             <v-col cols="12">
                 <div class="picture-section d-flex justify-center">
-                    <v-avatar color="secondary">
+                    <v-avatar>
                         <v-img :src="imageSource(userInfo)"></v-img>
                     </v-avatar>
                 </div>
