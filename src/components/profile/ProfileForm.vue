@@ -1,6 +1,6 @@
 <template>
     <v-card class="profile-form-card" light>
-        <v-form enctype="multipart/form-data" v-model="valid" @submit.prevent="editProfile">
+        <v-form ref="form" enctype="multipart/form-data" v-model="valid" @submit.prevent="editProfile">
             <div class="section-title">Personal information</div>
             <v-row>
                 <v-col cols="12" md="6">
@@ -17,10 +17,11 @@
                         label="National ID/ Passport number*"
                         name="nationalID"
                         :rules="[rules.nationalIdRequired]"
+                        :error="userIdDuplicationError"
                     ></v-text-field>
                     <transition name="fade">
                       <div class="input-error" v-if="userIdDuplicationError">
-                        The following national ID or KRA Pin may already be registered
+                        The following national ID or passport number is already registered
                       </div>
                     </transition>
                 </v-col>
@@ -46,10 +47,11 @@
                             label="KRA Pin*"
                             name="kraPIN"
                             :rules="[rules.kraPINRequired]"
+                            :error="kraPinDuplicationError"
                         ></v-text-field>
                         <transition name="fade">
-                          <div class="input-error" v-if="userIdDuplicationError">
-                            The following KRA Pin or national ID may already be registered
+                          <div class="input-error" v-if="kraPinDuplicationError">
+                            The following KRA Pin is already registered
                           </div>
                         </transition>
                     </v-col>
@@ -165,11 +167,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({
-      showLoader: ['profile/showLoader'],
-      showErrorState: ['profile/showErrorState'],
-      userDuplicationError: ['auth/userDuplicationError'],
-      userIdDuplicationError: ['landlord/userIdDuplicationError']
+    ...mapGetters('profile', {
+      showLoader: 'showLoader',
+      userIdDuplicationError: 'userIdDuplicationError',
+      kraPinDuplicationError: 'kraPinDuplicationError'
     }),
     isLandlord () {
       return this.tokenData.user.role === 'landlord' || this.tokenData.user.role === 'landlordTenant'
@@ -205,12 +206,13 @@ export default {
         'bank_swift': this.bankSwift
       }
       try {
-        const valid = await this.$validator.validateAll()
-        if (!valid || !this.validFile) return
+        this.valid = this.$refs.form.validate()
+        if (!this.valid) return
         const formData = new FormData()
         formData.append('file', this.image)
-        formData.append('json', JSON.stringify(params))
-        const success = await this.editUserProfile()
+        formData.append('data', JSON.stringify(params))
+        const success = await this.editUserProfile(formData)
+        console.log('>>>', success)
         if (success) {
 
         }

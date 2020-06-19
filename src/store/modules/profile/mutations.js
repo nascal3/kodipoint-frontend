@@ -10,16 +10,27 @@ const SHOW_LOADER = (state, payload) => {
 }
 
 /**
- * Set error state properties
- * @method SET_ERROR_STATE
+ * Set user national id duplication error state
+ * @method NATIONAL_ID_DUPLICATION_ERROR
  * @param  {Object} state vuex state object
  * @param  {Boolean} payload contains error state
  */
-const SET_ERROR_STATE = (state, payload) => {
-  state.errorState = payload
+const NATIONAL_ID_DUPLICATION_ERROR = (state, payload) => {
+  state.userIdDuplicationError = payload
+}
+
+/**
+ * Set user KRA pin duplication error state
+ * @method KRA_PIN_DUPLICATION_ERROR
+ * @param  {Object} state vuex state object
+ * @param  {Boolean} payload contains error state
+ */
+const KRA_PIN_DUPLICATION_ERROR = (state, payload) => {
+  state.kraPinDuplicationError = payload
 }
 
 export {
   SHOW_LOADER,
-  SET_ERROR_STATE
+  NATIONAL_ID_DUPLICATION_ERROR,
+  KRA_PIN_DUPLICATION_ERROR
 }

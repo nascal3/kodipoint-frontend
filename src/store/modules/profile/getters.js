@@ -7,14 +7,23 @@
 const showLoader = (state) => state.showLoader
 
 /**
- * Show error state
- * @method showErrorState
+ * Show user ID duplication error
+ * @method userIdDuplicationError
  * @param  {Object} state vuex state object
  * @return {boolean} Contains the show error state
  */
-const showErrorState = (state) => state.errorState
+const userIdDuplicationError = (state) => state.userIdDuplicationError
+
+/**
+ * Show user KRA duplication error
+ * @method kraPinDuplicationError
+ * @param  {Object} state vuex state object
+ * @return {boolean} Contains the show error state
+ */
+const kraPinDuplicationError = (state) => state.kraPinDuplicationError
 
 export {
   showLoader,
-  showErrorState
+  userIdDuplicationError,
+  kraPinDuplicationError
 }

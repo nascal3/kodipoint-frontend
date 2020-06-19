@@ -1,6 +1,7 @@
 const state = {
   showLoader: false,
-  errorState: false
+  userIdDuplicationError: false,
+  kraPinDuplicationError: false
 }
 
 export default state

@@ -1,39 +1,92 @@
 import { api } from '@/middleware/config'
 
+const token = JSON.parse(localStorage.getItem('kodiAuthToken'))
+const role = token.user.role
+
+/**
+ * Reset all error messages
+ * @method resetErrorMessages
+ * @param  {Object} commit vuex mutations
+ */
+const resetErrorMessages = ({ commit }) => {
+  commit('NATIONAL_ID_DUPLICATION_ERROR', false)
+  commit('KRA_PIN_DUPLICATION_ERROR', false)
+}
+
 /**
  * Edit user profile details
  * @method editUserProfile
  * @param  {Object} payload object containing form data
+ * @param  {Function} dispatch vuex actions
  * @param  {Object} commit vuex mutations
  */
-const editUserProfile = async ({ commit }, payload) => {
-  const tokenString = localStorage.getItem('kodiAuthToken')
-  const token = JSON.parse(tokenString)
-  const role = token.user.role
-  commit('SHOW_LOADER', true)
-
-  const url = {
-    landlord: '/api/landlords/profile/edit',
-    landlordTenant: '/api/landlords/single',
-    tenant: '/api/tenants/profile/edit'
+const editUserProfile = async ({ commit, dispatch }, payload) => {
+  if (role === 'landlord' || role === 'landlordTenant') {
+    return dispatch('editLandlordProfile', payload)
+  } else {
+    return dispatch('editTenantProfile', payload)
   }
+}
+
+/**
+ * Edit landlord/landlordTenant role profile details
+ * @method editLandlordProfile
+ * @param  {Object} payload object containing form data
+ * @param  {Function} dispatch vuex actions
+ * @param  {Object} commit vuex mutations
+ */
+const editLandlordProfile = async ({ commit, dispatch }, payload) => {
+  dispatch('resetErrorMessages')
+  commit('SHOW_LOADER', true)
+  const url = '/api/landlords/profile/edit'
 
   try {
-    const response = await api.get(url[role])
+    const response = await api.post(url, payload)
     if (response.status === 200) {
-      commit('LOGGEDIN_USER_INFO', response.data.results)
+      if (role === 'landlordTenant') {
+        return dispatch('editTenantProfile', payload)
+      }
+      commit('SHOW_LOADER', false)
+      return response.data
     }
   } catch (err) {
     commit('SHOW_LOADER', false)
     if (err.response.status === 422) {
-      err.response.data.Error === 'The following Email/Username already exists!'
-        ? commit('auth/USER_DUPLICATION_ERROR', true, { root: true })
-        : commit('USER_ID_DUPLICATION_ERROR', true)
+      err.response.data.Error === 'The following national ID already exists!'
+        ? commit('NATIONAL_ID_DUPLICATION_ERROR', true)
+        : commit('KRA_PIN_DUPLICATION_ERROR', true)
     }
     throw new Error(err)
   }
 }
 
+/**
+ * Edit tenant role profile details
+ * @method editTenantProfile
+ * @param  {Object} payload object containing form data
+ * @param  {Function} dispatch vuex actions
+ * @param  {Object} commit vuex mutations
+ */
+const editTenantProfile = async ({ commit, dispatch }, payload) => {
+  dispatch('resetErrorMessages')
+  commit('SHOW_LOADER', true)
+  const url = '/api/tenants/profile/edit'
+
+  try {
+    const response = await api.post(url, payload)
+    if (response.status === 200) {
+      commit('SHOW_LOADER', false)
+      return response.data
+    }
+  } catch (err) {
+    commit('SHOW_LOADER', false)
+    throw new Error(err)
+  }
+}
+
 export {
-  editUserProfile
+  editUserProfile,
+  editLandlordProfile,
+  editTenantProfile,
+  resetErrorMessages
 }
