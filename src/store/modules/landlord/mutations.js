@@ -47,13 +47,23 @@ const SET_ERROR_STATE = (state, payload) => {
 }
 
 /**
- * Set error state of the user national ID/KRA Pin already exists/registered
- * @method USER_ID_DUPLICATION_ERROR
+ * Set error state of the user national ID already exists/registered
+ * @method NATIONAL_ID_DUPLICATION_ERROR
  * @param  {Object} state vuex state object
  * @param  {boolean} payload state of error
  */
-const USER_ID_DUPLICATION_ERROR = (state, payload) => {
+const NATIONAL_ID_DUPLICATION_ERROR = (state, payload) => {
   state.userIdDuplicationError = payload
+}
+
+/**
+ * Set error state of the user KRA pin already exists/registered
+ * @method KRA_PIN_DUPLICATION_ERROR
+ * @param  {Object} state vuex state object
+ * @param  {boolean} payload state of error
+ */
+const KRA_PIN_DUPLICATION_ERROR = (state, payload) => {
+  state.kraPinDuplicationError = payload
 }
 
 /**
@@ -113,7 +123,8 @@ export {
   UPDATE_NO_RESULTS,
   SHOW_LOADER,
   SET_ERROR_STATE,
-  USER_ID_DUPLICATION_ERROR,
+  NATIONAL_ID_DUPLICATION_ERROR,
+  KRA_PIN_DUPLICATION_ERROR,
   RESET_SEARCH_LANDLORDS,
   SET_SELECTED_LANDLORD,
   GET_APPROVED_LANDLORD_STATE

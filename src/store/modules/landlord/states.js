@@ -6,7 +6,8 @@ const state = {
   showLoader: false,
   errorState: false,
   approvedLandlord: false,
-  userIdDuplicationError: false
+  userIdDuplicationError: false,
+  kraPinDuplicationError: false
 }
 
 export default state

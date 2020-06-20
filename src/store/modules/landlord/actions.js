@@ -46,7 +46,8 @@ const addNewLandlord = async ({ commit, dispatch }, payload) => {
   const data = JSON.parse(payload.getAll('data'))
 
   commit('SHOW_LOADER', true)
-  commit('USER_ID_DUPLICATION_ERROR', false)
+  commit('NATIONAL_ID_DUPLICATION_ERROR', false)
+  commit('KRA_PIN_DUPLICATION_ERROR', false)
   commit('auth/USER_DUPLICATION_ERROR', false, { root: true })
   const url = data.edit ? '/api/landlords/profile/edit' : '/api/landlords/register'
 
@@ -60,9 +61,13 @@ const addNewLandlord = async ({ commit, dispatch }, payload) => {
   } catch (err) {
     commit('SHOW_LOADER', false)
     if (err.response.status === 422) {
-      err.response.data.Error === 'The following Email/Username already exists!'
-        ? commit('auth/USER_DUPLICATION_ERROR', true, { root: true })
-        : commit('USER_ID_DUPLICATION_ERROR', true)
+      if (err.response.data.Error === 'The following Email/Username already exists!') {
+        commit('auth/USER_DUPLICATION_ERROR', true, { root: true })
+      } else if (err.response.data.Error === 'The following national ID already exists!') {
+        commit('NATIONAL_ID_DUPLICATION_ERROR', true)
+      } else {
+        commit('KRA_PIN_DUPLICATION_ERROR', true)
+      }
     }
     throw new Error(err)
   }

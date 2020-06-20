@@ -41,17 +41,17 @@
               v-validate="'required'"
               name="nationalID"
               data-vv-as="national ID"
-              :error="errors.has('nationalID')"
+              :error="errors.has('nationalID') || userIdDuplicationError"
             ></v-text-field>
             <transition name="fade">
-            <span class="input-error" v-if="errors.has('nationalID')">
+            <div class="input-error" v-if="errors.has('nationalID')">
               {{ errors.first('nationalID') }}
-            </span>
+            </div>
             </transition>
             <transition name="fade">
-              <span class="input-error" v-if="userIdDuplicationError">
-                The following national ID or KRA Pin may already be registered
-              </span>
+              <div class="input-error" v-if="userIdDuplicationError">
+                The following national ID is already be registered
+              </div>
             </transition>
           </v-col>
         </v-row>
@@ -62,7 +62,7 @@
                 label="email*"
                 v-validate="'required|email'"
                 name="email"
-                :error="errors.has('email') || userDuplicationError"
+                :error="errors.has('email') || userEmailDuplicationError"
             ></v-text-field>
             <transition name="fade">
               <span class="input-error" v-if="errors.has('email')">
@@ -70,7 +70,7 @@
               </span>
             </transition>
             <transition name="fade">
-              <span class="input-error" v-if="userDuplicationError">
+              <span class="input-error" v-if="userEmailDuplicationError">
                 The following email is already registered to another user
               </span>
             </transition>
@@ -116,17 +116,17 @@
               label="KRA Pin*"
               v-validate="'required'"
               name="kraPIN"
-              :error="errors.has('kraPIN')"
+              :error="errors.has('kraPIN') || kraPinDuplicationError"
             ></v-text-field>
             <transition name="fade">
-              <span class="input-error" v-if="errors.has('kraPIN')">
+              <div class="input-error" v-if="errors.has('kraPIN')">
                 Please enter landlords' KRA Pin
-              </span>
+              </div>
             </transition>
             <transition name="fade">
-              <span class="input-error" v-if="userIdDuplicationError">
-                The following KRA Pin or national ID may already be registered
-              </span>
+              <div class="input-error" v-if="kraPinDuplicationError">
+                The following KRA Pin is already be registered
+              </div>
             </transition>
           </v-col>
           <v-col cols="12" md="6">
@@ -282,8 +282,9 @@ export default {
       showLoader: ['property/showLoader'],
       showErrorState: ['property/showErrorState'],
       landlordUserInfo: ['auth/singleUser'],
-      userDuplicationError: ['auth/userDuplicationError'],
-      userIdDuplicationError: ['landlord/userIdDuplicationError']
+      userEmailDuplicationError: ['auth/userDuplicationError'],
+      userIdDuplicationError: ['landlord/userIdDuplicationError'],
+      kraPinDuplicationError: ['landlord/kraPinDuplicationError']
     }),
     userInfoLoaded () {
       return Object.keys(this.landlordUserInfo).length
