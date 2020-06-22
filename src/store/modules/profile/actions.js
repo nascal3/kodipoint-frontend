@@ -1,7 +1,7 @@
 import { api } from '@/middleware/config'
 
-const token = JSON.parse(localStorage.getItem('kodiAuthToken'))
-const role = token.user.role
+const token = JSON.parse(localStorage.getItem('kodiAuthToken')) || {}
+const role = token && token.user && token.user.role ? token.user.role : ''
 
 /**
  * Reset all error messages
