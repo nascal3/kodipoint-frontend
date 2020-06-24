@@ -41,8 +41,11 @@ export default {
       token: ['auth/token'],
       loggedInUserInfo: ['configs/loggedInUserInfo']
     }),
+    isLandlordRole () {
+      return this.token.user.role === 'landlord' || this.token.user.role === 'landlordTenant'
+    },
     approved () {
-      if (this.token.user.role === 'landlord' || this.token.user.role === 'landlordTenant') {
+      if (this.isLandlordRole) {
         return !this.loggedInUserInfo.approved
       }
       return false
