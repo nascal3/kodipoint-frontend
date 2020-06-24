@@ -213,9 +213,13 @@ export default {
         formData.append('data', JSON.stringify(params))
         const success = await this.editUserProfile(formData)
         if (success) {
+          const options = { icon: 'check_circle_outline' }
+          this.$toasted.success(`Profile successfully updated`, options)
           this.$store.dispatch('configs/getLoggedInUserInfo')
         }
       } catch (error) {
+        const options = { icon: 'check_circle_outline' }
+        this.$toasted.error(`Oops! an error occurred`, options)
         throw (error)
       }
     }
