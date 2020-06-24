@@ -17,7 +17,7 @@
                  </svg>
              </figure>
              <span class="upload-caption d-flex justify-center align-center">
-                {{ hasImage ? 'Click to Replace Image' : 'Click to Upload Image' }}
+                {{ hasImage ? 'Click here to Replace Image' : 'Click here to Upload Image' }}
              </span>
          </label>
      </image-uploader>

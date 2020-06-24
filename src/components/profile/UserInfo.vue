@@ -11,9 +11,9 @@
                     {{userInfo.name}}
                 </div>
                 <div class="user-role">
-                    {{role}}
+                    {{roleName}}
                 </div>
-                <div class="status-chip d-flex justify-center">
+                <div class="status-chip d-flex justify-center" v-if="isLandlordRole">
                     <v-chip
                         class="ma-2"
                         :color=color
@@ -27,19 +27,28 @@
                 </div>
             </v-col>
         </v-row>
-        <v-divider></v-divider>
-        <v-row no-gutters>
-            <v-col class="completion-rate" cols="12">
-                <div class="completion-rate-title">
-                    <span>Profile completion</span>
-                    <span class="float-right">{{profileCompletionValue}} %</span>
-                </div>
-                <v-progress-linear
-                    v-model="profileCompletionValue"
-                    :color=progressBarColor
-                ></v-progress-linear>
-            </v-col>
-        </v-row>
+        <section v-if="!userInfo.approved">
+            <v-divider></v-divider>
+            <v-row no-gutters>
+                <v-col class="completion-rate" cols="12">
+                    <div class="completion-rate-title d-flex justify-center">
+                        <span>Please complete your profile to get approved</span>
+                    </div>
+                </v-col>
+            </v-row>
+            <!--        <v-row no-gutters>-->
+            <!--            <v-col class="completion-rate" cols="12">-->
+            <!--                <div class="completion-rate-title">-->
+            <!--                    <span>Profile completion</span>-->
+            <!--                    <span class="float-right">{{profileCompletionValue}} %</span>-->
+            <!--                </div>-->
+            <!--                <v-progress-linear-->
+            <!--                    v-model="profileCompletionValue"-->
+            <!--                    :color=progressBarColor-->
+            <!--                ></v-progress-linear>-->
+            <!--            </v-col>-->
+            <!--        </v-row>-->
+        </section>
     </v-card>
 </template>
 
@@ -68,7 +77,7 @@ export default {
   watch: {
     userInfo (newValue) {
       this.setApprovedStatus(newValue)
-      if (this.tokenData.user.role === 'landlord' || this.tokenData.user.role === 'landlordTenant') {
+      if (this.isLandlordRole) {
         if (newValue.approved) {
           this.color = 'success'
           this.icon = 'mdi-checkbox-marked-circle'
@@ -78,7 +87,7 @@ export default {
     }
   },
   computed: {
-    role () {
+    roleName () {
       const role = this.tokenData.user.role
       const matchedRole = {
         landlordTenant: 'Landlord & Tenant',
@@ -89,13 +98,16 @@ export default {
       }
       return matchedRole[role]
     },
+    isLandlordRole () {
+      return this.tokenData.user.role === 'landlord' || this.tokenData.user.role === 'landlordTenant'
+    },
     progressBarColor () {
       return this.profileCompletionValue >= 100 ? 'success' : 'primary'
     }
   },
   methods: {
     setApprovedStatus () {
-      if (this.tokenData.user.role === 'landlord' || this.tokenData.user.role === 'landlordTenant') {
+      if (this.isLandlordRole) {
         if (this.userInfo.approved) {
           this.color = 'success'
           this.icon = 'mdi-checkbox-marked-circle'
