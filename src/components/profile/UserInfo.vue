@@ -27,7 +27,7 @@
                 </div>
             </v-col>
         </v-row>
-        <section v-if="!userInfo.approved">
+        <section v-if="!userInfo.approved && isLandlordRole">
             <v-divider></v-divider>
             <v-row no-gutters>
                 <v-col class="completion-rate" cols="12">
