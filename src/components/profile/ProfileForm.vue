@@ -91,16 +91,16 @@
                         ></v-text-field>
                     </v-col>
                 </v-row>
-                <div class="section-title">Profile picture</div>
-                <v-row>
-                    <v-col cols="12" md="6" class="d-flex justify-center align-center">
-                        <div class="upload-picture-section d-flex justify-center align-center flex-column">
-                            <upload-image @setImage="setImage" />
-                        </div>
-                    </v-col>
-                </v-row>
             </section>
 
+            <div class="section-title">Profile picture</div>
+            <v-row>
+                <v-col cols="12" md="6" class="d-flex justify-center align-center">
+                    <div class="upload-picture-section d-flex justify-center align-center flex-column">
+                        <upload-image @setImage="setImage" />
+                    </div>
+                </v-col>
+            </v-row>
             <v-row>
                 <v-col cols="12" md="12">
                     <v-btn
