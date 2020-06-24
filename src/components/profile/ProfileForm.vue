@@ -212,9 +212,8 @@ export default {
         formData.append('file', this.image)
         formData.append('data', JSON.stringify(params))
         const success = await this.editUserProfile(formData)
-        console.log('>>>', success)
         if (success) {
-
+          this.$store.dispatch('configs/getLoggedInUserInfo')
         }
       } catch (error) {
         throw (error)

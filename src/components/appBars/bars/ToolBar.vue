@@ -3,10 +3,11 @@
         <v-spacer></v-spacer>
         <template>
             <v-row align="center" justify="end" no-gutters>
+                <span class="user-name">{{loggedInUserInfo.name}}</span>
                 <v-avatar>
                     <v-img :src="imageSource(loggedInUserInfo)"></v-img>
                 </v-avatar>
-                <span class="user-name">
+                <span class="drop-menu">
                     <user-drop-menu/>
                 </span>
             </v-row>

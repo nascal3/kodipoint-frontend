@@ -80,7 +80,7 @@ const editTenantProfile = async ({ commit, dispatch }, payload) => {
     }
   } catch (err) {
     commit('SHOW_LOADER', false)
-    throw new Error(err)
+    throw err.message
   }
 }
 
