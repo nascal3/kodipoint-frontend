@@ -263,7 +263,7 @@ export default {
       if (this.edit) {
         return this.validFile
       }
-      return this.image
+      return this.image && this.validFile
     },
     showMapValidationError () {
       return !this.propertyLocation.length
@@ -354,7 +354,7 @@ export default {
         if (!this.valid || !this.hasImage) return
         const formData = new FormData()
         formData.append('file', this.image)
-        formData.append('json', JSON.stringify(params))
+        formData.append('data', JSON.stringify(params))
         const success = await this.addNewProperty(formData)
         if (success) {
           this.clearFormValues()

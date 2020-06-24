@@ -52,7 +52,7 @@ const getProperties = async ({ commit, state, rootGetters }, payload) => {
  * @param  {Object} payload property values
  */
 const addNewProperty = async ({ commit, dispatch }, payload) => {
-  const data = JSON.parse(payload.getAll('json'))
+  const data = JSON.parse(payload.getAll('data'))
   const url = data.edit ? '/api/properties/edit' : '/api/properties/register'
 
   dispatch('resetErrors')
