@@ -24,6 +24,14 @@ const showErrorState = (state) => state.errorState
 const userIdDuplicationError = (state) => state.userIdDuplicationError
 
 /**
+ * Show error state of the user KRA Pin already exists/registered
+ * @method kraPinDuplicationError
+ * @param  {Object} state vuex state object
+ * @return {boolean} Contains the show error state
+ */
+const kraPinDuplicationError = (state) => state.kraPinDuplicationError
+
+/**
  * Show no search results state
  * @method noSearchResults
  * @param  {Object} state vuex state object
@@ -69,6 +77,7 @@ export {
   landlordSearchResults,
   showErrorState,
   userIdDuplicationError,
+  kraPinDuplicationError,
   noSearchResults,
   selectedLandlord,
   approvedLandlord

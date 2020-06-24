@@ -10,7 +10,7 @@
       </v-col>
     </v-row>
     <v-overlay light :value="dialog">
-      <landlord-form @closeModal="closeModal" :edit="edit" :landlordInfo="landlordInfo" />
+      <landlord-form @closeModal="closeModal" :edit="edit" :landlord-info="landlordInfo" />
     </v-overlay>
   </v-container>
 </template>

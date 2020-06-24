@@ -41,17 +41,17 @@
               v-validate="'required'"
               name="nationalID"
               data-vv-as="national ID"
-              :error="errors.has('nationalID')"
+              :error="errors.has('nationalID') || userIdDuplicationError"
             ></v-text-field>
             <transition name="fade">
-            <span class="input-error" v-if="errors.has('nationalID')">
+            <div class="input-error" v-if="errors.has('nationalID')">
               {{ errors.first('nationalID') }}
-            </span>
+            </div>
             </transition>
             <transition name="fade">
-              <span class="input-error" v-if="userIdDuplicationError">
-                The following national ID or KRA Pin may already be registered
-              </span>
+              <div class="input-error" v-if="userIdDuplicationError">
+                The following national ID is already be registered
+              </div>
             </transition>
           </v-col>
         </v-row>
@@ -62,7 +62,7 @@
                 label="email*"
                 v-validate="'required|email'"
                 name="email"
-                :error="errors.has('email') || userDuplicationError"
+                :error="errors.has('email') || userEmailDuplicationError"
             ></v-text-field>
             <transition name="fade">
               <span class="input-error" v-if="errors.has('email')">
@@ -70,7 +70,7 @@
               </span>
             </transition>
             <transition name="fade">
-              <span class="input-error" v-if="userDuplicationError">
+              <span class="input-error" v-if="userEmailDuplicationError">
                 The following email is already registered to another user
               </span>
             </transition>
@@ -116,17 +116,17 @@
               label="KRA Pin*"
               v-validate="'required'"
               name="kraPIN"
-              :error="errors.has('kraPIN')"
+              :error="errors.has('kraPIN') || kraPinDuplicationError"
             ></v-text-field>
             <transition name="fade">
-              <span class="input-error" v-if="errors.has('kraPIN')">
+              <div class="input-error" v-if="errors.has('kraPIN')">
                 Please enter landlords' KRA Pin
-              </span>
+              </div>
             </transition>
             <transition name="fade">
-              <span class="input-error" v-if="userIdDuplicationError">
-                The following KRA Pin or national ID may already be registered
-              </span>
+              <div class="input-error" v-if="kraPinDuplicationError">
+                The following KRA Pin is already be registered
+              </div>
             </transition>
           </v-col>
           <v-col cols="12" md="6">
@@ -197,10 +197,7 @@
           </v-col>
           <v-col cols="12" md="6" class="d-flex justify-center">
             <v-avatar class="modal-data-image">
-              <v-img
-                v-if="edit"
-                :src="imageSource"
-              ></v-img>
+              <v-img :src="imageSource(landlordData)"></v-img>
             </v-avatar>
           </v-col>
         </v-row>
@@ -237,61 +234,58 @@
 <script>
 import UploadImage from '@/helpers/UploadImage'
 import { mapActions, mapGetters } from 'vuex'
+import userProfileAvatar from '@/mixins/userProfileAvatar'
 
 export default {
   name: 'AddProperty',
+  mixins: [userProfileAvatar],
   props: {
     edit: {
       type: Boolean,
       default: false
     },
     landlordInfo: {
-      type: Object
+      type: Object,
+      default: () => {}
     }
   },
   components: {
     UploadImage
   },
-  data: () => ({
-    valid: false,
-    landlordName: '',
-    phone: '',
-    email: '',
-    nationalID: '',
-    kraPIN: '',
-    bankName: '',
-    bankBranch: '',
-    bankAcc: '',
-    bankSwift: '',
-    file: '',
-    userID: '',
-    image: null,
-    validFile: true,
-    placeholderImage: require(`@/assets/images/avatar.jpg`),
-    btnColor: 'secondary',
-    role: { text: 'Landlord', value: 'landlord' },
-    roles: [
-      { text: 'Landlord', value: 'landlord' },
-      { text: 'Landlord & Tenant', value: 'landlordTenant' }
-    ],
-    UploadImageRules: [
-      value => !value || value.size < 1000000 || 'Image size should be less than 1 MB!'
-    ]
-  }),
+  data: function () {
+    return {
+      valid: false,
+      landlordData: this.landlordInfo,
+      landlordName: '',
+      phone: '',
+      email: '',
+      nationalID: '',
+      kraPIN: '',
+      bankName: '',
+      bankBranch: '',
+      bankAcc: '',
+      bankSwift: '',
+      file: '',
+      userID: '',
+      image: null,
+      validFile: true,
+      btnColor: 'secondary',
+      role: { text: 'Landlord', value: 'landlord' },
+      roles: [
+        { text: 'Landlord', value: 'landlord' },
+        { text: 'Landlord & Tenant', value: 'landlordTenant' }
+      ]
+    }
+  },
   computed: {
     ...mapGetters({
       showLoader: ['property/showLoader'],
       showErrorState: ['property/showErrorState'],
       landlordUserInfo: ['auth/singleUser'],
-      userDuplicationError: ['auth/userDuplicationError'],
-      userIdDuplicationError: ['landlord/userIdDuplicationError']
+      userEmailDuplicationError: ['auth/userDuplicationError'],
+      userIdDuplicationError: ['landlord/userIdDuplicationError'],
+      kraPinDuplicationError: ['landlord/kraPinDuplicationError']
     }),
-    imageSource () {
-      const imagePath = this.landlordInfo ? this.landlordInfo.avatar : null
-      if (!imagePath) return this.placeholderImage
-      const baseURL = process.env.BASE_URL
-      return `${baseURL}/file${imagePath}`
-    },
     userInfoLoaded () {
       return Object.keys(this.landlordUserInfo).length
     }
@@ -352,6 +346,7 @@ export default {
       this.bankSwift = ''
       this.image = ''
       this.role = { roleText: 'Landlord', roleValue: 'landlord' }
+      this.landlordData = {}
     },
     async addLandlord () {
       const params = {

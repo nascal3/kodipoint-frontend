@@ -97,10 +97,10 @@ export default {
           const page = redirectPage(this.token.user.role)
           await this.$router.replace(page)
           const firstName = this.token.user.name.split(' ')[0]
-          this.$toasted.show(`Welcome ${firstName}`, options)
+          this.$toasted.info(`Welcome ${firstName}`, options)
         }
       } catch (e) {
-        throw new Error(e.message)
+        throw e.message
       }
     }
   }

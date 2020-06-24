@@ -48,7 +48,7 @@ const getTenants = async ({ commit, state, rootGetters }, payload) => {
  * @param  {Object} payload tenant attributes
  */
 const addNewTenant = async ({ commit, dispatch }, payload) => {
-  const data = JSON.parse(payload.getAll('json'))
+  const data = JSON.parse(payload.getAll('data'))
 
   commit('SHOW_LOADER', true)
   commit('auth/USER_DUPLICATION_ERROR', false, { root: true })

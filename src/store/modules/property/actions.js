@@ -48,11 +48,11 @@ const getProperties = async ({ commit, state, rootGetters }, payload) => {
  * Add and edit properties
  * @method addNewProperty
  * @param  {Object} commit vuex mutations
- * @param  {Object} dispatch vuex actions
+ * @param  {Function} dispatch vuex actions
  * @param  {Object} payload property values
  */
 const addNewProperty = async ({ commit, dispatch }, payload) => {
-  const data = JSON.parse(payload.getAll('json'))
+  const data = JSON.parse(payload.getAll('data'))
   const url = data.edit ? '/api/properties/edit' : '/api/properties/register'
 
   dispatch('resetErrors')
