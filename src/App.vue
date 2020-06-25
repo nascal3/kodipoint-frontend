@@ -1,11 +1,11 @@
 <template>
   <v-app>
     <AppBars v-if="loggedIn"></AppBars>
-    <v-content>
+    <v-main>
       <v-container ma-0 pa-0 fluid>
         <router-view/>
       </v-container>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 
