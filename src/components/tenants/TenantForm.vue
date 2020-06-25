@@ -9,41 +9,28 @@
       </v-icon>
     </v-card-title>
     <v-card-text class="content">
-      <v-form enctype="multipart/form-data" v-model="valid" @submit.prevent="addTenant">
+      <v-form ref="form" enctype="multipart/form-data" v-model="valid" @submit.prevent="addTenant">
         <div class="section-title">Personal information</div>
         <v-row>
           <v-col cols="12" md="6">
             <v-text-field
                 v-model="tenantName"
                 label="Tenant name*"
-                v-validate="'required'"
                 name="tenantName"
-                :error="errors.has('tenantName')"
+                :rules="[rules.nameRequired]"
             ></v-text-field>
-            <transition name="fade">
-              <span class="input-error" v-if="errors.has('tenantName')">
-                Please enter tenants' name
-              </span>
-            </transition>
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
               v-model="nationalID"
               label="National ID*"
-              v-validate="'required'"
               name="nationalID"
-              data-vv-as="national ID"
-              :error="errors.has('nationalID')"
+              :rules="[rules.nationalIdRequired]"
             ></v-text-field>
             <transition name="fade">
-            <span class="input-error" v-if="errors.has('nationalID')">
-              {{ errors.first('nationalID') }}
-            </span>
-            </transition>
-            <transition name="fade">
-              <span class="input-error" v-if="tenantIdDuplicationError">
+              <div class="input-error" v-if="tenantIdDuplicationError">
                 The following national ID is already registered
-              </span>
+              </div>
             </transition>
           </v-col>
         </v-row>
@@ -52,40 +39,25 @@
             <v-text-field
                 v-model="email"
                 label="email*"
-                v-validate="'required|email'"
                 name="email"
-                :error="errors.has('email') || userDuplicationError"
+                :rules="[rules.emailRequired, rules.validEmail]"
+                :error="userDuplicationError"
             ></v-text-field>
             <transition name="fade">
-              <span class="input-error" v-if="errors.has('email')">
-                {{ errors.first('email') }}
-              </span>
-            </transition>
-            <transition name="fade">
-              <span class="input-error" v-if="userDuplicationError">
+              <div class="input-error" v-if="userDuplicationError">
                 The following email is already registered to another user
-              </span>
+              </div>
             </transition>
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
               v-model="phone"
               label="Phone number*"
-              v-validate="'required|min:17 '"
               name="phone"
               persistent-hint
-              :error="errors.has('phone')"
+              :rules="[rules.phoneRequired, rules.phoneNumberMin]"
               v-mask="['(+###) #### #####']"
             ></v-text-field>
-            <transition name="fade">
-              <div class="input-error" v-if="errors.has('phone')">
-                {{
-                  errors.items[0].rule === 'min'
-                    ? 'Please insert complete phone number! e.g (+254) 7234 56789'
-                    : 'Please insert a phone number'
-                }}
-              </div>
-            </transition>
           </v-col>
         </v-row>
         <div class="section-title">Tenant picture</div>
@@ -168,7 +140,18 @@ export default {
       roles: [
         { text: 'Landlord', value: 'landlord' },
         { text: 'Landlord/Tenant', value: 'landlord/tenant' }
-      ]
+      ],
+      rules: {
+        nameRequired: value => !!value || 'Full name required',
+        nationalIdRequired: value => !!value || 'Nation ID or Passport number required',
+        emailRequired: value => !!value || 'email address required',
+        validEmail: value => {
+          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          return pattern.test(value) || 'Invalid email address.'
+        },
+        phoneRequired: value => !!value || 'Please insert a phone number',
+        phoneNumberMin: value => value.length >= 17 || 'Please insert complete phone number! e.g (+254) 7234 56789'
+      }
     }
   },
   computed: {
@@ -236,9 +219,9 @@ export default {
         'email': this.email,
         'edit': this.edit
       }
+      this.valid = this.$refs.form.validate()
+      if (!this.valid || !this.validFile) return
       try {
-        const valid = await this.$validator.validateAll()
-        if (!valid || !this.validFile) return
         const formData = new FormData()
         formData.append('file', this.image)
         formData.append('data', JSON.stringify(params))
@@ -248,7 +231,7 @@ export default {
           this.closeForm(success)
         }
       } catch (e) {
-        throw new Error(e.message)
+        throw e.message
       }
     }
   },

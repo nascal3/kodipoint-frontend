@@ -17,37 +17,25 @@
       <div class="display-1 d-flex justify-center align-center" v-if="!userInfoLoaded && edit">
         Loading data ...
       </div>
-      <v-form enctype="multipart/form-data" v-model="valid" @submit.prevent="addLandlord">
+      <v-form ref="form"  enctype="multipart/form-data" v-model="valid" @submit.prevent="addLandlord">
         <div class="section-title">Personal information</div>
         <v-row>
           <v-col cols="12" md="6">
             <v-text-field
                 v-model="landlordName"
                 label="Landlord name*"
-                v-validate="'required'"
                 name="landlordName"
-                :error="errors.has('landlordName')"
+                :rules="[rules.nameRequired]"
             ></v-text-field>
-            <transition name="fade">
-              <span class="input-error" v-if="errors.has('landlordName')">
-                Please enter landlords' name
-              </span>
-            </transition>
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
               v-model="nationalID"
               label="National ID/ Passport number*"
-              v-validate="'required'"
               name="nationalID"
-              data-vv-as="national ID"
-              :error="errors.has('nationalID') || userIdDuplicationError"
+              :rules="[rules.nationalIdRequired]"
+              :error="userIdDuplicationError"
             ></v-text-field>
-            <transition name="fade">
-            <div class="input-error" v-if="errors.has('nationalID')">
-              {{ errors.first('nationalID') }}
-            </div>
-            </transition>
             <transition name="fade">
               <div class="input-error" v-if="userIdDuplicationError">
                 The following national ID is already be registered
@@ -60,40 +48,25 @@
             <v-text-field
                 v-model="email"
                 label="email*"
-                v-validate="'required|email'"
                 name="email"
-                :error="errors.has('email') || userEmailDuplicationError"
+                :rules="[rules.emailRequired, rules.validEmail]"
+                :error="userEmailDuplicationError"
             ></v-text-field>
             <transition name="fade">
-              <span class="input-error" v-if="errors.has('email')">
-                {{ errors.first('email') }}
-              </span>
-            </transition>
-            <transition name="fade">
-              <span class="input-error" v-if="userEmailDuplicationError">
+              <div class="input-error" v-if="userEmailDuplicationError">
                 The following email is already registered to another user
-              </span>
+              </div>
             </transition>
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
               v-model="phone"
               label="Phone number*"
-              v-validate="'required|min:17 '"
               name="phone"
               persistent-hint
-              :error="errors.has('phone')"
+              :rules="[rules.phoneRequired, rules.phoneNumberMin]"
               v-mask="['(+###) #### #####']"
             ></v-text-field>
-            <transition name="fade">
-              <div class="input-error" v-if="errors.has('phone')">
-                {{
-                  errors.items[0].rule === 'min'
-                    ? 'Please insert complete phone number! e.g (+254) 7234 56789'
-                    : 'Please insert a phone number'
-                }}
-              </div>
-            </transition>
           </v-col>
         </v-row>
         <v-row>
@@ -114,15 +87,10 @@
             <v-text-field
               v-model="kraPIN"
               label="KRA Pin*"
-              v-validate="'required'"
               name="kraPIN"
-              :error="errors.has('kraPIN') || kraPinDuplicationError"
+              :rules="[rules.kraPINRequired]"
+              :error="kraPinDuplicationError"
             ></v-text-field>
-            <transition name="fade">
-              <div class="input-error" v-if="errors.has('kraPIN')">
-                Please enter landlords' KRA Pin
-              </div>
-            </transition>
             <transition name="fade">
               <div class="input-error" v-if="kraPinDuplicationError">
                 The following KRA Pin is already be registered
@@ -133,16 +101,9 @@
             <v-text-field
               v-model="bankName"
               label="Bank name*"
-              v-validate="'required'"
               name="bankName"
-              data-vv-as="bank name"
-              :error="errors.has('bankName')"
+              :rules="[rules.bankNameRequired]"
             ></v-text-field>
-            <transition name="fade">
-            <span class="input-error" v-if="errors.has('bankName')">
-              {{ errors.first('bankName') }}
-            </span>
-            </transition>
           </v-col>
         </v-row>
         <v-row>
@@ -150,31 +111,17 @@
             <v-text-field
               v-model="bankBranch"
               label="Bank branch*"
-              v-validate="'required'"
               name="bankBranch"
-              data-vv-as="bank branch"
-              :error="errors.has('bankBranch')"
+              :rules="[rules.bankBranchRequired]"
             ></v-text-field>
-            <transition name="fade">
-              <span class="input-error" v-if="errors.has('bankBranch')">
-                {{ errors.first('bankBranch') }}
-              </span>
-            </transition>
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
               v-model="bankAcc"
               label="Bank account number*"
-              v-validate="'required'"
               name="bankAcc"
-              data-vv-as="bank account number"
-              :error="errors.has('bankAcc')"
+              :rules="[rules.bankAccNumberRequired]"
             ></v-text-field>
-            <transition name="fade">
-              <span class="input-error" v-if="errors.has('bankAcc')">
-                {{ errors.first('bankAcc') }}
-              </span>
-            </transition>
           </v-col>
         </v-row>
         <v-row>
@@ -183,8 +130,6 @@
               v-model="bankSwift"
               label="Bank SWIFT Code"
               name="bankSwift"
-              data-vv-as="bank SWIFT Code"
-              :error="errors.has('bankSwift')"
             ></v-text-field>
           </v-col>
         </v-row>
@@ -274,7 +219,22 @@ export default {
       roles: [
         { text: 'Landlord', value: 'landlord' },
         { text: 'Landlord & Tenant', value: 'landlordTenant' }
-      ]
+      ],
+      rules: {
+        nameRequired: value => !!value || 'Full name required',
+        nationalIdRequired: value => !!value || 'Nation ID or Passport number required',
+        kraPINRequired: value => !!value || 'Please enter landlords\' KRA Pin',
+        emailRequired: value => !!value || 'email address required',
+        validEmail: value => {
+          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          return pattern.test(value) || 'Invalid email address.'
+        },
+        bankNameRequired: value => !!value || 'Please enter bank name',
+        bankBranchRequired: value => !!value || 'Please insert bank branch',
+        bankAccNumberRequired: value => !!value || 'Please insert bank account number',
+        phoneRequired: value => !!value || 'Please insert a phone number',
+        phoneNumberMin: value => value.length >= 17 || 'Please insert complete phone number! e.g (+254) 7234 56789'
+      }
     }
   },
   computed: {
@@ -364,8 +324,8 @@ export default {
         'edit': this.edit
       }
       try {
-        const valid = await this.$validator.validateAll()
-        if (!valid || !this.validFile) return
+        this.valid = this.$refs.form.validate()
+        if (!this.valid || !this.validFile) return
         const formData = new FormData()
         formData.append('file', this.image)
         formData.append('data', JSON.stringify(params))
