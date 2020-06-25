@@ -4,44 +4,26 @@
 
             <v-text-field
                 v-model="name"
-                v-validate="'required'"
                 name="name"
                 label="Full name*"
-                :error="errors.has('name')"
+                :rules="[rules.nameRequired]"
             ></v-text-field>
-            <transition name="fade">
-                <span class="input-error" v-if="errors.has('name')">{{ errors.first('name') }}</span>
-            </transition>
 
             <v-text-field
                 v-model="phone"
                 label="Phone number*"
-                v-validate="'required|min:17 '"
                 name="phone"
                 persistent-hint
-                :error="errors.has('phone')"
+                :rules="[rules.phoneRequired, rules.phoneNumberMin]"
                 v-mask="['(+###) #### #####']"
             ></v-text-field>
-            <transition name="fade">
-                <div class="input-error" v-if="errors.has('phone')">
-                    {{
-                    errors.items[0].rule === 'min'
-                        ? 'Please insert complete phone number! e.g (+254) 7234 56789'
-                        : 'Please insert a phone number'
-                    }}
-                </div>
-            </transition>
 
             <v-text-field
                 v-model="email"
-                v-validate="'required|email'"
                 name="email"
                 label="Email*"
-                :error="errors.has('email')"
+                :rules="[rules.emailRequired, rules.validEmail]"
             ></v-text-field>
-            <transition name="fade">
-                <span class="input-error" v-if="errors.has('email')">{{ errors.first('email') }}</span>
-            </transition>
             <transition name="fade">
                 <div class="input-error" v-if="authEmailDuplicationError">
                     The following email is already registered!
@@ -52,34 +34,26 @@
                     :type="show1 ? 'text' : 'password'"
                     :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                     v-model="password"
-                    v-validate="'required'"
                     name="password"
                     label="Password*"
+                    :rules="[rules.passwordRequired]"
                     @input="checkPasswordMatch"
-                    :error="errors.has('password')"
                     @click:append="show1 = !show1"
             ></v-text-field>
-            <transition name="fade">
-                <span class="input-error" v-if="errors.has('password')">{{ errors.first('password') }}</span>
-            </transition>
 
             <v-text-field
                 :type="show2 ? 'text' : 'password'"
                 :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
                 v-model="repeatPassword"
-                v-validate="'required'"
                 name="repeatPassword"
-                data-vv-as="re typed password"
                 label="Re-type Password*"
+                :rules="[rules.retypePasswordRequired]"
                 @input="checkPasswordMatch"
-                :error="errors.has('repeatPassword')"
+                :error="passwordMatch"
                 @click:append="show2 = !show2"
             ></v-text-field>
             <transition name="fade">
-                <div class="input-error" v-if="errors.has('repeatPassword')">{{ errors.first('repeatPassword') }}</div>
-            </transition>
-            <transition name="fade">
-                <div class="input-error" v-if="passwordMatch">Password you entered doesn't match</div>
+                <span class="retype-input-error" v-if="passwordMatch">Password you entered doesn't match</span>
             </transition>
 
             <v-radio-group v-model="role" row>
@@ -141,7 +115,19 @@ export default {
     repeatPassword: '',
     password: '',
     role: 'landlord',
-    agree: false
+    agree: false,
+    rules: {
+      nameRequired: value => !!value || 'Full name required',
+      emailRequired: value => !!value || 'Email address required',
+      validEmail: value => {
+        const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        return pattern.test(value) || 'Invalid email address.'
+      },
+      passwordRequired: value => !!value || 'Please enter a password',
+      retypePasswordRequired: value => !!value || 'Please re typed the password. ',
+      phoneRequired: value => !!value || 'Please insert a phone number',
+      phoneNumberMin: value => value.length >= 17 || 'Please insert complete phone number! e.g (+254) 7234 56789'
+    }
   }),
   computed: {
     ...mapGetters('auth', {
@@ -161,10 +147,10 @@ export default {
         password: this.password,
         role: this.role
       }
+      if (this.passwordMatch) return
+      this.valid = this.$refs.form.validate()
+      if (!this.valid) return
       try {
-        if (this.passwordMatch) return
-        this.valid = await this.$validator.validateAll()
-        if (!this.valid) return
         const response = await this.$store.dispatch('auth/createUser', userData)
         if (response) {
           response.user.role === 'tenant'

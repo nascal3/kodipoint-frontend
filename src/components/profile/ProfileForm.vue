@@ -205,9 +205,9 @@ export default {
         'bank_acc': this.bankAcc,
         'bank_swift': this.bankSwift
       }
+      this.valid = this.$refs.form.validate()
+      if (!this.valid) return
       try {
-        this.valid = this.$refs.form.validate()
-        if (!this.valid) return
         const formData = new FormData()
         formData.append('file', this.image)
         formData.append('data', JSON.stringify(params))
@@ -218,7 +218,7 @@ export default {
           this.$store.dispatch('configs/getLoggedInUserInfo')
         }
       } catch (error) {
-        const options = { icon: 'check_circle_outline' }
+        const options = { icon: 'error_outline' }
         this.$toasted.error(`Oops! an error occurred`, options)
         throw (error)
       }

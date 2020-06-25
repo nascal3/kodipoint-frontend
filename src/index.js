@@ -5,14 +5,10 @@ import store from '@/store'
 import vuetify from '@/plugins/vuetify'
 
 import Toasted from 'vue-toasted'
-import VeeValidate from 'vee-validate'
 import VueTheMask from 'vue-the-mask'
 import * as VueGoogleMaps from 'vue2-google-maps'
 
 Vue.use(VueTheMask)
-Vue.use(VeeValidate, {
-  fieldsBagName: 'vvFields'
-})
 Vue.use(Toasted, {
   className: 'custom-toast',
   duration: 3500

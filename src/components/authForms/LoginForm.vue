@@ -6,28 +6,20 @@
     <v-form ref="form" v-model="valid" @submit.prevent="onLogin">
       <v-text-field
         v-model="email"
-        v-validate="'required|email'"
         name="email"
         label="Email"
-        :error="errors.has('email')"
+        :rules="[rules.emailRequired, rules.validEmail]"
       ></v-text-field>
-      <transition name="fade">
-        <span class="input-error" v-if="errors.has('email')">{{ errors.first('email') }}</span>
-      </transition>
 
       <v-text-field
         :type="show ? 'text' : 'password'"
         :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
         v-model="password"
-        v-validate="'required'"
         name="password"
         label="Password"
-        :error="errors.has('password')"
+        :rules="[rules.passwordRequired]"
         @click:append="show = !show"
       ></v-text-field>
-      <transition name="fade">
-        <span class="input-error" v-if="errors.has('password')">{{ errors.first('password') }}</span>
-      </transition>
 
       <div class="reset-password" @click="overlay = !overlay">
         <span>Forgot password?</span>
@@ -72,7 +64,15 @@ export default {
     show: false,
     email: '',
     password: '',
-    overlay: false
+    overlay: false,
+    rules: {
+      emailRequired: value => !!value || 'Username / email address required',
+      validEmail: value => {
+        const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        return pattern.test(value) || 'Invalid email address.'
+      },
+      passwordRequired: value => !!value || 'Please insert your password'
+    }
   }),
   computed: {
     ...mapGetters('auth', {
@@ -88,9 +88,9 @@ export default {
         email: this.email,
         password: this.password
       }
+      this.valid = this.$refs.form.validate()
+      if (!this.valid) return
       try {
-        this.valid = await this.$validator.validateAll()
-        if (!this.valid) return
         await this.$store.dispatch('auth/login', userData)
         const options = { icon: 'check_circle_outline' }
         if (this.loggedIn && this.token) {

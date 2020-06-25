@@ -349,9 +349,9 @@ export default {
         'property_type': this.propertyType,
         'edit': this.edit
       }
+      this.valid = this.$refs.form.validate()
+      if (!this.valid || !this.hasImage) return
       try {
-        this.valid = this.$refs.form.validate()
-        if (!this.valid || !this.hasImage) return
         const formData = new FormData()
         formData.append('file', this.image)
         formData.append('data', JSON.stringify(params))
