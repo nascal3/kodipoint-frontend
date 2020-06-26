@@ -5,8 +5,8 @@
         <v-row class="left-section-info">
           <div class="left-section-info__avatar">
             <div class="picture-border d-flex justify-center align-center">
-              <v-avatar v-if="userInfo.name" color="primary">
-                <v-img :src="imageSource(userInfo.avatar)"></v-img>
+              <v-avatar v-if="userInfo.name">
+                <v-img :src="imageSource(userInfo)"></v-img>
               </v-avatar>
             </div>
             <v-btn class="edit-fab-btn mx-2" @click="openEditDialog()" fab small>
@@ -23,25 +23,34 @@
         </v-row>
       </v-col>
       <v-col class="right-section" cols="12" sm="5">
+        <manage-tenant v-if="isTenantPage" />
       </v-col>
     </v-row>
   </v-card>
 </template>
 
 <script>
+import ManageTenant from '@/components/tenants/ManageTenant'
+import userProfileAvatar from '@/mixins/userProfileAvatar'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'LandlordsDetails',
+  mixins: [userProfileAvatar],
+  components: {
+    ManageTenant
+  },
   data: () => ({
-    placeholderImage: require(`@/assets/images/avatar.jpg`),
     userInfo: {}
   }),
   computed: {
     ...mapGetters({
       landlordSelected: ['landlord/selectedLandlord'],
       tenantSelected: ['tenants/selectedTenant']
-    })
+    }),
+    isTenantPage () {
+      return this.$router.currentRoute.name === 'tenants'
+    }
   },
   watch: {
     landlordSelected (newValue) {
@@ -54,17 +63,12 @@ export default {
   methods: {
     openEditDialog () {
       this.$emit('openEditDialog', this.userInfo)
-    },
-    imageSource (imagePath) {
-      if (!imagePath) return this.placeholderImage
-      const baseURL = process.env.BASE_URL
-      return `${baseURL}/file${imagePath}`
     }
   },
   created () {
-    this.$router.currentRoute.name === 'landlords'
-      ? this.userInfo = this.landlordSelected
-      : this.userInfo = this.tenantSelected
+    this.userInfo = !this.isTenantPage
+      ? this.landlordSelected
+      : this.tenantSelected
   }
 }
 </script>
