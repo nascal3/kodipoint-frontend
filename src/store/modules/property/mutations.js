@@ -57,6 +57,16 @@ const GET_PROPERTIES = (state, payload) => {
 }
 
 /**
+ * Fetch all properties
+ * @method GET_ALL_PROPERTIES
+ * @param  {Object} state vuex state object
+ * @param  {Array} payload contains properties
+ */
+const GET_ALL_PROPERTIES = (state, payload) => {
+  state.properties = payload
+}
+
+/**
  * Fetch properties search results
  * @method PROPERTY_SEARCH_RESULTS
  * @param  {Object} state vuex state object
@@ -79,6 +89,7 @@ const LR_NUMBER_DUPLICATION_ERROR = (state, payload) => {
 export {
   RESET_PROPERTIES,
   GET_PROPERTIES,
+  GET_ALL_PROPERTIES,
   PROPERTY_SEARCH_RESULTS,
   UPDATE_NO_RESULTS,
   SHOW_LOADER,

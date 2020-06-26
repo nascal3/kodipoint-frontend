@@ -131,7 +131,6 @@ export default {
   },
   data: () => ({
     infiniteId: +new Date(),
-    page: 1,
     searchPropertyName: '',
     propertyDialog: false,
     edit: false,

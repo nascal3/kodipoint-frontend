@@ -23,14 +23,14 @@
         </v-row>
       </v-col>
       <v-col class="right-section" cols="12" sm="5">
-        <manage-tenant v-if="isTenantPage" />
+        <manage-tenant :tenantInfo="userInfo" v-if="isTenantPage" />
       </v-col>
     </v-row>
   </v-card>
 </template>
 
 <script>
-import ManageTenant from '@/components/tenants/ManageTenant'
+import ManageTenant from '@/components/tenants/utils/ManageTenant'
 import userProfileAvatar from '@/mixins/userProfileAvatar'
 import { mapGetters } from 'vuex'
 
