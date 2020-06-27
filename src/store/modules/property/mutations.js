@@ -39,10 +39,10 @@ const SET_ERROR_STATE = (state, payload) => {
 
 /**
  * Reset properties search results
- * @method RESET_SEARCH_EMPLOYEES
+ * @method RESET_SEARCH_PROPERTIES
  * @param  {Object} state vuex state object
  */
-const RESET_SEARCH_EMPLOYEES = (state) => {
+const RESET_SEARCH_PROPERTIES = (state) => {
   state.propertySearchResults = []
 }
 
@@ -94,6 +94,6 @@ export {
   UPDATE_NO_RESULTS,
   SHOW_LOADER,
   SET_ERROR_STATE,
-  RESET_SEARCH_EMPLOYEES,
+  RESET_SEARCH_PROPERTIES,
   LR_NUMBER_DUPLICATION_ERROR
 }

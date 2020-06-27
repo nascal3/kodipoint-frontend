@@ -7,11 +7,6 @@
             <v-icon class="close-icon" color="primary" @click="closeForm">
                 mdi-close
             </v-icon>
-<!--            <v-progress-linear-->
-<!--                v-if="!userInfoLoaded && edit"-->
-<!--                indeterminate-->
-<!--                color="primary"-->
-<!--            ></v-progress-linear>-->
         </v-card-title>
         <v-card-text class="content">
             {{tenantInfo}}
@@ -22,28 +17,16 @@
                 <div class="section-title">Select property</div>
                 <v-row>
                     <v-col cols="12" md="6">
-                        <dynamic-select
-                            :options="properties"
-                            @search="onSearchProperty"
-                            option-value="id"
-                            option-text="property_name"
-                            placeholder="Type to search"
-                            v-model="selectedProperty"
-                        />
-                        <infinite-loading
-                            class="propertyInfiniteLoader"
-                            :identifier="infiniteId"
-                            @infinite="getProperties"
-                        />
+                        <dynamic-landlord-select @landlordSelect="landlordSelected" />
                         <div class="input-hint">
-                            Type property name or click to select property.
+                            Type landlord name or click to select landlord.
                         </div>
                     </v-col>
                     <v-col cols="12" md="6">
-                        <v-select
-                            :items="properties.property_name"
-                            label="Properties"
-                        ></v-select>
+                        <dynamic-properties-select :user_id="selectedLandlord.user_id" @propertySelect="propertySelected" />
+                        <div class="input-hint">
+                            Type property name or click to select property.
+                        </div>
                     </v-col>
                 </v-row>
             </v-form>
@@ -52,9 +35,8 @@
 </template>
 
 <script>
-import DynamicSelect from 'vue-dynamic-select'
-import InfiniteLoading from 'vue-infinite-loading'
-import { mapActions, mapGetters } from 'vuex'
+import DynamicLandlordSelect from '@/components/landlords/utils/DynamicLandlordSelect'
+import DynamicPropertiesSelect from '@/components/tenants/utils/DynamicPropertiesSelect'
 
 export default {
   name: 'ManageTenantForm',
@@ -65,32 +47,31 @@ export default {
     }
   },
   components: {
-    DynamicSelect,
-    InfiniteLoading
+    DynamicLandlordSelect,
+    DynamicPropertiesSelect
   },
   data: () => ({
     valid: false,
     selectedProperty: {},
-    infiniteId: +new Date()
+    selectedLandlord: {}
   }),
   computed: {
-    ...mapGetters({
-      properties: ['property/properties']
-    })
+
+  },
+  watch: {
+
   },
   methods: {
-    ...mapActions({
-      getAllProperties: 'property/getAllProperties',
-      searchProperties: 'property/searchProperties'
-    }),
     closeForm () {
       this.$emit('closeModal', false)
     },
-    getProperties ($event) {
-      this.getAllProperties({ ...$event })
+    propertySelected (property) {
+      this.selectedProperty = property
+      console.log('prop', this.selectedProperty)
     },
-    onSearchProperty () {
-
+    landlordSelected (landlord) {
+      this.selectedLandlord = landlord
+      console.log('landy', this.selectedLandlord)
     },
     moveInTenant () {
 
