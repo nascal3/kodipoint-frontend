@@ -323,9 +323,9 @@ export default {
         'bank_swift': this.bankSwift,
         'edit': this.edit
       }
+      this.valid = this.$refs.form.validate()
+      if (!this.valid || !this.validFile) return
       try {
-        this.valid = this.$refs.form.validate()
-        if (!this.valid || !this.validFile) return
         const formData = new FormData()
         formData.append('file', this.image)
         formData.append('data', JSON.stringify(params))

@@ -7,6 +7,12 @@
   border-bottom: 1px solid $black !important;
   color: $black !important;
 
+  &:focus {
+    border: none !important;
+    border-bottom: 2px solid $kodi_orange !important;
+    outline: none;
+  }
+
   & i.dropdown {
     border-left: 5px solid transparent !important;
     border-right: 5px solid transparent !important;

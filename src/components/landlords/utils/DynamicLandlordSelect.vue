@@ -89,6 +89,9 @@ export default {
     selectedLandlord () {
       this.$emit('landlordSelect', this.landlordSelect)
     }
+  },
+  mounted () {
+    this.$store.commit('landlord/RESET_LANDLORDS')
   }
 }
 </script>
