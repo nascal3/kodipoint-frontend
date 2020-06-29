@@ -15,7 +15,7 @@ const checkLandlordApproval = {
       if (this.isLandlordRole) {
         setTimeout(async () => {
           if (!this.userInfo.approved) await this.$router.replace('/profile')
-        }, 300)
+        }, 500)
       }
     }
   }

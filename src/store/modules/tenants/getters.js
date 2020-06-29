@@ -24,6 +24,14 @@ const showErrorState = (state) => state.errorState
 const tenantIdDuplicationError = (state) => state.tenantIdDuplicationError
 
 /**
+ * Show state for duplication of moving in record error
+ * @method moveInDuplicationError
+ * @param  {Object} state vuex state object
+ * @return {boolean} Contains the show error state
+ */
+const moveInDuplicationError = (state) => state.moveInDuplicationError
+
+/**
  * Show no search results state
  * @method noSearchResults
  * @param  {Object} state vuex state object
@@ -61,6 +69,7 @@ export {
   tenantSearchResults,
   showErrorState,
   tenantIdDuplicationError,
+  moveInDuplicationError,
   noSearchResults,
   selectedTenant
 }

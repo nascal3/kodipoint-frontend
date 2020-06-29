@@ -9,9 +9,18 @@
             </v-icon>
         </v-card-title>
         <v-card-text class="content">
+            <transition name="fade">
+                <v-alert
+                    v-if="moveInDuplicationError"
+                    dense
+                    type="error"
+                >
+                    The following entry has already been made!
+                </v-alert>
+            </transition>
             <v-form ref="form" enctype="multipart/form-data" v-model="valid" @submit.prevent="moveInTenant">
                 <v-row>
-                    <v-col cols="12" md="6">
+                    <v-col cols="12" v-if="!isLandlordRole">
                         <div class="section-title">Select landlord</div>
                         <dynamic-landlord-select @landlordSelect="landlordSelected" />
                         <div class="input-hint">
@@ -23,7 +32,7 @@
                             </div>
                         </transition>
                     </v-col>
-                    <v-col cols="12" md="6">
+                    <v-col cols="12">
                         <div class="section-title">Select property</div>
                         <dynamic-properties-select
                             :user_id="selectedLandlord.user_id"
@@ -86,7 +95,8 @@
                     <v-col cols="12" md="6">
                         <v-btn
                             type="submit"
-
+                            :loading="showLoader"
+                            :disabled="showLoader"
                             class="btn-text"
                             block
                             color="primary"
@@ -115,6 +125,7 @@
 import DynamicLandlordSelect from '@/components/landlords/utils/DynamicLandlordSelect'
 import DynamicPropertiesSelect from '@/components/tenants/utils/DynamicPropertiesSelect'
 import { VMoney } from 'v-money'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'ManageTenantForm',
@@ -148,6 +159,15 @@ export default {
   }),
   directives: { money: VMoney },
   computed: {
+    ...mapGetters({
+      token: ['auth/token'],
+      showLoader: ['tenants/showLoader'],
+      userInfo: ['configs/loggedInUserInfo'],
+      moveInDuplicationError: ['tenants/moveInDuplicationError']
+    }),
+    isLandlordRole () {
+      return this.token.user.role === 'landlord' || this.token.user.role === 'landlordTenant'
+    },
     hasProperty () {
       return Object.keys(this.selectedProperty).length
     },
@@ -168,6 +188,9 @@ export default {
     propertySelected (property) {
       this.selectedProperty = property
     },
+    setLandlordId () {
+      this.selectedLandlord = this.userInfo
+    },
     landlordSelected (landlord) {
       this.selectedLandlord = landlord
     },
@@ -177,12 +200,13 @@ export default {
         return parseFloat(this.unitRent)
       }
     },
-    moveInTenant () {
+    async moveInTenant () {
       const params = {
         'tenant_id': this.tenantInfo.id,
         'property_id': this.selectedProperty.id,
         'property_name': this.selectedProperty.property_name,
         'landlord_id': this.selectedLandlord.landlord_id,
+        'landlord_name': this.selectedLandlord.name,
         'unit_no': this.unitNum,
         'unit_rent': this.formatRentToNumber(),
         'move_in_date': this.moveInDate
@@ -190,10 +214,18 @@ export default {
       this.valid = this.$refs.form.validate()
       if (!this.valid || !this.hasProperty || !this.hasLandlord) return
       try {
-        console.log('CVC', params)
+        const success = await this.$store.dispatch('tenants/moveInTenant', params)
+        if (success) {
+          this.closeForm()
+        }
       } catch (err) {
-        throw err.message
+        throw err
       }
+    }
+  },
+  created () {
+    if (this.isLandlordRole) {
+      this.setLandlordId()
     }
   }
 }

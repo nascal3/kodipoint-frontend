@@ -57,6 +57,16 @@ const TENANT_ID_DUPLICATION_ERROR = (state, payload) => {
 }
 
 /**
+ * Set error state for duplication of moving in record
+ * @method MOVE_IN_DUPLICATION_ERROR
+ * @param  {Object} state vuex state object
+ * @param  {boolean} payload state of error
+ */
+const MOVE_IN_DUPLICATION_ERROR = (state, payload) => {
+  state.moveInDuplicationError = payload
+}
+
+/**
  * Reset tenant search results
  * @method RESET_SEARCH_TENANTS
  * @param  {Object} state vuex state object
@@ -104,6 +114,7 @@ export {
   SHOW_LOADER,
   SET_ERROR_STATE,
   TENANT_ID_DUPLICATION_ERROR,
+  MOVE_IN_DUPLICATION_ERROR,
   RESET_SEARCH_TENANTS,
   SET_SELECTED_TENANT
 }

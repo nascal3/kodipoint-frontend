@@ -152,7 +152,7 @@ export default {
       }
     }
   },
-  beforeDestroy () {
+  created () {
     this.$store.commit('landlord/RESET_LANDLORDS')
   }
 }

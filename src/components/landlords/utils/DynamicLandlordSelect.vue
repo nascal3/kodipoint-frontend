@@ -90,7 +90,7 @@ export default {
       this.$emit('landlordSelect', this.landlordSelect)
     }
   },
-  mounted () {
+  created () {
     this.$store.commit('landlord/RESET_LANDLORDS')
   }
 }

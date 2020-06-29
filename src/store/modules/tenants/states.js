@@ -5,7 +5,8 @@ const state = {
   noSearchResults: false,
   showLoader: false,
   errorState: false,
-  tenantIdDuplicationError: false
+  tenantIdDuplicationError: false,
+  moveInDuplicationError: false
 }
 
 export default state

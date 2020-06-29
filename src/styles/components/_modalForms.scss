@@ -32,6 +32,10 @@
       &.content {
         padding-top: 53px;
         height: auto;
+
+        .v-alert {
+          margin-top: 1rem;
+        }
       }
     }
   }
