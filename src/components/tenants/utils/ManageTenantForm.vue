@@ -224,6 +224,7 @@ export default {
     }
   },
   created () {
+    this.$store.commit('tenants/MOVE_IN_DUPLICATION_ERROR', false)
     if (this.isLandlordRole) {
       this.setLandlordId()
     }
