@@ -6,7 +6,7 @@
       </v-col>
       <v-col cols="12" sm="10" v-if="showSection">
         <user-details-banner class="table-card" @openEditDialog="openDialog" />
-<!--        <property-table :landlordSelected="landlordSelected"></property-table>-->
+        <tenant-info />
       </v-col>
     </v-row>
     <v-overlay light :value="dialog">
@@ -20,6 +20,7 @@ import { mapGetters, mapActions } from 'vuex'
 import TenantList from '@/components/tenants/TenantList'
 import UserDetailsBanner from '@/components/utils/UserDetailsBanner'
 import TenantForm from '@/components/tenants/TenantForm'
+import TenantInfo from '@/components/tenants/TenantInfo'
 import checkLandlordApproval from '@/mixins/checkLandlordApproval'
 
 export default {
@@ -34,6 +35,7 @@ export default {
   components: {
     TenantList,
     TenantForm,
+    TenantInfo,
     UserDetailsBanner
   },
   computed: {

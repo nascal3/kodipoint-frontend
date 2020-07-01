@@ -54,10 +54,11 @@
 
 <script>
 import userProfileAvatar from '@/mixins/userProfileAvatar'
+import formatRoleName from '@/mixins/formatRoleName'
 
 export default {
   name: 'UserInfo',
-  mixins: [userProfileAvatar],
+  mixins: [userProfileAvatar, formatRoleName],
   props: {
     userInfo: {
       type: Object,

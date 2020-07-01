@@ -20,9 +20,16 @@
     height: 4rem !important;
   }
 
-  .user-name {
-    font-size: 1.2rem;
+  .user {
     margin-right: 1rem;
+    align-items: flex-end;
+
+    &-name {
+      font-size: 1.3rem;
+    }
+    &-role {
+      font-style: italic;
+    }
   }
 
   .drop-menu {
