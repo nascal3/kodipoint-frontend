@@ -12,6 +12,10 @@
     <v-overlay light :value="dialog">
       <tenant-form @closeTenantModal="closeModal" :edit="edit" :tenant-info="tenantInfo" />
     </v-overlay>
+
+    <v-overlay light :value="showManageTenantDialog">
+      <manage-tenant-form :tenantInfo="tenantInfo" @closeManageTenantForm="closeManageTenantModal" />
+    </v-overlay>
   </v-container>
 </template>
 
@@ -21,6 +25,7 @@ import TenantList from '@/components/tenants/TenantList'
 import UserDetailsBanner from '@/components/utils/UserDetailsBanner'
 import TenantForm from '@/components/tenants/TenantForm'
 import TenantInfo from '@/components/tenants/TenantInfo'
+import ManageTenantForm from '@/components/tenants/utils/ManageTenantForm'
 import checkLandlordApproval from '@/mixins/checkLandlordApproval'
 
 export default {
@@ -36,11 +41,13 @@ export default {
     TenantList,
     TenantForm,
     TenantInfo,
-    UserDetailsBanner
+    UserDetailsBanner,
+    ManageTenantForm
   },
   computed: {
     ...mapGetters('tenants', {
-      tenantSelected: 'selectedTenant'
+      tenantSelected: 'selectedTenant',
+      showManageTenantDialog: 'showManageTenantDialog'
     }),
     showSection () {
       return Object.keys(this.tenantSelected).length > 0
@@ -65,6 +72,9 @@ export default {
         this.resetSelectedTenant()
         this.changed = +new Date()
       }
+    },
+    closeManageTenantModal (value) {
+      this.$store.commit('tenants/SHOW_MANAGEMENT_TENANT_DIALOG', value)
     }
   },
   created () {

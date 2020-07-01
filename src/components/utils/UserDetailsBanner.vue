@@ -23,7 +23,7 @@
         </v-row>
       </v-col>
       <v-col class="right-section" cols="12" sm="5">
-        <manage-tenant :tenantInfo="userInfo" v-if="isTenantPage" />
+        <manage-tenant v-if="isTenantPage" />
       </v-col>
     </v-row>
   </v-card>

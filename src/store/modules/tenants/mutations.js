@@ -76,6 +76,16 @@ const RESET_SEARCH_TENANTS = (state) => {
 }
 
 /**
+ * Show tenant management dialog
+ * @method SHOW_MANAGEMENT_TENANT_DIALOG
+ * @param  {Object} state vuex state object
+ * @param  {Boolean} payload state of close or open dialog
+ */
+const SHOW_MANAGEMENT_TENANT_DIALOG = (state, payload) => {
+  state.showManageTenantDialog = payload
+}
+
+/**
  * Fetch all tenants
  * @method GET_ALL_TENANTS
  * @param  {Object} state vuex state object
@@ -116,5 +126,6 @@ export {
   TENANT_ID_DUPLICATION_ERROR,
   MOVE_IN_DUPLICATION_ERROR,
   RESET_SEARCH_TENANTS,
-  SET_SELECTED_TENANT
+  SET_SELECTED_TENANT,
+  SHOW_MANAGEMENT_TENANT_DIALOG
 }

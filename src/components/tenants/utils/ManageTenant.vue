@@ -3,37 +3,19 @@
         <v-btn
             class="btn-text"
             color="primary"
-            @click="openDialog = true"
+            @click="openDialog"
         >
             Manage Tenant
         </v-btn>
-
-        <v-overlay light :value="openDialog">
-            <manage-tenant-form :tenantInfo="tenantInfo" @closeModal="closeModal" />
-        </v-overlay>
     </section>
 </template>
 
 <script>
-import ManageTenantForm from '@/components/tenants/utils/ManageTenantForm'
-
 export default {
   name: 'ManageTenant',
-  props: {
-    tenantInfo: {
-      type: Object,
-      required: true
-    }
-  },
-  components: {
-    ManageTenantForm
-  },
-  data: () => ({
-    openDialog: false
-  }),
   methods: {
-    closeModal (value) {
-      this.openDialog = value
+    openDialog () {
+      this.$store.commit('tenants/SHOW_MANAGEMENT_TENANT_DIALOG', true)
     }
   }
 }

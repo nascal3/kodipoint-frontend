@@ -63,6 +63,14 @@ const tenantSearchResults = (state) => state.tenantSearchResults
  */
 const selectedTenant = (state) => state.selectedTenant
 
+/**
+ * Show tenant management dialog
+ * @method showManageTenantDialog
+ * @param  {Object} state vuex state object
+ * @return {Object} Contains state of close or open dialog
+ */
+const showManageTenantDialog = (state) => state.showManageTenantDialog
+
 export {
   tenants,
   showLoader,
@@ -71,5 +79,6 @@ export {
   tenantIdDuplicationError,
   moveInDuplicationError,
   noSearchResults,
-  selectedTenant
+  selectedTenant,
+  showManageTenantDialog
 }

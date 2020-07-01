@@ -4,7 +4,7 @@
             <div class="title">
                 Manage Tenant
             </div>
-            <v-icon class="close-icon" color="primary" @click="closeForm">
+            <v-icon class="close-icon" color="primary" @click="closeManageTenantForm">
                 mdi-close
             </v-icon>
         </v-card-title>
@@ -110,7 +110,7 @@
                             block
                             outlined
                             color="default"
-                            @click="closeForm"
+                            @click="closeManageTenantForm"
                         >
                             Cancel
                         </v-btn>
@@ -182,8 +182,8 @@ export default {
     }
   },
   methods: {
-    closeForm () {
-      this.$emit('closeModal', false)
+    closeManageTenantForm () {
+      this.$emit('closeManageTenantForm', false)
     },
     propertySelected (property) {
       this.selectedProperty = property

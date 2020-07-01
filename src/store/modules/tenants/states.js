@@ -6,7 +6,8 @@ const state = {
   showLoader: false,
   errorState: false,
   tenantIdDuplicationError: false,
-  moveInDuplicationError: false
+  moveInDuplicationError: false,
+  showManageTenantDialog: false
 }
 
 export default state
