@@ -6,7 +6,7 @@
       </v-col>
       <v-col cols="12" sm="10" v-if="showSection">
         <user-details-banner class="table-card" @openEditDialog="openDialog" />
-        <tenant-info />
+        <tenant-info :selected-tenant="tenantInfo" />
       </v-col>
     </v-row>
     <v-overlay light :value="dialog">

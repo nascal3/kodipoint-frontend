@@ -71,6 +71,22 @@ const selectedTenant = (state) => state.selectedTenant
  */
 const showManageTenantDialog = (state) => state.showManageTenantDialog
 
+/**
+ * Show tenant rental records that has been selected for viewing
+ * @method tenantRentalRecords
+ * @param  {Object} state vuex state object
+ * @return {Object} Contains state of close or open dialog
+ */
+const tenantRentalRecords = (state) => state.tenantRentalRecords
+
+/**
+ * Show error state for house not vacant being moved into
+ * @method noVacancyError
+ * @param  {Object} state vuex state object
+ * @return {Object} Contains state of error
+ */
+const noVacancyError = (state) => state.noVacancyError
+
 export {
   tenants,
   showLoader,
@@ -80,5 +96,7 @@ export {
   moveInDuplicationError,
   noSearchResults,
   selectedTenant,
-  showManageTenantDialog
+  showManageTenantDialog,
+  tenantRentalRecords,
+  noVacancyError
 }

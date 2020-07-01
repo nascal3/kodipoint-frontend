@@ -3,10 +3,10 @@ import { mapGetters } from 'vuex'
 export default {
   computed: {
     ...mapGetters({
-      user: ['configs/loggedInUserInfo']
+      user: ['auth/token']
     }),
     roleName () {
-      const role = this.user.role
+      const role = this.user.user.role
       const matchedRole = {
         landlordTenant: 'Landlord & Tenant',
         landlord: 'Landlord',

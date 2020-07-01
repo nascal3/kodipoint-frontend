@@ -11,11 +11,15 @@
         <v-card-text class="content">
             <transition name="fade">
                 <v-alert
-                    v-if="moveInDuplicationError"
+                    v-if="moveInDuplicationError || noVacancyError"
                     dense
                     type="error"
                 >
-                    The following entry has already been made!
+                    {{
+                        moveInDuplicationError
+                            ? 'The following entry has already been made!'
+                            : 'This property unit is not vacant!'
+                    }}
                 </v-alert>
             </transition>
             <v-form ref="form" enctype="multipart/form-data" v-model="valid" @submit.prevent="moveInTenant">
@@ -125,7 +129,7 @@
 import DynamicLandlordSelect from '@/components/landlords/utils/DynamicLandlordSelect'
 import DynamicPropertiesSelect from '@/components/tenants/utils/DynamicPropertiesSelect'
 import { VMoney } from 'v-money'
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'ManageTenantForm',
@@ -163,7 +167,8 @@ export default {
       token: ['auth/token'],
       showLoader: ['tenants/showLoader'],
       userInfo: ['configs/loggedInUserInfo'],
-      moveInDuplicationError: ['tenants/moveInDuplicationError']
+      moveInDuplicationError: ['tenants/moveInDuplicationError'],
+      noVacancyError: ['tenants/noVacancyError']
     }),
     isLandlordRole () {
       return this.token.user.role === 'landlord' || this.token.user.role === 'landlordTenant'
@@ -182,6 +187,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions('tenants', {
+      getTenantRentalRecords: 'getTenantRentalRecords'
+    }),
     closeManageTenantForm () {
       this.$emit('closeManageTenantForm', false)
     },
@@ -193,6 +201,13 @@ export default {
     },
     landlordSelected (landlord) {
       this.selectedLandlord = landlord
+    },
+    getTenantsRecords () {
+      const params = {
+        'tenant_id': this.tenantInfo.id,
+        'landlord_id': this.userInfo.landlord_id
+      }
+      this.getTenantRentalRecords(params)
     },
     formatRentToNumber () {
       if (this.unitRent) {
@@ -216,7 +231,8 @@ export default {
       try {
         const success = await this.$store.dispatch('tenants/moveInTenant', params)
         if (success) {
-          this.closeForm()
+          this.getTenantsRecords()
+          this.closeManageTenantForm()
         }
       } catch (err) {
         throw err

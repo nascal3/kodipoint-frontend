@@ -56,8 +56,34 @@ const moveInTenant = async ({ commit, dispatch }, payload) => {
     }
   } catch (err) {
     commit('SHOW_LOADER', false)
-    commit('MOVE_IN_DUPLICATION_ERROR', true)
-    throw new Error(err)
+    if (err.response.status === 422) {
+      err.response.data.Error === 'The entry has already been done!'
+        ? commit('MOVE_IN_DUPLICATION_ERROR', true)
+        : commit('NO_VACANCY_ERROR', true)
+    }
+    throw err
+  }
+}
+
+/**
+ * Move tenant into rental property
+ * @method  moveInTenant
+ * @param  {Object} commit vuex mutations
+ * @param  {Object} payload tenant and landlord ID
+ */
+const getTenantRentalRecords = async ({ commit }, payload) => {
+  commit('SHOW_LOADER', true)
+  const url = '/api/tenantsrec/single'
+
+  try {
+    const response = await api.post(url, payload)
+    if (response.status === 200) {
+      commit('SET_SELECTED_TENANT_RENTAL_RECORDS', response.data.result)
+      commit('SHOW_LOADER', false)
+    }
+  } catch (err) {
+    commit('SHOW_LOADER', false)
+    throw err
   }
 }
 
@@ -160,5 +186,6 @@ export {
   searchTenants,
   fetchSearchTenants,
   setSelectedTenant,
-  resetSelectedTenant
+  resetSelectedTenant,
+  getTenantRentalRecords
 }
