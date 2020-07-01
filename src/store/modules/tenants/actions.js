@@ -1,5 +1,4 @@
 import { api } from '@/middleware/config'
-import store from '@/store'
 
 /**
  * Fetch all tenants
@@ -12,10 +11,7 @@ import store from '@/store'
 const getTenants = async ({ commit, state, rootGetters }, payload) => {
   const limit = rootGetters['configs/setPageSize']
   const offset = Object.keys(state.tenants).length > 0 ? state.tenants.length : 0
-  const token = store.getters['auth/token']
-  const url = token.user.role === 'landlord' || token.user.role === 'landlord/tenant'
-    ? '/api/tenants/landlord'
-    : '/api/tenants/all'
+  const url = '/api/tenants/all'
 
   const params = {
     limit,
@@ -37,6 +33,57 @@ const getTenants = async ({ commit, state, rootGetters }, payload) => {
   } catch (err) {
     commit('SET_ERROR_STATE', true)
     throw new Error(err.message)
+  }
+}
+
+/**
+ * Move tenant into rental property
+ * @method  moveInTenant
+ * @param  {Object} commit vuex mutations
+ * @param  {Object} dispatch vuex actions
+ * @param  {Object} payload tenant attributes
+ */
+const moveInTenant = async ({ commit, dispatch }, payload) => {
+  commit('SHOW_LOADER', true)
+  commit('auth/USER_DUPLICATION_ERROR', false, { root: true })
+  const url = '/api/tenantsrec/movein'
+
+  try {
+    const response = await api.post(url, payload)
+    if (response.status === 200) {
+      commit('SHOW_LOADER', false)
+      return response.data
+    }
+  } catch (err) {
+    commit('SHOW_LOADER', false)
+    if (err.response.status === 422) {
+      err.response.data.Error === 'The entry has already been done!'
+        ? commit('MOVE_IN_DUPLICATION_ERROR', true)
+        : commit('NO_VACANCY_ERROR', true)
+    }
+    throw err
+  }
+}
+
+/**
+ * Move tenant into rental property
+ * @method  moveInTenant
+ * @param  {Object} commit vuex mutations
+ * @param  {Object} payload tenant and landlord ID
+ */
+const getTenantRentalRecords = async ({ commit }, payload) => {
+  commit('SHOW_LOADER', true)
+  const url = '/api/tenantsrec/single'
+
+  try {
+    const response = await api.post(url, payload)
+    if (response.status === 200) {
+      commit('SET_SELECTED_TENANT_RENTAL_RECORDS', response.data.result)
+      commit('SHOW_LOADER', false)
+    }
+  } catch (err) {
+    commit('SHOW_LOADER', false)
+    throw err
   }
 }
 
@@ -93,10 +140,7 @@ const searchTenants = ({ commit, dispatch }, payload) => {
  * @return {Promise}
  */
 const fetchSearchTenants = async ({ commit, state }, payload) => {
-  const token = store.getters['auth/token']
-  const url = token.user.role === 'landlord' || token.user.role === 'landlord/tenant'
-    ? '/api/tenants/landlord/search'
-    : '/api/tenants/search'
+  const url = '/api/tenants/search'
   const params = {
     'search_phrase': payload.trim()
   }
@@ -137,9 +181,11 @@ const resetSelectedTenant = ({ commit }) => {
 
 export {
   getTenants,
+  moveInTenant,
   addNewTenant,
   searchTenants,
   fetchSearchTenants,
   setSelectedTenant,
-  resetSelectedTenant
+  resetSelectedTenant,
+  getTenantRentalRecords
 }

@@ -9,6 +9,7 @@
 
 @import 'components/buttons';
 @import 'components/defaultInfoPage';
+@import 'components/dynamicSelect';
 @import 'components/modalForms';
 @import 'components/sideBarItemList';
 @import 'components/table';
@@ -21,6 +22,7 @@
 @import 'layout/landlordList';
 @import 'layout/landlordsDetails';
 @import 'layout/loginForm';
+@import 'layout/manageTenant';
 @import 'layout/map';
 @import 'layout/mapInfoWindow';
 @import 'layout/navigation';
@@ -28,7 +30,9 @@
 @import 'layout/propertyForm';
 @import 'layout/propertyTable';
 @import 'layout/registrationForm';
+@import 'layout/tenantInfo';
 @import 'layout/tenantList';
+@import 'layout/tenantRentalRecordsTable';
 @import 'layout/tenantsDetails';
 @import 'layout/toolBar';
 @import 'layout/userInfo';

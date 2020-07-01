@@ -10,6 +10,40 @@ const resetErrors = ({ commit }) => {
 }
 
 /**
+ * Fetch all properties
+ * @method getAllProperties
+ * @param  {Object} commit vuex mutations
+ * @param  {Object} state of the vuex store
+ * @param  {Object} rootGetters of the vuex store
+ * @param  {Object} payload values of page event
+ */
+const getAllProperties = async ({ commit, state, rootGetters }, payload) => {
+  const limit = rootGetters['configs/setPageSize']
+  const offset = Object.keys(state.properties).length > 0 ? state.properties.length : 0
+  const params = {
+    limit,
+    offset
+  }
+  const url = `/api/properties/all`
+
+  try {
+    const response = await api.post(url, params)
+    const data = response.data.result
+    if (response.status === 200) {
+      response.data.result = state.properties.length === 0 ? data : [...state.properties, ...data]
+      commit('GET_ALL_PROPERTIES', response.data.result)
+      payload.loaded()
+      if (data.length < limit) {
+        payload.complete()
+      }
+    }
+  } catch (err) {
+    commit('SET_ERROR_STATE', true)
+    throw err.message
+  }
+}
+
+/**
  * Fetch properties of specific landlord
  * @method getProperties
  * @param  {Object} commit vuex mutations
@@ -75,13 +109,13 @@ const addNewProperty = async ({ commit, dispatch }, payload) => {
 }
 
 /**
- * Starts search of employees
- * @method searchEmployees
+ * Starts search of properties
+ * @method searchProperties
  * @param  {Object} Object vuex context object
  * @param {*} payload search terms
  */
 const searchProperties = ({ commit, dispatch }, payload) => {
-  commit('RESET_SEARCH_EMPLOYEES')
+  commit('RESET_SEARCH_PROPERTIES')
   commit('UPDATE_NO_RESULTS', false)
   dispatch('fetchSearchProperties', payload)
 }
@@ -107,7 +141,7 @@ const fetchSearchProperties = async ({ commit, state }, payload) => {
     commit('UPDATE_NO_RESULTS', true)
   } catch (error) {
     commit('SET_ERROR_STATE', true)
-    throw Error(error.message)
+    throw error.message
   }
 }
 
@@ -116,5 +150,6 @@ export {
   getProperties,
   addNewProperty,
   searchProperties,
+  getAllProperties,
   fetchSearchProperties
 }

@@ -3,7 +3,6 @@
     <v-row no-gutters>
       <v-col cols="12" md="12">
         <v-card-title class="title">Properties</v-card-title>
-<!--        <v-card-subtitle class="subtitle">View/Edit properties</v-card-subtitle>-->
       </v-col>
     </v-row>
 
@@ -131,7 +130,6 @@ export default {
   },
   data: () => ({
     infiniteId: +new Date(),
-    page: 1,
     searchPropertyName: '',
     propertyDialog: false,
     edit: false,

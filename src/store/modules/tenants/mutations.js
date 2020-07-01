@@ -57,12 +57,42 @@ const TENANT_ID_DUPLICATION_ERROR = (state, payload) => {
 }
 
 /**
+ * Set error state for duplication of moving in record
+ * @method MOVE_IN_DUPLICATION_ERROR
+ * @param  {Object} state vuex state object
+ * @param  {boolean} payload state of error
+ */
+const MOVE_IN_DUPLICATION_ERROR = (state, payload) => {
+  state.moveInDuplicationError = payload
+}
+
+/**
+ * Set error state for house not vacant being moved into
+ * @method NO_VACANCY_ERROR
+ * @param  {Object} state vuex state object
+ * @param  {boolean} payload state of error
+ */
+const NO_VACANCY_ERROR = (state, payload) => {
+  state.noVacancyError = payload
+}
+
+/**
  * Reset tenant search results
  * @method RESET_SEARCH_TENANTS
  * @param  {Object} state vuex state object
  */
 const RESET_SEARCH_TENANTS = (state) => {
   state.tenantSearchResults = []
+}
+
+/**
+ * Show tenant management dialog
+ * @method SHOW_MANAGEMENT_TENANT_DIALOG
+ * @param  {Object} state vuex state object
+ * @param  {Boolean} payload state of close or open dialog
+ */
+const SHOW_MANAGEMENT_TENANT_DIALOG = (state, payload) => {
+  state.showManageTenantDialog = payload
 }
 
 /**
@@ -95,6 +125,16 @@ const SET_SELECTED_TENANT = (state, payload) => {
   state.selectedTenant = payload
 }
 
+/**
+ * Set the tenant rental records that has been selected for viewing
+ * @method SET_SELECTED_TENANT_RENTAL_RECORDS
+ * @param  {Object} state vuex state object
+ * @param  {Array} payload contains tenant details
+ */
+const SET_SELECTED_TENANT_RENTAL_RECORDS = (state, payload) => {
+  state.tenantRentalRecords = payload
+}
+
 export {
   RESET_TENANTS,
   RESET_SELECTED_TENANT,
@@ -104,6 +144,10 @@ export {
   SHOW_LOADER,
   SET_ERROR_STATE,
   TENANT_ID_DUPLICATION_ERROR,
+  MOVE_IN_DUPLICATION_ERROR,
   RESET_SEARCH_TENANTS,
-  SET_SELECTED_TENANT
+  SET_SELECTED_TENANT,
+  SHOW_MANAGEMENT_TENANT_DIALOG,
+  SET_SELECTED_TENANT_RENTAL_RECORDS,
+  NO_VACANCY_ERROR
 }

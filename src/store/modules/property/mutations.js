@@ -39,10 +39,10 @@ const SET_ERROR_STATE = (state, payload) => {
 
 /**
  * Reset properties search results
- * @method RESET_SEARCH_EMPLOYEES
+ * @method RESET_SEARCH_PROPERTIES
  * @param  {Object} state vuex state object
  */
-const RESET_SEARCH_EMPLOYEES = (state) => {
+const RESET_SEARCH_PROPERTIES = (state) => {
   state.propertySearchResults = []
 }
 
@@ -53,6 +53,16 @@ const RESET_SEARCH_EMPLOYEES = (state) => {
  * @param  {Array} payload contains properties
  */
 const GET_PROPERTIES = (state, payload) => {
+  state.properties = payload
+}
+
+/**
+ * Fetch all properties
+ * @method GET_ALL_PROPERTIES
+ * @param  {Object} state vuex state object
+ * @param  {Array} payload contains properties
+ */
+const GET_ALL_PROPERTIES = (state, payload) => {
   state.properties = payload
 }
 
@@ -79,10 +89,11 @@ const LR_NUMBER_DUPLICATION_ERROR = (state, payload) => {
 export {
   RESET_PROPERTIES,
   GET_PROPERTIES,
+  GET_ALL_PROPERTIES,
   PROPERTY_SEARCH_RESULTS,
   UPDATE_NO_RESULTS,
   SHOW_LOADER,
   SET_ERROR_STATE,
-  RESET_SEARCH_EMPLOYEES,
+  RESET_SEARCH_PROPERTIES,
   LR_NUMBER_DUPLICATION_ERROR
 }

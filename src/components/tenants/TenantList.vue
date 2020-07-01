@@ -160,7 +160,7 @@ export default {
       }
     }
   },
-  beforeDestroy () {
+  created () {
     this.$store.commit('tenants/RESET_TENANTS')
   }
 }
