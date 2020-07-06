@@ -11,6 +11,12 @@
        Add tenant
      </v-btn>
    </div>
+
+   <v-radio-group v-if="isLandlordRole" class="list-radio-container" v-model="listType" row>
+     <v-radio label="All Tenants" value="allTenants"></v-radio>
+     <v-radio label="My Tenants" value="myTenants"></v-radio>
+   </v-radio-group>
+
    <section class="search-list">
     <v-row no-gutters>
       <div class="search-item">
@@ -94,6 +100,7 @@ export default {
   data: () => ({
     infiniteId: +new Date(),
     searchTenantName: '',
+    listType: 'allTenants',
     tenantDialog: false,
     edit: false,
     isSearching: false,
@@ -109,6 +116,9 @@ export default {
       noSearchResults: 'noSearchResults',
       selectedTenant: 'selectedTenant'
     }),
+    ...mapGetters({
+      user: ['auth/token']
+    }),
     allTenants () {
       return this.searchTenantName.length ? this.tenantSearchResults : this.tenants
     },
@@ -117,11 +127,20 @@ export default {
     },
     noSearchResultsFound () {
       return this.searchTenantName.length && !this.tenantSearchResults.length
+    },
+    isLandlordRole () {
+      return this.user.user.role === 'landlord' || this.user.user.role === 'landlordTenant'
     }
   },
   watch: {
     reloadValue (newVal) {
-      if ((this.infiniteId !== newVal)) this.infiniteId += 1
+      if (this.infiniteId !== newVal) this.infiniteId += 1
+    },
+    listType (listType) {
+      this.$store.commit('tenants/RESET_TENANTS')
+      this.searchTenantName = ''
+      this.$store.commit('tenants/SET_TENANT_LIST_TYPE', listType)
+      this.infiniteId += 1
     },
     searchTenantName (newValue) {
       if (!newValue.length) {

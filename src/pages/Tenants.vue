@@ -25,7 +25,7 @@ import TenantList from '@/components/tenants/TenantList'
 import UserDetailsBanner from '@/components/utils/UserDetailsBanner'
 import TenantForm from '@/components/tenants/TenantForm'
 import TenantInfo from '@/components/tenants/TenantInfo'
-import ManageTenantForm from '@/components/tenants/utils/ManageTenantForm'
+import ManageTenantForm from '@/components/tenants/utils/MoveInTenantForm'
 import checkLandlordApproval from '@/mixins/checkLandlordApproval'
 
 export default {

@@ -1,4 +1,5 @@
 const state = {
+  tenantsListType: 'allTenants',
   tenants: [],
   tenantSearchResults: [],
   tenantRentalRecords: [],

@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import ManageTenant from '@/components/tenants/utils/ManageTenant'
+import ManageTenant from '@/components/tenants/utils/MoveInTenant'
 import userProfileAvatar from '@/mixins/userProfileAvatar'
 import { mapGetters } from 'vuex'
 

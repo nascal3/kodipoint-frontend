@@ -87,6 +87,14 @@ const tenantRentalRecords = (state) => state.tenantRentalRecords
  */
 const noVacancyError = (state) => state.noVacancyError
 
+/**
+ * Set tenants list type to show
+ * @method tenantsListType
+ * @param  {Object} state vuex state object
+ * @return {String} Contains type of tenant list
+ */
+const tenantsListType = (state) => state.tenantsListType
+
 export {
   tenants,
   showLoader,
@@ -98,5 +106,6 @@ export {
   selectedTenant,
   showManageTenantDialog,
   tenantRentalRecords,
-  noVacancyError
+  noVacancyError,
+  tenantsListType
 }

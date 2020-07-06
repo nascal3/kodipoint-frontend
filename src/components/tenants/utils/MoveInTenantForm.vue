@@ -2,7 +2,7 @@
     <v-card class="modal-info-form" light>
         <v-card-title class="heading">
             <div class="title">
-                Manage Tenant
+                Move In Tenant
             </div>
             <v-icon class="close-icon" color="primary" @click="closeManageTenantForm">
                 mdi-close
@@ -132,7 +132,7 @@ import { VMoney } from 'v-money'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
-  name: 'ManageTenantForm',
+  name: 'MoveInTenantForm',
   props: {
     tenantInfo: {
       type: Object,

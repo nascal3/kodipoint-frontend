@@ -5,14 +5,14 @@
             color="primary"
             @click="openDialog"
         >
-            Manage Tenant
+            Move In Tenant
         </v-btn>
     </section>
 </template>
 
 <script>
 export default {
-  name: 'ManageTenant',
+  name: 'MoveInTenant',
   methods: {
     openDialog () {
       this.$store.commit('tenants/SHOW_MANAGEMENT_TENANT_DIALOG', true)
