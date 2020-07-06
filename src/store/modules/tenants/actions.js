@@ -11,8 +11,7 @@ import { api } from '@/middleware/config'
 const getTenants = async ({ commit, state, rootGetters }, payload) => {
   const limit = rootGetters['configs/setPageSize']
   const offset = Object.keys(state.tenants).length > 0 ? state.tenants.length : 0
-  const url = '/api/tenants/all'
-
+  const url = state.tenantsListType === 'allTenants' ? '/api/tenants/all' : '/api/tenants/landlord'
   const params = {
     limit,
     offset
@@ -66,8 +65,8 @@ const moveInTenant = async ({ commit, dispatch }, payload) => {
 }
 
 /**
- * Move tenant into rental property
- * @method  moveInTenant
+ * Get a Tenants' rental records
+ * @method  getTenantRentalRecords
  * @param  {Object} commit vuex mutations
  * @param  {Object} payload tenant and landlord ID
  */
@@ -88,7 +87,7 @@ const getTenantRentalRecords = async ({ commit }, payload) => {
 }
 
 /**
- * Add and edit tenant
+ * Add or edit tenant
  * @method  addNewTenant
  * @param  {Object} commit vuex mutations
  * @param  {Object} dispatch vuex actions
@@ -140,7 +139,7 @@ const searchTenants = ({ commit, dispatch }, payload) => {
  * @return {Promise}
  */
 const fetchSearchTenants = async ({ commit, state }, payload) => {
-  const url = '/api/tenants/search'
+  const url = state.tenantsListType === 'allTenants' ? '/api/tenants/search' : '/api/tenants/landlord/search'
   const params = {
     'search_phrase': payload.trim()
   }

@@ -135,6 +135,16 @@ const SET_SELECTED_TENANT_RENTAL_RECORDS = (state, payload) => {
   state.tenantRentalRecords = payload
 }
 
+/**
+ * Set tenants list type to show
+ * @method SET_TENANT_LIST_TYPE
+ * @param  {Object} state vuex state object
+ * @param  {String} payload contains tenant details
+ */
+const SET_TENANT_LIST_TYPE = (state, payload) => {
+  state.tenantsListType = payload
+}
+
 export {
   RESET_TENANTS,
   RESET_SELECTED_TENANT,
@@ -149,5 +159,6 @@ export {
   SET_SELECTED_TENANT,
   SHOW_MANAGEMENT_TENANT_DIALOG,
   SET_SELECTED_TENANT_RENTAL_RECORDS,
-  NO_VACANCY_ERROR
+  NO_VACANCY_ERROR,
+  SET_TENANT_LIST_TYPE
 }
