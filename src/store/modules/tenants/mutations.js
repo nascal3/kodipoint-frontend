@@ -86,13 +86,23 @@ const RESET_SEARCH_TENANTS = (state) => {
 }
 
 /**
- * Show tenant management dialog
- * @method SHOW_MANAGEMENT_TENANT_DIALOG
+ * Show tenant move in/out dialog
+ * @method SHOW_MOVE_TENANT_DIALOG
  * @param  {Object} state vuex state object
- * @param  {Boolean} payload state of close or open dialog
+ * @param  {Object} payload state of close or open dialog
  */
-const SHOW_MANAGEMENT_TENANT_DIALOG = (state, payload) => {
-  state.showManageTenantDialog = payload
+const SHOW_MOVE_TENANT_DIALOG = (state, payload) => {
+  state.showMoveTenantDialog = payload
+}
+
+/**
+ * Set tenant rental record selected
+ * @method SET_SELECTED_TENANT_RECORD
+ * @param  {Object} state vuex state object
+ * @param  {Object} payload rental record selected
+ */
+const SET_SELECTED_TENANT_RECORD = (state, payload) => {
+  state.tenantRentalRecordSelected = payload
 }
 
 /**
@@ -157,8 +167,9 @@ export {
   MOVE_IN_DUPLICATION_ERROR,
   RESET_SEARCH_TENANTS,
   SET_SELECTED_TENANT,
-  SHOW_MANAGEMENT_TENANT_DIALOG,
+  SHOW_MOVE_TENANT_DIALOG,
   SET_SELECTED_TENANT_RENTAL_RECORDS,
   NO_VACANCY_ERROR,
-  SET_TENANT_LIST_TYPE
+  SET_TENANT_LIST_TYPE,
+  SET_SELECTED_TENANT_RECORD
 }

@@ -87,6 +87,31 @@ const getTenantRentalRecords = async ({ commit }, payload) => {
 }
 
 /**
+ * Get Tenants' rental single record
+ * @method  getTenantRentalRecords
+ * @param  {Object} commit vuex mutations
+ * @param  {Object} payload record ID
+ */
+const getTenantRentalSingleRecord = async ({ commit }, payload) => {
+  commit('SHOW_LOADER', true)
+  const url = '/api/tenantsrec/row'
+  const params = {
+    'params': { 'record_id': payload }
+  }
+
+  try {
+    const response = await api.get(url, params)
+    if (response.status === 200) {
+      commit('SET_SELECTED_TENANT_RECORD', response.data.results)
+      commit('SHOW_LOADER', false)
+    }
+  } catch (err) {
+    commit('SHOW_LOADER', false)
+    throw err
+  }
+}
+
+/**
  * Add or edit tenant
  * @method  addNewTenant
  * @param  {Object} commit vuex mutations
@@ -186,5 +211,6 @@ export {
   fetchSearchTenants,
   setSelectedTenant,
   resetSelectedTenant,
-  getTenantRentalRecords
+  getTenantRentalRecords,
+  getTenantRentalSingleRecord
 }

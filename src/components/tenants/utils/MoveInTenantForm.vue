@@ -2,9 +2,9 @@
     <v-card class="modal-info-form" light>
         <v-card-title class="heading">
             <div class="title">
-                Move In Tenant
+                {{isEdit ? 'Edit Move in/out details'  : 'Move In Tenant'}}
             </div>
-            <v-icon class="close-icon" color="primary" @click="closeManageTenantForm">
+            <v-icon class="close-icon" color="primary" @click="closeMoveTenantForm">
                 mdi-close
             </v-icon>
         </v-card-title>
@@ -63,8 +63,7 @@
                     </v-col>
                     <v-col cols="12" md="6">
                         <v-text-field
-                            v-model.lazy="unitRent"
-                            v-money="money"
+                            v-model="unitRent"
                             label="Unit rent amount*"
                             :rules="[rules.unitRentRequired]"
                             name="contactPerson"
@@ -94,6 +93,29 @@
                             <v-date-picker v-model="moveInDate" @input="menu = false"></v-date-picker>
                         </v-menu>
                     </v-col>
+                    <v-col cols="12" md="6">
+                        <v-menu
+                            v-if="isEdit"
+                            v-model="menu2"
+                            :close-on-content-click="false"
+                            :nudge-right="40"
+                            transition="scale-transition"
+                            offset-y
+                            min-width="290px"
+                        >
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-text-field
+                                    v-model="moveOutDate"
+                                    label="Date moved out"
+                                    prepend-icon="event"
+                                    readonly
+                                    v-bind="attrs"
+                                    v-on="on"
+                                ></v-text-field>
+                            </template>
+                            <v-date-picker v-model="moveOutDate" @input="menu = false"></v-date-picker>
+                        </v-menu>
+                    </v-col>
                 </v-row>
                 <v-row>
                     <v-col cols="12" md="6">
@@ -114,7 +136,7 @@
                             block
                             outlined
                             color="default"
-                            @click="closeManageTenantForm"
+                            @click="closeMoveTenantForm"
                         >
                             Cancel
                         </v-btn>
@@ -128,7 +150,7 @@
 <script>
 import DynamicLandlordSelect from '@/components/landlords/utils/DynamicLandlordSelect'
 import DynamicPropertiesSelect from '@/components/tenants/utils/DynamicPropertiesSelect'
-import { VMoney } from 'v-money'
+import { format } from 'date-fns'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -146,30 +168,43 @@ export default {
   data: () => ({
     valid: false,
     menu: false,
+    menu2: false,
     selectedProperty: {},
     selectedLandlord: {},
     moveInDate: new Date().toISOString().substr(0, 10),
+    moveOutDate: '',
     unitNum: '',
-    unitRent: '',
-    money: {
-      decimal: '.',
-      thousands: ',',
-      masked: false
-    },
+    unitRent: null,
     rules: {
       unitNumRequired: value => !!value || 'Property unit number required',
       unitRentRequired: value => !!value || 'Unit rent amount required'
     }
   }),
-  directives: { money: VMoney },
+  watch: {
+    tenantRentalRecordSelected (tenantInfo) {
+      if (tenantInfo) this.populateForm(this.tenantRentalRecordSelected)
+    },
+    async unitRent (newValue) {
+      const result = newValue.replace(/\D/g, '')
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+      await this.$nextTick(() => {
+        this.unitRent = result
+      })
+    }
+  },
   computed: {
     ...mapGetters({
       token: ['auth/token'],
       showLoader: ['tenants/showLoader'],
       userInfo: ['configs/loggedInUserInfo'],
       moveInDuplicationError: ['tenants/moveInDuplicationError'],
-      noVacancyError: ['tenants/noVacancyError']
+      noVacancyError: ['tenants/noVacancyError'],
+      showMoveTenantDialog: ['tenants/showMoveTenantDialog'],
+      tenantRentalRecordSelected: ['tenants/tenantRentalRecordSelected']
     }),
+    isEdit () {
+      return this.showMoveTenantDialog.edit
+    },
     isLandlordRole () {
       return this.token.user.role === 'landlord' || this.token.user.role === 'landlordTenant'
     },
@@ -190,8 +225,18 @@ export default {
     ...mapActions('tenants', {
       getTenantRentalRecords: 'getTenantRentalRecords'
     }),
-    closeManageTenantForm () {
-      this.$emit('closeManageTenantForm', false)
+    populateForm (tenant) {
+      this.unitRent = tenant.unit_rent
+      this.unitNum = tenant.unit_no
+      this.moveOutDate = this.formatDate(tenant.move_out_date)
+      this.moveInDate = this.formatDate(tenant.move_in_date)
+    },
+    formatDate (unformedDate) {
+      if (!unformedDate) return
+      return format(new Date(unformedDate), 'yyyy-MM-dd')
+    },
+    closeMoveTenantForm () {
+      this.$emit('closeMoveTenantForm', false)
     },
     propertySelected (property) {
       this.selectedProperty = property
@@ -232,7 +277,7 @@ export default {
         const success = await this.$store.dispatch('tenants/moveInTenant', params)
         if (success) {
           this.getTenantsRecords()
-          this.closeManageTenantForm()
+          this.closeMoveTenantForm()
         }
       } catch (err) {
         throw err
