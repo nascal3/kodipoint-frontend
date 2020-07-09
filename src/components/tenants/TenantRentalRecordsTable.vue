@@ -32,6 +32,9 @@
             <template v-slot:item.move_in_date="{ item }">
                 {{ formatDate(item.move_in_date) }}
             </template>
+            <template v-slot:item.move_out_date="{ item }">
+                {{ formatDate(item.move_out_date) }}
+            </template>
             <template v-slot:item.id="{ item }">
                 <v-icon color="primary" @click="openEditTenantDialog(item.id)">mdi-pencil</v-icon>
             </template>
@@ -73,7 +76,9 @@ export default {
       return format(new Date(unformedDate), 'MMM dd, yyyy')
     },
     openEditTenantDialog (recordID) {
-      console.log(recordID)
+      const payload = { 'open': true, 'edit': true }
+      this.$store.commit('tenants/SHOW_MOVE_TENANT_DIALOG', payload)
+      this.$store.dispatch('tenants/getTenantRentalSingleRecord', recordID)
     }
   }
 }

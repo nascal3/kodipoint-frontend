@@ -45,7 +45,7 @@ const getTenants = async ({ commit, state, rootGetters }, payload) => {
 const moveInTenant = async ({ commit, dispatch }, payload) => {
   commit('SHOW_LOADER', true)
   commit('auth/USER_DUPLICATION_ERROR', false, { root: true })
-  const url = '/api/tenantsrec/movein'
+  const url = payload.edit ? '/api/tenantsrec/edit' : '/api/tenantsrec/movein'
 
   try {
     const response = await api.post(url, payload)
@@ -78,6 +78,31 @@ const getTenantRentalRecords = async ({ commit }, payload) => {
     const response = await api.post(url, payload)
     if (response.status === 200) {
       commit('SET_SELECTED_TENANT_RENTAL_RECORDS', response.data.result)
+      commit('SHOW_LOADER', false)
+    }
+  } catch (err) {
+    commit('SHOW_LOADER', false)
+    throw err
+  }
+}
+
+/**
+ * Get Tenants' rental single record
+ * @method  getTenantRentalRecords
+ * @param  {Object} commit vuex mutations
+ * @param  {Object} payload record ID
+ */
+const getTenantRentalSingleRecord = async ({ commit }, payload) => {
+  commit('SHOW_LOADER', true)
+  const url = '/api/tenantsrec/row'
+  const params = {
+    'params': { 'record_id': payload }
+  }
+
+  try {
+    const response = await api.get(url, params)
+    if (response.status === 200) {
+      commit('SET_SELECTED_TENANT_RECORD', response.data.results)
       commit('SHOW_LOADER', false)
     }
   } catch (err) {
@@ -186,5 +211,6 @@ export {
   fetchSearchTenants,
   setSelectedTenant,
   resetSelectedTenant,
-  getTenantRentalRecords
+  getTenantRentalRecords,
+  getTenantRentalSingleRecord
 }

@@ -13,8 +13,8 @@
       <tenant-form @closeTenantModal="closeModal" :edit="edit" :tenant-info="tenantInfo" />
     </v-overlay>
 
-    <v-overlay light :value="showManageTenantDialog">
-      <manage-tenant-form :tenantInfo="tenantInfo" @closeManageTenantForm="closeManageTenantModal" />
+    <v-overlay light :value="showMoveTenantDialog.open">
+      <manage-tenant-form :tenantInfo="tenantInfo" @closeMoveTenantForm="closeMoveTenantForm" />
     </v-overlay>
   </v-container>
 </template>
@@ -47,7 +47,7 @@ export default {
   computed: {
     ...mapGetters('tenants', {
       tenantSelected: 'selectedTenant',
-      showManageTenantDialog: 'showManageTenantDialog'
+      showMoveTenantDialog: 'showMoveTenantDialog'
     }),
     showSection () {
       return Object.keys(this.tenantSelected).length > 0
@@ -73,8 +73,9 @@ export default {
         this.changed = +new Date()
       }
     },
-    closeManageTenantModal (value) {
-      this.$store.commit('tenants/SHOW_MANAGEMENT_TENANT_DIALOG', value)
+    closeMoveTenantForm (value) {
+      const payload = { 'open': value, 'edit': false }
+      this.$store.commit('tenants/SHOW_MOVE_TENANT_DIALOG', payload)
     }
   },
   created () {

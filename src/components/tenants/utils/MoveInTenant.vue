@@ -15,7 +15,8 @@ export default {
   name: 'MoveInTenant',
   methods: {
     openDialog () {
-      this.$store.commit('tenants/SHOW_MANAGEMENT_TENANT_DIALOG', true)
+      const payload = { 'open': true, 'edit': false }
+      this.$store.commit('tenants/SHOW_MOVE_TENANT_DIALOG', payload)
     }
   }
 }

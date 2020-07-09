@@ -10,7 +10,8 @@ const state = {
   tenantIdDuplicationError: false,
   moveInDuplicationError: false,
   noVacancyError: false,
-  showManageTenantDialog: false
+  tenantRentalRecordSelected: {},
+  showMoveTenantDialog: { 'open': false, 'edit': false }
 }
 
 export default state
