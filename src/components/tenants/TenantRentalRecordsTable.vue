@@ -29,6 +29,9 @@
             dense
             fixed-header
         >
+            <template v-slot:item.unit_rent="{ item }">
+                {{ thousandSeparator(item.unit_rent) }}
+            </template>
             <template v-slot:item.move_in_date="{ item }">
                 {{ formatDate(item.move_in_date) }}
             </template>
@@ -43,11 +46,13 @@
 </template>
 
 <script>
+import thousandSeparator from '@/mixins/thousandSeparator'
 import { format } from 'date-fns'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'TenantRentalRecordsTable',
+  mixins: [thousandSeparator],
   data: () => ({
     search: '',
     headers: [
@@ -59,6 +64,7 @@ export default {
       },
       { text: 'Unit No', sortable: false, value: 'unit_no' },
       { text: 'Landlord Name', value: 'landlord_name' },
+      { text: 'Rent Amount', value: 'unit_rent' },
       { text: 'Date Moved In', value: 'move_in_date' },
       { text: 'Date Moved Out', value: 'move_out_date' },
       { text: 'Edit', sortable: false, value: 'id' }
