@@ -45,7 +45,7 @@ const getTenants = async ({ commit, state, rootGetters }, payload) => {
 const moveInTenant = async ({ commit, dispatch }, payload) => {
   commit('SHOW_LOADER', true)
   commit('auth/USER_DUPLICATION_ERROR', false, { root: true })
-  const url = '/api/tenantsrec/movein'
+  const url = payload.edit ? '/api/tenantsrec/edit' : '/api/tenantsrec/movein'
 
   try {
     const response = await api.post(url, payload)

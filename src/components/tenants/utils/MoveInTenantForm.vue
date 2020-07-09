@@ -74,7 +74,6 @@
                     <v-col cols="12" md="6">
                         <v-menu
                             v-model="menu"
-                            :close-on-content-click="false"
                             :nudge-right="40"
                             transition="scale-transition"
                             offset-y
@@ -97,7 +96,6 @@
                         <v-menu
                             v-if="isEdit"
                             v-model="menu2"
-                            :close-on-content-click="false"
                             :nudge-right="40"
                             transition="scale-transition"
                             offset-y
@@ -113,7 +111,11 @@
                                     v-on="on"
                                 ></v-text-field>
                             </template>
-                            <v-date-picker v-model="moveOutDate" @input="menu = false"></v-date-picker>
+                            <v-date-picker
+                                v-model="moveOutDate"
+                                :min="moveInDate"
+                                @input="menu2 = false"
+                            ></v-date-picker>
                         </v-menu>
                     </v-col>
                 </v-row>
@@ -150,11 +152,13 @@
 <script>
 import DynamicLandlordSelect from '@/components/landlords/utils/DynamicLandlordSelect'
 import DynamicPropertiesSelect from '@/components/tenants/utils/DynamicPropertiesSelect'
+import thousandSeparator from '@/mixins/thousandSeparator'
 import { format } from 'date-fns'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'MoveInTenantForm',
+  mixins: [thousandSeparator],
   props: {
     tenantInfo: {
       type: Object,
@@ -175,6 +179,8 @@ export default {
     moveOutDate: '',
     unitNum: '',
     unitRent: null,
+    edit: false,
+    recID: null,
     rules: {
       unitNumRequired: value => !!value || 'Property unit number required',
       unitRentRequired: value => !!value || 'Unit rent amount required'
@@ -226,8 +232,9 @@ export default {
       getTenantRentalRecords: 'getTenantRentalRecords'
     }),
     populateForm (tenant) {
-      this.unitRent = tenant.unit_rent
+      this.unitRent = this.thousandSeparator(tenant.unit_rent)
       this.unitNum = tenant.unit_no
+      this.recID = tenant.id
       this.moveOutDate = this.formatDate(tenant.move_out_date)
       this.moveInDate = this.formatDate(tenant.move_in_date)
     },
@@ -256,12 +263,14 @@ export default {
     },
     formatRentToNumber () {
       if (this.unitRent) {
+        // eslint-disable-next-line no-useless-escape
         this.unitRent = this.unitRent.replace(/\,/g, '')
         return parseFloat(this.unitRent)
       }
     },
     async moveInTenant () {
       const params = {
+        'rec_id': this.recID,
         'tenant_id': this.tenantInfo.id,
         'property_id': this.selectedProperty.id,
         'property_name': this.selectedProperty.property_name,
@@ -269,7 +278,9 @@ export default {
         'landlord_name': this.selectedLandlord.name,
         'unit_no': this.unitNum,
         'unit_rent': this.formatRentToNumber(),
-        'move_in_date': this.moveInDate
+        'move_in_date': this.moveInDate,
+        'move_out_date': this.moveOutDate,
+        'edit': this.isEdit
       }
       this.valid = this.$refs.form.validate()
       if (!this.valid || !this.hasProperty || !this.hasLandlord) return
