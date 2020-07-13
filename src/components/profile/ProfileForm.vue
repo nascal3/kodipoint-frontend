@@ -225,7 +225,7 @@ export default {
         if (success) {
           const options = { icon: 'check_circle_outline' }
           this.$toasted.success(`Profile successfully updated`, options)
-          this.$store.dispatch('configs/getLoggedInUserInfo')
+          await this.$store.dispatch('configs/getLoggedInUserInfo')
         }
       } catch (error) {
         const options = { icon: 'error_outline' }

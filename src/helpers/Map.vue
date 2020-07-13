@@ -57,7 +57,7 @@ export default {
       }
     },
     error: false,
-    noCoordinates: { lat: 0, lng: 0 },
+    noCoordinates: mapCoordinates.noCoordinates,
     options: {
       'zoomControl': true,
       'mapTypeControl': true,
@@ -90,6 +90,8 @@ export default {
       this.infoWinOpen = !this.infoWinOpen
     },
     getLocationName (coordinates) {
+      if (this.noCoordinates === coordinates) return
+      // eslint-disable-next-line no-undef
       const geoCoder = new google.maps.Geocoder()
       const scope = this
       geoCoder.geocode({ 'location': coordinates }, (results, status) => {
@@ -108,7 +110,8 @@ export default {
         } else {
           scope.$emit('locationName', locationData)
           scope.error = true
-          window.alert(`Oops! Geocoder failed due to: ${status}!\nPlease set location on map.`)
+          console.error(`Geocoder failed due to: ${status}!`)
+          window.alert(`Please zoom out to set correct property location on the map!`)
         }
       })
     },

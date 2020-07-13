@@ -82,6 +82,7 @@
                   v-model="propertyLocation"
                   label="Property location*"
                   :rules="[rules.propertyLocationRequired]"
+                  :error="showMapValidationError"
                   name="propertyLocation"
                   class="location-name"
                   readonly
