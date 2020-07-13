@@ -57,7 +57,7 @@ export default {
       }
     },
     error: false,
-    noCoordinates: { lat: 0, lng: 0 },
+    noCoordinates: mapCoordinates.noCoordinates,
     options: {
       'zoomControl': true,
       'mapTypeControl': true,
@@ -108,10 +108,8 @@ export default {
         } else {
           scope.$emit('locationName', locationData)
           scope.error = true
-          const options = { icon: 'error_outline' }
-          this.$toasted.warning(`Please set property location on the map!`, options)
-          window.alert(`Please set property location on the map!`)
           console.error(`Geocoder failed due to: ${status}!`)
+          window.alert(`Please zoom out to set correct property location on the map!`)
         }
       })
     },
