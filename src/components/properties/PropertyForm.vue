@@ -54,6 +54,24 @@
             ></v-text-field>
           </v-col>
         </v-row>
+        <v-row>
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="titleType"
+              label="Title type*"
+              name="titleType"
+              :rules="[rules.titleTypeRequired]"
+            ></v-text-field>
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="ownershipType"
+              label="Ownership type*"
+              :rules="[rules.ownershipRequired]"
+              name="ownership"
+            ></v-text-field>
+          </v-col>
+        </v-row>
         <div class="section-title">Property location</div>
         <div class="section-subtitle">Click on the property location in map to select/set the property location.</div>
         <v-row>
@@ -230,6 +248,8 @@ export default {
     search: '',
     btnColor: 'secondary',
     propertyType: 'Apartments',
+    titleType: '',
+    ownershipType: '',
     propertyLocation: '',
     propertyCoordinates: '',
     locationCoordinates: null,
@@ -241,6 +261,8 @@ export default {
     ],
     rules: {
       propertyRequired: value => !!value || 'Property name required',
+      titleTypeRequired: value => !!value || 'Property title type required',
+      ownershipRequired: value => !!value || 'Property ownership type required',
       propertyLocationRequired: value => !!value || 'Property location required',
       lrRequired: value => !!value || 'Please enter LR Number',
       unitsRequired: value => !!value || 'Please enter number of units',
@@ -324,6 +346,8 @@ export default {
       this.description = property.description
       this.services = property.property_services.split(',')
       this.propertyType = property.property_type
+      this.titleType = property.title_type
+      this.ownershipType = property.ownership_type
       this.propertyLocation = property.property_location
       this.locationCoordinates = property.property_coordinates
         ? JSON.parse(property.property_coordinates) : null
@@ -334,6 +358,8 @@ export default {
       this.services = ['garbage collection', 'water', 'security']
       this.propertyType = 'Apartments'
       this.propertyName = ''
+      this.titleType = ''
+      this.ownershipType = ''
       this.contactEmail = ''
       this.lrNumber = ''
       this.nosUnits = ''
@@ -365,6 +391,8 @@ export default {
         'property_coordinates': this.propertyCoordinates,
         'property_services': this.services.join(','),
         'property_type': this.propertyType,
+        'title_type': this.titleType,
+        'ownership_type': this.ownershipType,
         'edit': this.edit
       }
       this.valid = this.$refs.form.validate()
