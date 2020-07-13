@@ -106,6 +106,16 @@
                 ></v-text-field>
               </v-col>
             </v-row>
+            <v-row>
+              <v-col cols="12" md="6">
+                <v-text-field
+                  v-model="contactEmail"
+                  label="Contacts' email"
+                  name="contactEmail"
+                  :rules="[rules.validEmail]"
+                ></v-text-field>
+              </v-col>
+            </v-row>
           </section>
         </transition>
         <v-combobox
@@ -208,6 +218,7 @@ export default {
     contact: 'landlord',
     contactPerson: '',
     contactPhone: '',
+    contactEmail: '',
     lrNumber: '',
     nosUnits: '',
     description: '',
@@ -235,7 +246,11 @@ export default {
       unitsRequired: value => !!value || 'Please enter number of units',
       contactRequired: value => !!value || 'Please insert contacts\' name',
       phoneRequired: value => !!value || 'Please insert a phone number',
-      numberMin: v => v.length >= 17 || 'Please insert complete phone number! e.g (+254) 7234 56789'
+      numberMin: v => v.length >= 17 || 'Please insert complete phone number! e.g (+254) 7234 56789',
+      validEmail: value => {
+        const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        return pattern.test(value) || 'Invalid email address.'
+      }
     }
   }),
   computed: {
@@ -303,6 +318,7 @@ export default {
       this.propertyName = property.property_name
       this.contactPerson = property.contact_person
       this.contactPhone = property.phone
+      this.contactEmail = property.contact_email
       this.lrNumber = property.lr_nos
       this.nosUnits = property.nos_units
       this.description = property.description
@@ -318,6 +334,7 @@ export default {
       this.services = ['garbage collection', 'water', 'security']
       this.propertyType = 'Apartments'
       this.propertyName = ''
+      this.contactEmail = ''
       this.lrNumber = ''
       this.nosUnits = ''
       this.description = ''
@@ -340,6 +357,7 @@ export default {
         'property_name': this.propertyName,
         'contact_person': this.contactPerson,
         'phone': this.contactPhone,
+        'contact_email': this.contactEmail,
         'lr_nos': this.lrNumber,
         'nos_units': this.nosUnits,
         'description': this.description,
@@ -357,7 +375,7 @@ export default {
         formData.append('data', JSON.stringify(params))
         const success = await this.addNewProperty(formData)
         if (success) {
-          this.clearFormValues()
+          await this.clearFormValues()
           this.closeForm(success)
         }
       } catch (e) {
