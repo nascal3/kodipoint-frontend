@@ -80,6 +80,13 @@
               class="roleSelector"
             ></v-select>
           </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="postalAddress"
+              label="P.O Box Address"
+              name="postalAddress"
+            ></v-text-field>
+          </v-col>
         </v-row>
         <div class="section-title">Financial information</div>
         <v-row>
@@ -203,6 +210,7 @@ export default {
       landlordData: this.landlordInfo,
       landlordName: '',
       phone: '',
+      postalAddress: '',
       email: '',
       nationalID: '',
       kraPIN: '',
@@ -281,6 +289,7 @@ export default {
       await this.getUserInfo(this.userID)
       this.landlordName = landlord.name
       this.phone = landlord.phone
+      this.postalAddress = landlord.postal_address
       this.email = landlord.email
       this.nationalID = landlord.national_id
       this.kraPIN = landlord.kra_pin
@@ -297,6 +306,7 @@ export default {
       this.btnColor = 'secondary'
       this.landlordName = ''
       this.phone = ''
+      this.postalAddress = ''
       this.email = ''
       this.nationalID = ''
       this.kraPIN = ''
@@ -315,6 +325,7 @@ export default {
         'role': this.role.value || this.role,
         'national_id': this.nationalID,
         'phone': this.phone,
+        'postal_address': this.postalAddress,
         'email': this.email,
         'kra_pin': this.kraPIN,
         'bank_name': this.bankName,
@@ -331,7 +342,7 @@ export default {
         formData.append('data', JSON.stringify(params))
         const success = await this.addNewLandlord(formData)
         if (success) {
-          this.clearFormValues()
+          await this.clearFormValues()
           this.closeForm(success)
         }
       } catch (e) {

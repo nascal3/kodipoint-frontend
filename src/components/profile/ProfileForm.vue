@@ -37,6 +37,13 @@
                         :rules="[rules.phoneRequired, rules.phoneNumberMin]"
                     ></v-text-field>
                 </v-col>
+                <v-col cols="12" md="6">
+                    <v-text-field
+                        v-model="postalAddress"
+                        label="P.O Box Address"
+                        name="postalAddress"
+                    ></v-text-field>
+                </v-col>
             </v-row>
             <section v-if="isLandlord">
                 <div class="section-title">Financial information</div>
@@ -142,6 +149,7 @@ export default {
     valid: false,
     fullName: '',
     phone: '',
+    postalAddress: '',
     nationalID: '',
     kraPIN: '',
     bankName: '',
@@ -187,6 +195,7 @@ export default {
     setFormValues (userInfo) {
       this.fullName = userInfo.name
       this.phone = userInfo.phone
+      this.postalAddress = userInfo.postal_address
       this.nationalID = userInfo.national_id
       this.kraPIN = userInfo.kra_pin
       this.bankName = userInfo.bank_name
@@ -199,6 +208,7 @@ export default {
         'name': this.fullName,
         'national_id': this.nationalID,
         'phone': this.phone,
+        'postal_address': this.postalAddress,
         'kra_pin': this.kraPIN,
         'bank_name': this.bankName,
         'bank_branch': this.bankBranch,
