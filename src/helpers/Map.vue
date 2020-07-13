@@ -90,6 +90,8 @@ export default {
       this.infoWinOpen = !this.infoWinOpen
     },
     getLocationName (coordinates) {
+      if (this.noCoordinates === coordinates) return
+      // eslint-disable-next-line no-undef
       const geoCoder = new google.maps.Geocoder()
       const scope = this
       geoCoder.geocode({ 'location': coordinates }, (results, status) => {

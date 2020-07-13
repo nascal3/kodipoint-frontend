@@ -35,8 +35,8 @@ export default {
       loggedInUserInfo: ['configs/loggedInUserInfo']
     })
   },
-  created () {
-    this.$store.dispatch('configs/getLoggedInUserInfo')
+  async created () {
+    await this.$store.dispatch('configs/getLoggedInUserInfo')
   }
 }
 </script>
