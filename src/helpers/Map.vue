@@ -108,7 +108,10 @@ export default {
         } else {
           scope.$emit('locationName', locationData)
           scope.error = true
-          window.alert(`Oops! Geocoder failed due to: ${status}!\nPlease set location on map.`)
+          const options = { icon: 'error_outline' }
+          this.$toasted.warning(`Please set property location on the map!`, options)
+          window.alert(`Please set property location on the map!`)
+          console.error(`Geocoder failed due to: ${status}!`)
         }
       })
     },
