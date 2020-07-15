@@ -61,7 +61,7 @@
                         block
                         color="secondary"
                     >
-                        Change password
+                        Change Password
                     </v-btn>
                 </v-col>
             </v-row>
