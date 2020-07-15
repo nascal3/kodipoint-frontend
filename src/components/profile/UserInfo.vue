@@ -1,58 +1,62 @@
 <template>
-    <v-card>
-        <v-row>
-            <v-col cols="12">
-                <div class="picture-section d-flex justify-center">
-                    <v-avatar>
-                        <v-img :src="imageSource(userInfo)"></v-img>
-                    </v-avatar>
-                </div>
-                <div class="user-name">
-                    {{userInfo.name}}
-                </div>
-                <div class="user-role">
-                    {{roleName}}
-                </div>
-                <div class="status-chip d-flex justify-center" v-if="isLandlordRole">
-                    <v-chip
-                        class="ma-2"
-                        :color=color
-                        text-color="white"
-                    >
-                        <v-avatar left>
-                            <v-icon>{{icon}}</v-icon>
+    <section>
+        <v-card>
+            <v-row>
+                <v-col cols="12">
+                    <div class="picture-section d-flex justify-center">
+                        <v-avatar>
+                            <v-img :src="imageSource(userInfo)"></v-img>
                         </v-avatar>
-                        {{statusMessage}}
-                    </v-chip>
-                </div>
-            </v-col>
-        </v-row>
-        <section v-if="!userInfo.approved && isLandlordRole">
-            <v-divider></v-divider>
-            <v-row no-gutters>
-                <v-col class="completion-rate" cols="12">
-                    <div class="completion-rate-title d-flex justify-center">
-                        <span>Please complete your profile to get approved</span>
+                    </div>
+                    <div class="user-name">
+                        {{userInfo.name}}
+                    </div>
+                    <div class="user-role">
+                        {{roleName}}
+                    </div>
+                    <div class="status-chip d-flex justify-center" v-if="isLandlordRole">
+                        <v-chip
+                                class="ma-2"
+                                :color=color
+                                text-color="white"
+                        >
+                            <v-avatar left>
+                                <v-icon>{{icon}}</v-icon>
+                            </v-avatar>
+                            {{statusMessage}}
+                        </v-chip>
                     </div>
                 </v-col>
             </v-row>
-            <!--        <v-row no-gutters>-->
-            <!--            <v-col class="completion-rate" cols="12">-->
-            <!--                <div class="completion-rate-title">-->
-            <!--                    <span>Profile completion</span>-->
-            <!--                    <span class="float-right">{{profileCompletionValue}} %</span>-->
-            <!--                </div>-->
-            <!--                <v-progress-linear-->
-            <!--                    v-model="profileCompletionValue"-->
-            <!--                    :color=progressBarColor-->
-            <!--                ></v-progress-linear>-->
-            <!--            </v-col>-->
-            <!--        </v-row>-->
-        </section>
-    </v-card>
+            <section v-if="!userInfo.approved && isLandlordRole">
+                <v-divider></v-divider>
+                <v-row no-gutters>
+                    <v-col class="completion-rate" cols="12">
+                        <div class="completion-rate-title d-flex justify-center">
+                            <span>Please complete your profile to get approved</span>
+                        </div>
+                    </v-col>
+                </v-row>
+                <!--        <v-row no-gutters>-->
+                <!--            <v-col class="completion-rate" cols="12">-->
+                <!--                <div class="completion-rate-title">-->
+                <!--                    <span>Profile completion</span>-->
+                <!--                    <span class="float-right">{{profileCompletionValue}} %</span>-->
+                <!--                </div>-->
+                <!--                <v-progress-linear-->
+                <!--                    v-model="profileCompletionValue"-->
+                <!--                    :color=progressBarColor-->
+                <!--                ></v-progress-linear>-->
+                <!--            </v-col>-->
+                <!--        </v-row>-->
+            </section>
+        </v-card>
+        <change-password-form />
+    </section>
 </template>
 
 <script>
+import ChangePasswordForm from '@/components/profile/ChangePasswordForm'
 import userProfileAvatar from '@/mixins/userProfileAvatar'
 import formatRoleName from '@/mixins/formatRoleName'
 
@@ -68,6 +72,9 @@ export default {
       type: Object,
       required: true
     }
+  },
+  components: {
+    ChangePasswordForm
   },
   data: () => ({
     color: 'error',
@@ -120,7 +127,6 @@ export default {
   mounted () {
     this.setApprovedStatus()
   }
-
 }
 </script>
 

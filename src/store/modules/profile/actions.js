@@ -84,9 +84,35 @@ const editTenantProfile = async ({ commit, dispatch }, payload) => {
   }
 }
 
+/**
+ * Change users password
+ * @method changePassword
+ * @param  {Object} payload object containing new password
+ * @param  {Function} dispatch vuex actions
+ * @param  {Object} commit vuex mutations
+ */
+const changePassword = async ({ commit, dispatch }, payload) => {
+  commit('WRONG_CURRENT_PASSWORD', false)
+  commit('CHANGE_PASSWORD_LOADER', true)
+  const url = '/api/users/change/password'
+
+  try {
+    const response = await api.post(url, payload)
+    if (response.status === 200) {
+      commit('CHANGE_PASSWORD_LOADER', false)
+      return response.data
+    }
+  } catch (err) {
+    commit('CHANGE_PASSWORD_LOADER', false)
+    commit('WRONG_CURRENT_PASSWORD', true)
+    throw err.message
+  }
+}
+
 export {
   editUserProfile,
   editLandlordProfile,
   editTenantProfile,
+  changePassword,
   resetErrorMessages
 }
