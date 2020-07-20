@@ -49,7 +49,7 @@
         <tbody>
           <template v-for="property in allProperties">
             <tr :key="property.id">
-              <td>{{ property.property_name }}</td>
+              <td @click="showTenantsModal(property.id, property.property_name)">{{ property.property_name }}</td>
               <td>{{ property.property_type }}</td>
               <td>{{ property.contact_person }}</td>
               <td>{{ property.phone }}</td>
@@ -176,8 +176,14 @@ export default {
   methods: {
     ...mapActions('property', {
       getProperties: 'getProperties',
-      searchProperties: 'searchProperties'
+      searchProperties: 'searchProperties',
+      fetchTenantsInProperty: 'fetchTenantsInProperty'
     }),
+    async showTenantsModal (propertyID, propertyName) {
+      this.$store.commit('property/SHOW_PROPERTY_TENANTS', propertyName)
+      const param = { 'property_id': propertyID }
+      await this.fetchTenantsInProperty(param)
+    },
     openPropertyDialog (property) {
       if (property) {
         this.edit = true

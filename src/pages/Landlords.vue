@@ -12,12 +12,17 @@
     <v-overlay light :value="dialog">
       <landlord-form @closeModal="closeModal" :edit="edit" :landlord-info="landlordInfo" />
     </v-overlay>
+
+    <v-overlay light :value="showPropertyTenants">
+      <property-tenants-table />
+    </v-overlay>
   </v-container>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import PropertyTable from '@/components/properties/PropertyTable'
+import PropertyTenantsTable from '@/components/properties/PropertyTenantsTable'
 import UserDetailsBanner from '@/components/utils/UserDetailsBanner'
 import LandlordList from '@/components/landlords/LandlordList'
 import LandlordForm from '@/components/landlords/LandlordForm'
@@ -32,13 +37,15 @@ export default {
   }),
   components: {
     PropertyTable,
+    PropertyTenantsTable,
     LandlordList,
     LandlordForm,
     UserDetailsBanner
   },
   computed: {
-    ...mapGetters('landlord', {
-      landlordSelected: 'selectedLandlord'
+    ...mapGetters({
+      landlordSelected: ['landlord/selectedLandlord'],
+      showPropertyTenants: ['property/showPropertyTenants']
     }),
     showSection () {
       return Object.keys(this.landlordSelected).length > 0

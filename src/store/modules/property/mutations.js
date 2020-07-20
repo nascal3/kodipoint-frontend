@@ -18,6 +18,26 @@ const SHOW_LOADER = (state, payload) => {
 }
 
 /**
+ * Show Property tenants table modal
+ * @method SHOW_PROPERTY_TENANTS
+ * @param  {Object} state vuex state object
+ * @param  {String} payload values of show state
+ */
+const SHOW_PROPERTY_TENANTS = (state, payload) => {
+  state.showPropertyTenants = payload
+}
+
+/**
+ * Set tenants living in selected Property
+ * @method PROPERTY_TENANTS
+ * @param  {Object} state vuex state object
+ * @param  {Array} payload values of show state
+ */
+const PROPERTY_TENANTS = (state, payload) => {
+  state.propertyTenants = payload
+}
+
+/**
  * Sets no property results search state
  * @method UPDATE_NO_RESULTS
  * @param  {Object} state vuex state object
@@ -93,6 +113,8 @@ export {
   PROPERTY_SEARCH_RESULTS,
   UPDATE_NO_RESULTS,
   SHOW_LOADER,
+  SHOW_PROPERTY_TENANTS,
+  PROPERTY_TENANTS,
   SET_ERROR_STATE,
   RESET_SEARCH_PROPERTIES,
   LR_NUMBER_DUPLICATION_ERROR

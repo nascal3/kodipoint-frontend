@@ -16,6 +16,22 @@ const showLoader = (state) => state.showLoader
 const showErrorState = (state) => state.errorState
 
 /**
+ * Show property tenants table modal
+ * @method showPropertyTenants
+ * @param  {Object} state vuex state object
+ * @return {boolean} Contains the show modal state
+ */
+const showPropertyTenants = (state) => state.showPropertyTenants
+
+/**
+ * Get tenants living in selected property
+ * @method propertyTenants
+ * @param  {Object} state vuex state object
+ * @return {Array} tenants living in selected property
+ */
+const propertyTenants = (state) => state.propertyTenants
+
+/**
  * Show no search results state
  * @method noSearchResults
  * @param  {Object} state vuex state object
@@ -50,6 +66,8 @@ const lrNumberDuplicationError = (state) => state.lrNumberDuplicationError
 export {
   properties,
   showLoader,
+  showPropertyTenants,
+  propertyTenants,
   propertySearchResults,
   showErrorState,
   noSearchResults,

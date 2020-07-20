@@ -66,6 +66,11 @@
         td {
           font-size: 1.2rem;
         }
+        td:first-child {
+          cursor: pointer;
+          color: $primary;
+          font-style: italic;
+        }
         td:nth-child(7) {
           .v-image {
             max-width: 10rem;
