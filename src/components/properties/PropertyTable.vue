@@ -49,7 +49,9 @@
         <tbody>
           <template v-for="property in allProperties">
             <tr :key="property.id">
-              <td @click="showTenantsModal(property.id, property.property_name)">{{ property.property_name }}</td>
+              <td @click="showTenantsModal(property.id, property.property_name)">
+                {{ property.property_name }}
+              </td>
               <td>{{ property.property_type }}</td>
               <td>{{ property.contact_person }}</td>
               <td>{{ property.phone }}</td>
@@ -109,19 +111,25 @@
         :landlordInfo="landlordSelected"
       />
     </v-dialog>
+
+    <v-overlay light :value="showPropertyTenants">
+      <property-tenants-table />
+    </v-overlay>
   </v-card>
 </template>
 
 <script>
 import InfiniteLoading from 'vue-infinite-loading'
 import PropertyForm from '@/components/properties/PropertyForm'
+import PropertyTenantsTable from '@/components/properties/PropertyTenantsTable'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'EditProperty',
   components: {
     InfiniteLoading,
-    PropertyForm
+    PropertyForm,
+    PropertyTenantsTable
   },
   props: {
     landlordSelected: {
@@ -144,7 +152,8 @@ export default {
       showErrorState: 'showErrorState',
       properties: 'properties',
       propertySearchResults: 'propertySearchResults',
-      noSearchResults: 'noSearchResults'
+      noSearchResults: 'noSearchResults',
+      showPropertyTenants: 'showPropertyTenants'
     }),
     allProperties () {
       return this.searchPropertyName.length ? this.propertySearchResults : this.properties

@@ -1,5 +1,5 @@
 <template>
-    <v-card class="modal-info-form" light>
+    <v-card class="modal-info-table" light>
         <v-card-title class="heading">
             <div class="title">
                 Tenants in "{{showPropertyTenants}}"
