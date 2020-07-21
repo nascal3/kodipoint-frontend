@@ -37,8 +37,9 @@ export default {
     UserDetailsBanner
   },
   computed: {
-    ...mapGetters('landlord', {
-      landlordSelected: 'selectedLandlord'
+    ...mapGetters({
+      landlordSelected: ['landlord/selectedLandlord'],
+      showPropertyTenants: ['property/showPropertyTenants']
     }),
     showSection () {
       return Object.keys(this.landlordSelected).length > 0

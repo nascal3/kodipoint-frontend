@@ -57,6 +57,7 @@
     thead{
       tr {
         th {
+          text-transform: capitalize;
           font-size: 1.2rem;
         }
       }
@@ -65,6 +66,10 @@
       tr {
         td {
           font-size: 1.2rem;
+        }
+        td:first-child {
+          cursor: pointer;
+          color: $primary;
         }
         td:nth-child(7) {
           .v-image {

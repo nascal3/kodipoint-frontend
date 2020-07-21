@@ -23,6 +23,7 @@
       thead{
         tr {
           th {
+            text-transform: capitalize;
             font-size: 1.2rem;
           }
         }
@@ -31,6 +32,11 @@
         tr {
           td {
             font-size: 1.2rem;
+          }
+          td:first-child {
+            cursor: text;
+            color: $black;
+            font-style: normal;
           }
           td:last-child {
             .v-icon {

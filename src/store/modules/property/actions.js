@@ -145,11 +145,35 @@ const fetchSearchProperties = async ({ commit, state }, payload) => {
   }
 }
 
+/**
+ * fetch all tenants living a selected property
+ * @method fetchTenantsInProperty
+ * @param  {Object} commit vuex mutations
+ * @param  {Object} state of the vuex store
+ * @param  {Object} payload containing property ID of selected property
+ * @return {Promise}
+ */
+const fetchTenantsInProperty = async ({ commit, state }, payload) => {
+  commit('SHOW_LOADER', true)
+  const url = `/api/tenantsrec/property`
+  try {
+    const response = await api.post(url, payload)
+    if (response.status === 200) {
+      commit('PROPERTY_TENANTS', response.data.result)
+      commit('SHOW_LOADER', false)
+    }
+  } catch (error) {
+    commit('SHOW_LOADER', false)
+    throw error.message
+  }
+}
+
 export {
   resetErrors,
   getProperties,
   addNewProperty,
   searchProperties,
   getAllProperties,
-  fetchSearchProperties
+  fetchSearchProperties,
+  fetchTenantsInProperty
 }
