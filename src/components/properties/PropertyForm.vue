@@ -139,7 +139,7 @@
         </transition>
         <div class="section-title">Property services</div>
         <v-chip
-          v-for="service in services2"
+          v-for="service in servicesSelected"
           class="ma-2"
           label
           close
@@ -155,13 +155,13 @@
           multiple
           v-model="services"
           label="Add property services"
-          append-icon
+          :items="items"
           chips
           deletable-chips
-          class="tag-input"
-          :search-input.sync="search"
-          @keyup.tab="updateTags"
-          @paste="updateTags">
+          hide-selected
+          small-chips
+          clearable
+          class="tag-input">
         </v-combobox>
         <div class="input-hint">
           Press "Enter" after typing a service.
@@ -255,9 +255,9 @@ export default {
     lrNumber: '',
     nosUnits: '',
     description: '',
-    services: ['garbage collection', 'water', 'security'],
-    services2: {},
-    items: [],
+    services: [],
+    servicesSelected: {},
+    items: ['Garbage collection', 'Water', 'Security'],
     image: null,
     validFile: true,
     placeholderImage: require(`@/assets/images/noImage.jpg`),
@@ -340,14 +340,14 @@ export default {
       this.propertyLocation = location.name
       this.propertyCoordinates = JSON.stringify(location.coordinates)
     },
-    async updateTags () {
-      await this.$nextTick(() => {
-        this.services.push(...this.search.split(','))
-        this.$nextTick(() => {
-          this.search = ''
-        })
-      })
-    },
+    // async updateTags () {
+    //   await this.$nextTick(() => {
+    //     this.services.push(...this.search.split(','))
+    //     this.$nextTick(() => {
+    //       this.search = ''
+    //     })
+    //   })
+    // },
     closeForm (formSubmitted) {
       const payload = {
         'openState': false,
@@ -376,8 +376,7 @@ export default {
       this.lrNumber = property.lr_nos
       this.nosUnits = property.nos_units
       this.description = property.description
-      this.services = property.property_services.split(',')
-      this.services2 = property.services
+      this.servicesSelected = property.services
       this.propertyType = property.property_type
       this.titleType = property.title_type
       this.ownershipType = property.ownership_type
@@ -388,7 +387,8 @@ export default {
     async clearFormValues () {
       this.btnColor = 'secondary'
       this.contact = 'landlord'
-      this.services = ['garbage collection', 'water', 'security']
+      this.services = []
+      this.servicesSelected = {}
       this.propertyType = 'Apartments'
       this.propertyName = ''
       this.titleType = ''
