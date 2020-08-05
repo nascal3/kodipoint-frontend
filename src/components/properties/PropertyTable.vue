@@ -62,13 +62,14 @@
               </td>
               <td>
                 <v-chip
+                  v-for="service in property.services"
+                  :key="service.id"
                   class="ma-2"
                   color="secondary"
+                  small
                   outlined
-                  v-for="(service, index) in servicesPills(property)"
-                  :key="index"
                 >
-                  {{service}}
+                  {{service.service_name}}
                 </v-chip>
               </td>
               <td>

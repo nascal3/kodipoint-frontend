@@ -137,10 +137,24 @@
             </v-row>
           </section>
         </transition>
+        <div class="section-title">Property services</div>
+        <v-chip
+          v-for="service in services2"
+          class="ma-2"
+          label
+          close
+          color="primary"
+          text-color="white"
+          close-icon="mdi-delete"
+          @click:close="deleteService(service)"
+          :key="service.id"
+        >
+          {{service.service_name}}
+        </v-chip>
         <v-combobox
           multiple
           v-model="services"
-          label="Property services"
+          label="Add property services"
           append-icon
           chips
           deletable-chips
@@ -150,7 +164,7 @@
           @paste="updateTags">
         </v-combobox>
         <div class="input-hint">
-          Press enter after typing a service.
+          Press "Enter" after typing a service.
         </div>
         <div class="section-title">Property image</div>
         <v-row>
@@ -242,6 +256,7 @@ export default {
     nosUnits: '',
     description: '',
     services: ['garbage collection', 'water', 'security'],
+    services2: {},
     items: [],
     image: null,
     validFile: true,
@@ -307,9 +322,15 @@ export default {
       return !this.propertyLocation.length
     }
   },
+  watch: {
+    services (newValue, oldValue) {
+      // console.log('>>>', newValue, oldValue)
+    }
+  },
   methods: {
     ...mapActions('property', {
-      addNewProperty: 'addNewProperty'
+      addNewProperty: 'addNewProperty',
+      deletePropertyService: 'deletePropertyService'
     }),
     setImage (values) {
       this.image = values.image
@@ -319,8 +340,8 @@ export default {
       this.propertyLocation = location.name
       this.propertyCoordinates = JSON.stringify(location.coordinates)
     },
-    updateTags () {
-      this.$nextTick(() => {
+    async updateTags () {
+      await this.$nextTick(() => {
         this.services.push(...this.search.split(','))
         this.$nextTick(() => {
           this.search = ''
@@ -334,6 +355,16 @@ export default {
       }
       this.$emit('closePropertyModal', payload)
     },
+    async deleteService (service) {
+      try {
+        const newPropertyValues = await this.deletePropertyService(service)
+        if (newPropertyValues) {
+          this.updateFormValues(newPropertyValues)
+        }
+      } catch (error) {
+        throw error
+      }
+    },
     updateFormValues (property) {
       this.btnColor = 'primary'
       property.contact_person === 'Landlord' ? this.contact = 'landlord' : this.contact = 'other'
@@ -346,6 +377,7 @@ export default {
       this.nosUnits = property.nos_units
       this.description = property.description
       this.services = property.property_services.split(',')
+      this.services2 = property.services
       this.propertyType = property.property_type
       this.titleType = property.title_type
       this.ownershipType = property.ownership_type
