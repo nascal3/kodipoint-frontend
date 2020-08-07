@@ -196,7 +196,7 @@ const fetchSingleProperty = async ({ commit }, payload) => {
  * @method deletePropertyService
  * @param  {Object} commit vuex mutations
  * @param  {Function} dispatch vuex actions
- * @param  {Object} payload containing property ID of property service
+ * @param  {Object} payload containing property ID & ID of property service
  * @return {Promise} property service deleted
  */
 const deletePropertyService = async ({ commit, dispatch }, payload) => {
@@ -217,6 +217,36 @@ const deletePropertyService = async ({ commit, dispatch }, payload) => {
   }
 }
 
+/**
+ * edit property service price
+ * @method editPropertyServicePrice
+ * @param  {Object} commit vuex mutations
+ * @param  {Function} dispatch vuex actions
+ * @param  {Object} payload containing property ID, ID of property service & price value
+ * @return {Promise} property service deleted
+ */
+const editPropertyServicePrice = async ({ commit, dispatch }, payload) => {
+  commit('SHOW_LOADER', true)
+  const url = `/api/properties/editserviceprice`
+  // eslint-disable-next-line camelcase
+  const { id, property_id, price } = payload
+  const params = {
+    'id': id,
+    'service_price': price
+  }
+
+  try {
+    const response = await api.post(url, params)
+    if (response.status === 200) {
+      commit('SHOW_LOADER', false)
+      return await dispatch('fetchSingleProperty', { 'id': property_id })
+    }
+  } catch (error) {
+    commit('SHOW_LOADER', false)
+    throw error.message
+  }
+}
+
 export {
   resetErrors,
   getProperties,
@@ -226,5 +256,6 @@ export {
   fetchSearchProperties,
   fetchTenantsInProperty,
   fetchSingleProperty,
-  deletePropertyService
+  deletePropertyService,
+  editPropertyServicePrice
 }

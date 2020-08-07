@@ -66,7 +66,7 @@
                             v-model="unitRent"
                             label="Unit rent amount*"
                             :rules="[rules.unitRentRequired]"
-                            name="contactPerson"
+                            name="unitRent"
                         ></v-text-field>
                     </v-col>
                 </v-row>
@@ -122,18 +122,6 @@
                 <v-row>
                     <v-col cols="12" md="6">
                         <v-btn
-                            type="submit"
-                            :loading="showLoader"
-                            :disabled="showLoader"
-                            class="btn-text"
-                            block
-                            color="primary"
-                        >
-                           Save Changes
-                        </v-btn>
-                    </v-col>
-                    <v-col cols="12" md="6">
-                        <v-btn
                             class="btn-text"
                             block
                             outlined
@@ -141,6 +129,18 @@
                             @click="closeMoveTenantForm"
                         >
                             Cancel
+                        </v-btn>
+                    </v-col>
+                    <v-col cols="12" md="6">
+                        <v-btn
+                            type="submit"
+                            :loading="showLoader"
+                            :disabled="showLoader"
+                            class="btn-text"
+                            block
+                            color="primary"
+                        >
+                            Save Changes
                         </v-btn>
                     </v-col>
                 </v-row>
@@ -261,13 +261,6 @@ export default {
       }
       this.getTenantRentalRecords(params)
     },
-    formatRentToNumber () {
-      if (this.unitRent) {
-        // eslint-disable-next-line no-useless-escape
-        this.unitRent = this.unitRent.replace(/\,/g, '')
-        return parseFloat(this.unitRent)
-      }
-    },
     async moveInTenant () {
       const params = {
         'rec_id': this.recID,
@@ -277,7 +270,7 @@ export default {
         'landlord_id': this.selectedLandlord.landlord_id,
         'landlord_name': this.selectedLandlord.name,
         'unit_no': this.unitNum,
-        'unit_rent': this.formatRentToNumber(),
+        'unit_rent': this.formatPriceToNumber(this.unitRent),
         'move_in_date': this.moveInDate,
         'move_out_date': this.moveOutDate,
         'edit': this.isEdit
@@ -297,9 +290,7 @@ export default {
   },
   created () {
     this.$store.commit('tenants/MOVE_IN_DUPLICATION_ERROR', false)
-    if (this.isLandlordRole) {
-      this.setLandlordId()
-    }
+    if (this.isLandlordRole) this.setLandlordId()
   }
 }
 </script>
