@@ -156,6 +156,17 @@
         <v-row>
           <v-col cols="12" md="6">
             <v-btn
+              class="btn-text"
+              block
+              outlined
+              color="default"
+              @click="closeForm(false)"
+            >
+              Cancel
+            </v-btn>
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-btn
               type="submit"
               :loading="showLoader"
               :disabled="showLoader"
@@ -164,17 +175,6 @@
               :color="btnColor"
             >
               {{ edit ? 'Save Changes' : 'Add Landlord'}}
-            </v-btn>
-          </v-col>
-          <v-col cols="12" md="6">
-            <v-btn
-              class="btn-text"
-              block
-              outlined
-              color="default"
-              @click="closeForm(false)"
-            >
-              Cancel
             </v-btn>
           </v-col>
         </v-row>
