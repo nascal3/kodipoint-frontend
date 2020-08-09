@@ -17,7 +17,6 @@
                 :key="page.title"
                 router :to="page.route"
                 link
-                @click="setPageTitle(page)"
             >
                 <v-list-item-icon>
                     <v-icon>{{ page.icon }}</v-icon>
@@ -68,11 +67,6 @@ export default {
       }
       const mappedRouter = navPermissions[role]
       return mappedRoutePermissions[mappedRouter]
-    }
-  },
-  methods: {
-    setPageTitle (page) {
-      this.$emit('changePageTitle', page.title)
     }
   }
 }
