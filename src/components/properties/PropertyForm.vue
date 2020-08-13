@@ -137,20 +137,42 @@
             </v-row>
           </section>
         </transition>
+        <div class="section-title">Property services</div>
+        <v-chip
+          v-for="service in servicesSelected"
+          class="ma-2"
+          label
+          close
+          color="primary"
+          text-color="white"
+          close-icon="mdi-delete"
+          @click="editServicePrice(service)"
+          @click:close="deleteService(service)"
+          :key="service.id"
+        >
+          {{service.service_name}}: {{thousandSeparator(service.service_price)}}/=
+        </v-chip>
+        <v-dialog
+          class="service-price-dialog"
+          v-model="servicePriceDialog"
+          width="250"
+        >
+          <property-service-dialog :service-info="selectedService" @showServiceDialog="showServiceDialog"/>
+        </v-dialog>
         <v-combobox
           multiple
           v-model="services"
-          label="Property services"
-          append-icon
+          label="Add property services"
+          :items="items"
           chips
           deletable-chips
-          class="tag-input"
-          :search-input.sync="search"
-          @keyup.tab="updateTags"
-          @paste="updateTags">
+          hide-selected
+          small-chips
+          clearable
+          class="tag-input">
         </v-combobox>
         <div class="input-hint">
-          Press enter after typing a service.
+          Press "Enter" after typing a custom service.
         </div>
         <div class="section-title">Property image</div>
         <v-row>
@@ -180,6 +202,17 @@
         <v-row>
           <v-col cols="12" md="6">
             <v-btn
+              class="btn-text"
+              block
+              outlined
+              color="default"
+              @click="closeForm(false)"
+            >
+              Cancel
+            </v-btn>
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-btn
               type="submit"
               :loading="showLoader"
               :disabled="showLoader"
@@ -190,17 +223,6 @@
               {{ editForm ? 'Save Changes' : 'Add Property'}}
             </v-btn>
           </v-col>
-          <v-col cols="12" md="6">
-            <v-btn
-              class="btn-text"
-              block
-              outlined
-              color="default"
-              @click="closeForm(false)"
-            >
-              Cancel
-            </v-btn>
-          </v-col>
         </v-row>
       </v-form>
     </v-card-text>
@@ -208,12 +230,15 @@
 </template>
 
 <script>
+import PropertyServiceDialog from '@/components/properties/PropertyServiceDialog'
 import UploadImage from '@/helpers/UploadImage'
 import Map from '@/helpers/Map'
+import thousandSeparator from '@/mixins/thousandSeparator'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'AddProperty',
+  mixins: [thousandSeparator],
   props: {
     edit: {
       type: Boolean,
@@ -228,11 +253,13 @@ export default {
     }
   },
   components: {
+    PropertyServiceDialog,
     UploadImage,
     Map
   },
   data: () => ({
     valid: false,
+    servicePriceDialog: false,
     propertyName: '',
     contact: 'landlord',
     contactPerson: '',
@@ -241,8 +268,10 @@ export default {
     lrNumber: '',
     nosUnits: '',
     description: '',
-    services: ['garbage collection', 'water', 'security'],
-    items: [],
+    services: [],
+    servicesSelected: {},
+    selectedService: {},
+    items: ['Garbage collection', 'Water', 'Security'],
     image: null,
     validFile: true,
     placeholderImage: require(`@/assets/images/noImage.jpg`),
@@ -309,7 +338,8 @@ export default {
   },
   methods: {
     ...mapActions('property', {
-      addNewProperty: 'addNewProperty'
+      addNewProperty: 'addNewProperty',
+      deletePropertyService: 'deletePropertyService'
     }),
     setImage (values) {
       this.image = values.image
@@ -319,13 +349,14 @@ export default {
       this.propertyLocation = location.name
       this.propertyCoordinates = JSON.stringify(location.coordinates)
     },
-    updateTags () {
-      this.$nextTick(() => {
-        this.services.push(...this.search.split(','))
-        this.$nextTick(() => {
-          this.search = ''
-        })
-      })
+    editServicePrice (service) {
+      this.servicePriceDialog = true
+      this.selectedService = service
+    },
+    showServiceDialog (payload) {
+      const { status, propertyInfo } = payload
+      if (Object.keys(propertyInfo).length) this.updateFormValues(propertyInfo)
+      this.servicePriceDialog = status
     },
     closeForm (formSubmitted) {
       const payload = {
@@ -333,6 +364,16 @@ export default {
         'formSubmitted': formSubmitted
       }
       this.$emit('closePropertyModal', payload)
+    },
+    async deleteService (service) {
+      try {
+        const newPropertyValues = await this.deletePropertyService(service)
+        if (newPropertyValues) {
+          this.updateFormValues(newPropertyValues)
+        }
+      } catch (error) {
+        throw error
+      }
     },
     updateFormValues (property) {
       this.btnColor = 'primary'
@@ -345,7 +386,7 @@ export default {
       this.lrNumber = property.lr_nos
       this.nosUnits = property.nos_units
       this.description = property.description
-      this.services = property.property_services.split(',')
+      this.servicesSelected = property.services
       this.propertyType = property.property_type
       this.titleType = property.title_type
       this.ownershipType = property.ownership_type
@@ -353,10 +394,11 @@ export default {
       this.locationCoordinates = property.property_coordinates
         ? JSON.parse(property.property_coordinates) : null
     },
-    async clearFormValues () {
+    clearFormValues () {
       this.btnColor = 'secondary'
       this.contact = 'landlord'
-      this.services = ['garbage collection', 'water', 'security']
+      this.services = []
+      this.servicesSelected = {}
       this.propertyType = 'Apartments'
       this.propertyName = ''
       this.titleType = ''
