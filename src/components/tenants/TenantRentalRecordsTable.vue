@@ -1,6 +1,6 @@
 <template>
     <section>
-        <div class="title">Tenant moving records</div>
+        <div class="heading-title">Tenant moving records</div>
         <v-card-title>
             <v-row>
                 <v-col sm="4" cols="12">
