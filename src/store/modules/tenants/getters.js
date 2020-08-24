@@ -75,9 +75,17 @@ const showMoveTenantDialog = (state) => state.showMoveTenantDialog
  * Show tenant rental records that has been selected for viewing
  * @method tenantRentalRecords
  * @param  {Object} state vuex state object
- * @return {Object} Contains state of close or open dialog
+ * @return {Array} Contains tenants rental records
  */
 const tenantRentalRecords = (state) => state.tenantRentalRecords
+
+/**
+ * Show tenant invoice records that has been selected for viewing
+ * @method tenantInvoiceRecords
+ * @param  {Object} state vuex state object
+ * @return {Array} Contains tenants invoice records
+ */
+const tenantInvoiceRecords = (state) => state.tenantInvoiceRecords
 
 /**
  * Show error state for house not vacant being moved into
@@ -115,6 +123,7 @@ export {
   tenantRentalRecordSelected,
   showMoveTenantDialog,
   tenantRentalRecords,
+  tenantInvoiceRecords,
   noVacancyError,
   tenantsListType
 }

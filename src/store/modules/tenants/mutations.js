@@ -146,6 +146,16 @@ const SET_SELECTED_TENANT_RENTAL_RECORDS = (state, payload) => {
 }
 
 /**
+ * Set the tenant invoice records that has been selected for viewing
+ * @method SET_SELECTED_TENANT_INVOICE_RECORDS
+ * @param  {Object} state vuex state object
+ * @param  {Array} payload contains tenant invoice details
+ */
+const SET_SELECTED_TENANT_INVOICE_RECORDS = (state, payload) => {
+  state.tenantInvoiceRecords = payload
+}
+
+/**
  * Set tenants list type to show
  * @method SET_TENANT_LIST_TYPE
  * @param  {Object} state vuex state object
@@ -171,5 +181,6 @@ export {
   SET_SELECTED_TENANT_RENTAL_RECORDS,
   NO_VACANCY_ERROR,
   SET_TENANT_LIST_TYPE,
-  SET_SELECTED_TENANT_RECORD
+  SET_SELECTED_TENANT_RECORD,
+  SET_SELECTED_TENANT_INVOICE_RECORDS
 }

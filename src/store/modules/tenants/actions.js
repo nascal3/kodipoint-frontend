@@ -65,7 +65,7 @@ const moveInTenant = async ({ commit, dispatch }, payload) => {
 }
 
 /**
- * Get a Tenants' rental records
+ * Get a (all) Tenants' rental records
  * @method  getTenantRentalRecords
  * @param  {Object} commit vuex mutations
  * @param  {Object} payload tenant and landlord ID
@@ -203,6 +203,28 @@ const resetSelectedTenant = ({ commit }) => {
   commit('RESET_SELECTED_TENANT')
 }
 
+/**
+ * Get a (all) Tenants' invoice records
+ * @method  getTenantInvoiceRecords
+ * @param  {Object} commit vuex mutations
+ * @param  {Object} payload tenant id or date range from - to date
+ */
+const getTenantInvoiceRecords = async ({ commit }, payload) => {
+  commit('SHOW_LOADER', true)
+  const url = '/api/invoice/tenant/all'
+
+  try {
+    const response = await api.post(url, payload)
+    if (response.status === 200) {
+      commit('SET_SELECTED_TENANT_INVOICE_RECORDS', response.data.results)
+      commit('SHOW_LOADER', false)
+    }
+  } catch (err) {
+    commit('SHOW_LOADER', false)
+    throw err
+  }
+}
+
 export {
   getTenants,
   moveInTenant,
@@ -212,5 +234,6 @@ export {
   setSelectedTenant,
   resetSelectedTenant,
   getTenantRentalRecords,
+  getTenantInvoiceRecords,
   getTenantRentalSingleRecord
 }

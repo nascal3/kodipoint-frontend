@@ -3,6 +3,7 @@ const state = {
   tenants: [],
   tenantSearchResults: [],
   tenantRentalRecords: [],
+  tenantInvoiceRecords: [],
   selectedTenant: {},
   noSearchResults: false,
   showLoader: false,
