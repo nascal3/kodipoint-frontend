@@ -26,7 +26,7 @@
           >
             <v-icon left>mdi-plus</v-icon>
               Add property
-            </v-btn>
+          </v-btn>
         </div>
       </v-col>
     </v-row>

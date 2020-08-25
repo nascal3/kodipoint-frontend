@@ -1,6 +1,13 @@
 <template>
     <section>
-        <div class="heading-title">Invoice records</div>
+        <div class="top-section d-flex align-center justify-space-between">
+            <div class="heading-title">Invoice records</div>
+            <v-btn class="btn-text" color="secondary">
+                <v-icon left>mdi-plus</v-icon>
+                Create Invoice
+            </v-btn>
+        </div>
+
         <v-card-title class="card-title">
             <v-row no-gutters>
                 <v-col sm="7" cols="12">
