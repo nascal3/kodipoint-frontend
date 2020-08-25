@@ -16,6 +16,10 @@
     <v-overlay light :value="showMoveTenantDialog.open">
       <manage-tenant-form :tenantInfo="tenantInfo" @closeMoveTenantForm="closeMoveTenantForm" />
     </v-overlay>
+
+    <v-overlay light :value="showTenantInvoiceDialog.open">
+      <tenant-invoice-modal @closeInvoiceModal="closeInvoiceModal"/>
+    </v-overlay>
   </v-container>
 </template>
 
@@ -26,6 +30,7 @@ import UserDetailsBanner from '@/components/utils/UserDetailsBanner'
 import TenantForm from '@/components/tenants/TenantForm'
 import TenantInfo from '@/components/tenants/TenantInfo'
 import ManageTenantForm from '@/components/tenants/utils/MoveInTenantForm'
+import TenantInvoiceModal from '@/components/tenants/TenantInvoiceModal'
 import checkLandlordApproval from '@/mixins/checkLandlordApproval'
 
 export default {
@@ -41,13 +46,15 @@ export default {
     TenantList,
     TenantForm,
     TenantInfo,
+    TenantInvoiceModal,
     UserDetailsBanner,
     ManageTenantForm
   },
   computed: {
     ...mapGetters('tenants', {
       tenantSelected: 'selectedTenant',
-      showMoveTenantDialog: 'showMoveTenantDialog'
+      showMoveTenantDialog: 'showMoveTenantDialog',
+      showTenantInvoiceDialog: 'showTenantInvoiceDialog'
     }),
     showSection () {
       return Object.keys(this.tenantSelected).length > 0
@@ -76,6 +83,10 @@ export default {
     closeMoveTenantForm (value) {
       const payload = { 'open': value, 'edit': false }
       this.$store.commit('tenants/SHOW_MOVE_TENANT_DIALOG', payload)
+    },
+    closeInvoiceModal (value) {
+      const payload = { 'open': value, 'edit': false }
+      this.$store.commit('tenants/SHOW_TENANT_INVOICE_DIALOG', payload)
     }
   },
   created () {

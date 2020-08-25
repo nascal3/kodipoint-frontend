@@ -92,6 +92,7 @@
             loading-text="Loading... Please wait"
             dense
             fixed-header
+            @click:row="openTenantInvoiceDialog"
         >
             <template v-slot:item.amount_balance="{ item }">
                 {{ thousandSeparator(item.amount_balance) }}
@@ -100,22 +101,18 @@
                 {{ formatDate(item.rent_period) }}
             </template>
             <template v-slot:item.date_due="{ item }">
-                <td>{{ formatDate(item.date_due) }}</td>
+                {{ formatDate(item.date_due) }}
             </template>
             <template v-slot:item.date_paid="{ item }">
-                <td v-if="paidStatus(item.date_paid)">
-                    <span class="text--success">{{ formatDate(item.date_paid) }}</span>
-                </td>
-                <td v-else><v-chip label small class="ma-2" outlined color="error">Not Paid</v-chip></td>
+                <span v-if="paidStatus(item.date_paid)" class="text--success">{{ formatDate(item.date_paid) }}</span>
+                <v-chip v-else label small class="ma-2" outlined color="error">Not Paid</v-chip>
             </template>
             <template v-slot:item.date_issued="{ item }">
-                <td v-if="sentStatus(item.date_issued)">
-                    <span class="text--success">{{item.date_issued}}</span>
-                </td>
-                <td v-else><v-chip label small class="ma-2" outlined color="warning">Pending</v-chip></td>
+               <span v-if="sentStatus(item.date_issued)" class="text--success">{{item.date_issued}}</span>
+               <v-chip v-else label small class="ma-2" outlined color="warning">Pending</v-chip>
             </template>
             <template v-slot:item.id="{ item }">
-                <td @click="openEditTenantDialog(item.id)">#{{item.id}}</td>
+                <span>#{{item.id}}</span>
             </template>
         </v-data-table>
     </section>
@@ -193,10 +190,10 @@ export default {
       }
       this.getTenantInvoiceRecords(params)
     },
-    openEditTenantDialog (recordID) {
+    openTenantInvoiceDialog ($event) {
       const payload = { 'open': true, 'edit': true }
-      this.$store.commit('tenants/SHOW_MOVE_TENANT_DIALOG', payload)
-      this.$store.dispatch('tenants/getTenantRentalSingleRecord', recordID)
+      this.$store.commit('tenants/SHOW_TENANT_INVOICE_DIALOG', payload)
+      this.$store.dispatch('tenants/getTenantInvoiceSingleRecord', $event.id)
     }
   },
   created () {
@@ -207,5 +204,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    @import 'src/styles/layout/tenantRentalRecordsTable';
+    @import 'src/styles/layout/tenantInvoiceRecordsTable';
 </style>

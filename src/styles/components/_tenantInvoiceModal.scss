@@ -1,0 +1,41 @@
+
+.modal-invoice-form {
+  width: 72vw;
+  height: 80vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  .v-card {
+
+    &__title {
+      padding: 1rem !important;
+      background-color: $white;
+
+      &.heading {
+        position: fixed;
+        border-bottom: solid 1px $table_hover_bg_color;
+        width: 72vw;
+        z-index: 4;
+      }
+
+      .header-title {
+        font-size: 2.4rem !important;
+        margin-bottom: 7px;
+        padding-left: 1.5rem !important;
+        padding-top: 5px;
+        text-transform: capitalize;
+      }
+    }
+
+    &__text {
+      &.content {
+        padding: 5.3rem 0;
+        height: auto;
+
+        .search-tenant-table {
+          margin-left: 1rem;
+        }
+      }
+    }
+  }
+}

@@ -96,6 +96,16 @@ const SHOW_MOVE_TENANT_DIALOG = (state, payload) => {
 }
 
 /**
+ * Show tenant invoice dialog
+ * @method SHOW_TENANT_INVOICE_DIALOG
+ * @param  {Object} state vuex state object
+ * @param  {Object} payload state of close or open dialog
+ */
+const SHOW_TENANT_INVOICE_DIALOG = (state, payload) => {
+  state.showTenantInvoiceDialog = payload
+}
+
+/**
  * Set tenant rental record selected
  * @method SET_SELECTED_TENANT_RECORD
  * @param  {Object} state vuex state object
@@ -103,6 +113,16 @@ const SHOW_MOVE_TENANT_DIALOG = (state, payload) => {
  */
 const SET_SELECTED_TENANT_RECORD = (state, payload) => {
   state.tenantRentalRecordSelected = payload
+}
+
+/**
+ * Set tenant invoice record selected
+ * @method SET_SELECTED_TENANT_INVOICE_RECORD
+ * @param  {Object} state vuex state object
+ * @param  {Object} payload invoice record selected
+ */
+const SET_SELECTED_TENANT_INVOICE_RECORD = (state, payload) => {
+  state.tenantInvoiceRecordSelected = payload
 }
 
 /**
@@ -178,7 +198,9 @@ export {
   RESET_SEARCH_TENANTS,
   SET_SELECTED_TENANT,
   SHOW_MOVE_TENANT_DIALOG,
+  SHOW_TENANT_INVOICE_DIALOG,
   SET_SELECTED_TENANT_RENTAL_RECORDS,
+  SET_SELECTED_TENANT_INVOICE_RECORD,
   NO_VACANCY_ERROR,
   SET_TENANT_LIST_TYPE,
   SET_SELECTED_TENANT_RECORD,

@@ -1,7 +1,7 @@
 <template>
     <v-card class="modal-info-table" light>
         <v-card-title class="heading">
-            <div class="title">
+            <div class="header-title">
                 Tenants in "{{showPropertyTenants}}"
             </div>
             <v-icon class="close-icon" color="primary" @click="closeModal">
