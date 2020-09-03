@@ -323,8 +323,7 @@ export default {
     imageSource () {
       const imagePath = this.propertyInfo ? this.propertyInfo.property_img : null
       if (!imagePath) return this.placeholderImage
-      const baseURL = process.env.BASE_URL
-      return `${baseURL}/file${imagePath}`
+      return imagePath
     },
     hasImage () {
       if (this.edit) {

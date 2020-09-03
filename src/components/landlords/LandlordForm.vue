@@ -247,7 +247,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      showLoader: ['property/showLoader'],
+      showLoader: ['landlord/showLoader'],
       showErrorState: ['property/showErrorState'],
       landlordUserInfo: ['auth/singleUser'],
       userEmailDuplicationError: ['auth/userDuplicationError'],

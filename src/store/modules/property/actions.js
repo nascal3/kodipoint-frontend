@@ -88,8 +88,9 @@ const getProperties = async ({ commit, state, rootGetters }, payload) => {
 const addNewProperty = async ({ commit, dispatch }, payload) => {
   const data = JSON.parse(payload.getAll('data'))
   const url = data.edit ? '/api/properties/edit' : '/api/properties/register'
-
   dispatch('resetErrors')
+  commit('SHOW_LOADER', true)
+
   try {
     const response = await api.post(url, payload)
     if (response.status === 200) {
