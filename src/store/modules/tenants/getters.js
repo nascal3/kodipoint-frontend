@@ -72,12 +72,28 @@ const selectedTenant = (state) => state.selectedTenant
 const showMoveTenantDialog = (state) => state.showMoveTenantDialog
 
 /**
- * Show tenant rental records that has been selected for viewing
- * @method tenantRentalRecords
+ * Show tenant invoice dialog
+ * @method showTenantInvoiceDialog
  * @param  {Object} state vuex state object
  * @return {Object} Contains state of close or open dialog
  */
+const showTenantInvoiceDialog = (state) => state.showTenantInvoiceDialog
+
+/**
+ * Show tenant rental records that has been selected for viewing
+ * @method tenantRentalRecords
+ * @param  {Object} state vuex state object
+ * @return {Array} Contains tenants rental records
+ */
 const tenantRentalRecords = (state) => state.tenantRentalRecords
+
+/**
+ * Show tenant invoice records that has been selected for viewing
+ * @method tenantInvoiceRecords
+ * @param  {Object} state vuex state object
+ * @return {Array} Contains tenants invoice records
+ */
+const tenantInvoiceRecords = (state) => state.tenantInvoiceRecords
 
 /**
  * Show error state for house not vacant being moved into
@@ -94,6 +110,14 @@ const noVacancyError = (state) => state.noVacancyError
  * @return {String} Contains tenant rental record id selected
  */
 const tenantRentalRecordSelected = (state) => state.tenantRentalRecordSelected
+
+/**
+ * Set tenant invoice record selected
+ * @method tenantInvoiceRecordSelected
+ * @param  {Object} state vuex state object
+ * @return {String} Contains tenant invoice record id selected
+ */
+const tenantInvoiceRecordSelected = (state) => state.tenantInvoiceRecordSelected
 
 /**
  * Set tenants list type to show
@@ -113,8 +137,11 @@ export {
   noSearchResults,
   selectedTenant,
   tenantRentalRecordSelected,
+  tenantInvoiceRecordSelected,
   showMoveTenantDialog,
+  showTenantInvoiceDialog,
   tenantRentalRecords,
+  tenantInvoiceRecords,
   noVacancyError,
   tenantsListType
 }

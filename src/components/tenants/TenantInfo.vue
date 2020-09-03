@@ -1,11 +1,25 @@
 <template>
     <v-card class="tenant-container">
-        <tenant-rental-records-table />
+        <v-tabs class="tenant-container-tabs" v-model="tab">
+            <v-tabs-slider/>
+            <v-tab href="#moving">Moving Records</v-tab>
+            <v-tab href="#invoice">Invoices</v-tab>
+        </v-tabs>
+
+        <v-tabs-items v-model="tab">
+            <v-tab-item value="moving" class="tab-container">
+                <tenant-rental-records-table />
+            </v-tab-item>
+            <v-tab-item value="invoice">
+                <tenant-invoice-records-table />
+            </v-tab-item>
+        </v-tabs-items>
     </v-card>
 </template>
 
 <script>
 import TenantRentalRecordsTable from '@/components/tenants/TenantRentalRecordsTable'
+import TenantInvoiceRecordsTable from '@/components/tenants/TenantInvoiceRecordsTable'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -17,11 +31,18 @@ export default {
     }
   },
   components: {
-    TenantRentalRecordsTable
+    TenantRentalRecordsTable,
+    TenantInvoiceRecordsTable
   },
+  data: () => ({
+    tab: null
+  }),
   watch: {
     selectedTenant (newTenant) {
-      if (newTenant) this.getTenantsRecords()
+      if (newTenant) {
+        this.getMovingRecords()
+        this.getInvoiceRecords()
+      }
     }
   },
   computed: {
@@ -31,18 +52,26 @@ export default {
   },
   methods: {
     ...mapActions('tenants', {
-      getTenantRentalRecords: 'getTenantRentalRecords'
+      getTenantRentalRecords: 'getTenantRentalRecords',
+      getTenantInvoiceRecords: 'getTenantInvoiceRecords'
     }),
-    getTenantsRecords () {
+    getMovingRecords () {
       const params = {
         'tenant_id': this.selectedTenant.id,
         'landlord_id': this.loggedInUserInfo.landlord_id
       }
       this.getTenantRentalRecords(params)
+    },
+    getInvoiceRecords () {
+      const params = {
+        'tenant_id': this.selectedTenant.id
+      }
+      this.getTenantInvoiceRecords(params)
     }
   },
   created () {
-    this.getTenantsRecords()
+    this.getMovingRecords()
+    this.getInvoiceRecords()
   }
 }
 </script>

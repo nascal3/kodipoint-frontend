@@ -1,7 +1,7 @@
 <template>
   <v-card class="modal-info-form" light>
     <v-card-title  class="heading">
-      <div class="title">
+      <div class="header-title">
         {{editForm ? 'Edit Property' : 'Add Property'}}
       </div>
       <v-icon class="close-icon" color="primary" @click="closeForm(false)">
@@ -323,8 +323,7 @@ export default {
     imageSource () {
       const imagePath = this.propertyInfo ? this.propertyInfo.property_img : null
       if (!imagePath) return this.placeholderImage
-      const baseURL = process.env.BASE_URL
-      return `${baseURL}/file${imagePath}`
+      return imagePath
     },
     hasImage () {
       if (this.edit) {

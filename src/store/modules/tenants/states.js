@@ -3,6 +3,7 @@ const state = {
   tenants: [],
   tenantSearchResults: [],
   tenantRentalRecords: [],
+  tenantInvoiceRecords: [],
   selectedTenant: {},
   noSearchResults: false,
   showLoader: false,
@@ -11,7 +12,9 @@ const state = {
   moveInDuplicationError: false,
   noVacancyError: false,
   tenantRentalRecordSelected: {},
-  showMoveTenantDialog: { 'open': false, 'edit': false }
+  tenantInvoiceRecordSelected: {},
+  showMoveTenantDialog: { 'open': false, 'edit': false },
+  showTenantInvoiceDialog: { 'open': false, 'edit': false }
 }
 
 export default state

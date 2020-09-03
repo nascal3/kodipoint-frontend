@@ -4,4 +4,20 @@
   top: 23rem;
   width: 72.5%;
   padding: 1rem 0;
+
+  &-tabs {
+    width: 100%;
+    .v-tab {
+      font-size: 1.3rem;
+      text-transform: capitalize;
+    }
+  }
+
+  .v-tabs-bar {
+    height: 40px;
+  }
+
+  .v-tabs-items {
+    width: 100%;
+  }
 }

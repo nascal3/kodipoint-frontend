@@ -1,7 +1,7 @@
 <template>
   <v-card class="modal-info-form" light>
     <v-card-title class="heading">
-      <div class="title">
+      <div class="header-title">
         {{edit ? 'Edit Landlord' : 'Add landlord'}}
       </div>
       <v-icon class="close-icon" color="primary" @click="closeForm(false)">
@@ -247,7 +247,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      showLoader: ['property/showLoader'],
+      showLoader: ['landlord/showLoader'],
       showErrorState: ['property/showErrorState'],
       landlordUserInfo: ['auth/singleUser'],
       userEmailDuplicationError: ['auth/userDuplicationError'],

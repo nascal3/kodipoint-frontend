@@ -1,6 +1,6 @@
 
 .modal-info-table {
-  width: 90rem;
+  width: 72vw;
   height: 80vh;
   overflow-x: hidden;
   overflow-y: auto;
@@ -14,11 +14,11 @@
       &.heading {
         position: fixed;
         border-bottom: solid 1px $table_hover_bg_color;
-        width: 90rem;
+        width: 72vw;
         z-index: 4;
       }
 
-      .title {
+      .header-title {
         font-size: 2.4rem !important;
         margin-bottom: 7px;
         padding-left: 1.5rem !important;
@@ -57,13 +57,17 @@
       }
       tbody {
         tr {
+          &:hover {
+            background-color: transparent;
+          }
           td {
             font-size: 1.2rem;
-          }
-          td:first-child {
-            cursor: text;
-            color: $black;
-            font-style: normal;
+
+            &:first-child {
+              cursor: text;
+              color: $black;
+              font-style: normal;
+            }
           }
         }
       }

@@ -26,7 +26,7 @@
           >
             <v-icon left>mdi-plus</v-icon>
               Add property
-            </v-btn>
+          </v-btn>
         </div>
       </v-col>
     </v-row>
@@ -221,8 +221,7 @@ export default {
     imageSource (imagePath, avatar = false) {
       if (!imagePath && !avatar) return this.placeholderImage
       if (!imagePath && avatar) return this.placeholderImage2
-      const baseURL = process.env.BASE_URL
-      return `${baseURL}/file${imagePath}`
+      return imagePath
     },
     searchProperty () {
       const payload = {

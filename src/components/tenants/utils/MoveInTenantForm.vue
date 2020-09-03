@@ -1,7 +1,7 @@
 <template>
     <v-card class="modal-info-form" light>
         <v-card-title class="heading">
-            <div class="title">
+            <div class="header-title">
                 {{isEdit ? 'Edit Move in/out details'  : 'Move In Tenant'}}
             </div>
             <v-icon class="close-icon" color="primary" @click="closeMoveTenantForm">
