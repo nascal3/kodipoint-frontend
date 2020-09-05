@@ -221,7 +221,8 @@ export default {
     imageSource (imagePath, avatar = false) {
       if (!imagePath && !avatar) return this.placeholderImage
       if (!imagePath && avatar) return this.placeholderImage2
-      return imagePath
+      const baseURL = process.env.BASE_URL
+      return `${baseURL}/file${imagePath}`
     },
     searchProperty () {
       const payload = {
