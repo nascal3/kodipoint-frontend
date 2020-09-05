@@ -5,7 +5,8 @@ const userProfileAvatar = {
   methods: {
     imageSource (userInfo) {
       if (!userInfo || !userInfo.avatar) return this.placeholderImage
-      return userInfo.avatar
+      const baseURL = process.env.BASE_URL
+      return `${baseURL}/file${userInfo.avatar}`
     }
   }
 }
