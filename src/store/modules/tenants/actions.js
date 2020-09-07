@@ -87,7 +87,7 @@ const getTenantRentalRecords = async ({ commit }, payload) => {
 }
 
 /**
- * Get Tenants' rental single record
+ * Get tenants' rental single record
  * @method  getTenantRentalRecords
  * @param  {Object} commit vuex mutations
  * @param  {Object} payload record ID
@@ -104,6 +104,50 @@ const getTenantRentalSingleRecord = async ({ commit }, payload) => {
     if (response.status === 200) {
       commit('SET_SELECTED_TENANT_RECORD', response.data.results)
       commit('SHOW_LOADER', false)
+    }
+  } catch (err) {
+    commit('SHOW_LOADER', false)
+    throw err
+  }
+}
+
+/**
+ * Get tenants' rented properties
+ * @method  getTenantRentalProperties
+ * @param  {Object} commit vuex mutations
+ * @param  {Number} payload tenant ID
+ */
+const getTenantRentalProperties = async ({ commit }, payload) => {
+  commit('SHOW_LOADER', true)
+  const url = `api/tenantsrec/rentprop/${payload}`
+
+  try {
+    const response = await api.get(url)
+    if (response.status === 200) {
+      commit('SET_TENANT_RENTED_PROPERTIES', response.data.result)
+      commit('SHOW_LOADER', false)
+    }
+  } catch (err) {
+    commit('SHOW_LOADER', false)
+    throw err
+  }
+}
+
+/**
+ * Create Invoice for tenant
+ * @method  createInvoice
+ * @param  {Object} commit vuex mutations
+ * @param  {Object} payload details to be used in invoice
+ */
+const createInvoice = async ({ commit }, payload) => {
+  commit('SHOW_LOADER', true)
+  const url = `/api/invoice/create`
+
+  try {
+    const response = await api.post(url, payload)
+    if (response.status === 200) {
+      commit('SHOW_LOADER', false)
+      return response.data.results
     }
   } catch (err) {
     commit('SHOW_LOADER', false)
@@ -252,11 +296,13 @@ export {
   moveInTenant,
   addNewTenant,
   searchTenants,
+  createInvoice,
   fetchSearchTenants,
   setSelectedTenant,
   resetSelectedTenant,
   getTenantRentalRecords,
   getTenantInvoiceRecords,
   getTenantRentalSingleRecord,
-  getTenantInvoiceSingleRecord
+  getTenantInvoiceSingleRecord,
+  getTenantRentalProperties
 }

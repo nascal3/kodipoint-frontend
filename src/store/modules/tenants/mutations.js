@@ -116,6 +116,16 @@ const SET_SELECTED_TENANT_RECORD = (state, payload) => {
 }
 
 /**
+ * Set tenant rented properties
+ * @method SET_TENANT_RENTED_PROPERTIES
+ * @param  {Object} state vuex state object
+ * @param  {Array} payload rented properties by tenant
+ */
+const SET_TENANT_RENTED_PROPERTIES = (state, payload) => {
+  state.tenantRentedProperties = payload
+}
+
+/**
  * Set tenant invoice record selected
  * @method SET_SELECTED_TENANT_INVOICE_RECORD
  * @param  {Object} state vuex state object
@@ -204,5 +214,6 @@ export {
   NO_VACANCY_ERROR,
   SET_TENANT_LIST_TYPE,
   SET_SELECTED_TENANT_RECORD,
-  SET_SELECTED_TENANT_INVOICE_RECORDS
+  SET_SELECTED_TENANT_INVOICE_RECORDS,
+  SET_TENANT_RENTED_PROPERTIES
 }

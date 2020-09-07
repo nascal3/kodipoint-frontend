@@ -4,6 +4,7 @@ const state = {
   tenantSearchResults: [],
   tenantRentalRecords: [],
   tenantInvoiceRecords: [],
+  tenantRentedProperties: [],
   selectedTenant: {},
   noSearchResults: false,
   showLoader: false,

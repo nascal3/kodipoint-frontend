@@ -18,7 +18,7 @@
     </v-overlay>
 
     <v-overlay light :value="showTenantInvoiceDialog.open">
-      <tenant-invoice-modal @closeInvoiceModal="closeInvoiceModal"/>
+      <tenant-invoice-modal :edit="showTenantInvoiceDialog.edit" @closeInvoiceModal="closeInvoiceModal"/>
     </v-overlay>
   </v-container>
 </template>

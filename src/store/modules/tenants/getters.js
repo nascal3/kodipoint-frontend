@@ -88,6 +88,14 @@ const showTenantInvoiceDialog = (state) => state.showTenantInvoiceDialog
 const tenantRentalRecords = (state) => state.tenantRentalRecords
 
 /**
+ * Show tenant rented properties
+ * @method tenantRentedProperties
+ * @param  {Object} state vuex state object
+ * @return {Array} Contains tenants rented properties
+ */
+const tenantRentedProperties = (state) => state.tenantRentedProperties
+
+/**
  * Show tenant invoice records that has been selected for viewing
  * @method tenantInvoiceRecords
  * @param  {Object} state vuex state object
@@ -136,6 +144,7 @@ export {
   moveInDuplicationError,
   noSearchResults,
   selectedTenant,
+  tenantRentedProperties,
   tenantRentalRecordSelected,
   tenantInvoiceRecordSelected,
   showMoveTenantDialog,

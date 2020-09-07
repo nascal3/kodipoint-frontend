@@ -28,7 +28,7 @@
                         <v-tab-item value="login" class="tab-container">
                           <login-form/>
                         </v-tab-item>
-                        <v-tab-item value="register">
+                        <v-tab-item value="register" class="tab-container">
                           <registration-form/>
                         </v-tab-item>
                       </v-tabs-items>

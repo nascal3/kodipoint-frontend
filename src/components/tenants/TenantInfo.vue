@@ -10,7 +10,7 @@
             <v-tab-item value="moving" class="tab-container">
                 <tenant-rental-records-table />
             </v-tab-item>
-            <v-tab-item value="invoice">
+            <v-tab-item value="invoice" class="tab-container">
                 <tenant-invoice-records-table />
             </v-tab-item>
         </v-tabs-items>
@@ -35,7 +35,7 @@ export default {
     TenantInvoiceRecordsTable
   },
   data: () => ({
-    tab: null
+    tab: 'moving'
   }),
   watch: {
     selectedTenant (newTenant) {
