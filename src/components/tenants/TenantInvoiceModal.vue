@@ -14,7 +14,11 @@
                     <invoice-form v-if="!edit" />
                 </v-col>
                 <v-col class="preview-section" md="5" cols="12">
-                    invoice image
+                    <invoice-preview />
+                    <v-btn class="btn-text" color="primary">
+                        Send Invoice
+                        <v-icon right>mdi-send</v-icon>
+                    </v-btn>
                 </v-col>
             </v-row>
         </v-card-text>
@@ -23,6 +27,7 @@
 
 <script>
 import InvoiceForm from '@/components/tenants/utils/InvoiceForm'
+import InvoicePreview from '@/components/tenants/utils/InvoicePreview'
 
 export default {
   name: 'TenantInvoiceModal',
@@ -33,7 +38,8 @@ export default {
     }
   },
   components: {
-    InvoiceForm
+    InvoiceForm,
+    InvoicePreview
   },
   methods: {
     closeInvoiceModal () {
@@ -45,4 +51,12 @@ export default {
 
 <style lang="scss" scoped>
     @import 'src/styles/components/tenantInvoiceModal';
+    .modal-invoice-form {
+        .v-card__text {
+            &.content {
+                padding: 5.3rem 0 0 0;
+                height: auto;
+            }
+        }
+    }
 </style>
