@@ -36,18 +36,10 @@
         }
 
         .preview-section {
-          display: flex;
-          justify-content: center;
           position: relative;
           padding: 1.5rem 1rem;
           min-height: 73.4vh;
           background-color: $divider-grey;
-
-          button {
-            position: absolute;
-            bottom: 7px;
-            right: 2.8rem;
-          }
         }
       }
     }

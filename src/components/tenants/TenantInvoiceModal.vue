@@ -15,10 +15,6 @@
                 </v-col>
                 <v-col class="preview-section" md="5" cols="12">
                     <invoice-preview />
-                    <v-btn class="btn-text" color="primary">
-                        Send Invoice
-                        <v-icon right>mdi-send</v-icon>
-                    </v-btn>
                 </v-col>
             </v-row>
         </v-card-text>
