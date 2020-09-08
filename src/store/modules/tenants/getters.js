@@ -17,11 +17,19 @@ const showErrorState = (state) => state.errorState
 
 /**
  * Show error state of the user national ID/KRA Pin already exists/registered
- * @method userIdDuplicationError
+ * @method tenantIdDuplicationError
  * @param  {Object} state vuex state object
  * @return {boolean} Contains the show error state
  */
 const tenantIdDuplicationError = (state) => state.tenantIdDuplicationError
+
+/**
+ * Show error state of the invoice already exists/created
+ * @method invoiceDuplicationError
+ * @param  {Object} state vuex state object
+ * @return {boolean} Contains the show error state
+ */
+const invoiceDuplicationError = (state) => state.invoiceDuplicationError
 
 /**
  * Show state for duplication of moving in record error
@@ -141,6 +149,7 @@ export {
   tenantSearchResults,
   showErrorState,
   tenantIdDuplicationError,
+  invoiceDuplicationError,
   moveInDuplicationError,
   noSearchResults,
   selectedTenant,

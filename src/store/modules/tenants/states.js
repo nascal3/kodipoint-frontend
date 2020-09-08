@@ -10,6 +10,7 @@ const state = {
   showLoader: false,
   errorState: false,
   tenantIdDuplicationError: false,
+  invoiceDuplicationError: false,
   moveInDuplicationError: false,
   noVacancyError: false,
   tenantRentalRecordSelected: {},

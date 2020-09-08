@@ -57,6 +57,16 @@ const TENANT_ID_DUPLICATION_ERROR = (state, payload) => {
 }
 
 /**
+ * Set error state of the invoice already exists/created
+ * @method TENANT_INVOICE_DUPLICATION_ERROR
+ * @param  {Object} state vuex state object
+ * @param  {boolean} payload state of error
+ */
+const TENANT_INVOICE_DUPLICATION_ERROR = (state, payload) => {
+  state.invoiceDuplicationError = payload
+}
+
+/**
  * Set error state for duplication of moving in record
  * @method MOVE_IN_DUPLICATION_ERROR
  * @param  {Object} state vuex state object
@@ -205,6 +215,7 @@ export {
   SET_ERROR_STATE,
   TENANT_ID_DUPLICATION_ERROR,
   MOVE_IN_DUPLICATION_ERROR,
+  TENANT_INVOICE_DUPLICATION_ERROR,
   RESET_SEARCH_TENANTS,
   SET_SELECTED_TENANT,
   SHOW_MOVE_TENANT_DIALOG,

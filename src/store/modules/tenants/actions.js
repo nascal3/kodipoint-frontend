@@ -140,6 +140,7 @@ const getTenantRentalProperties = async ({ commit }, payload) => {
  * @param  {Object} payload details to be used in invoice
  */
 const createInvoice = async ({ commit }, payload) => {
+  commit('TENANT_INVOICE_DUPLICATION_ERROR', false)
   commit('SHOW_LOADER', true)
   const url = `/api/invoice/create`
 
@@ -148,6 +149,30 @@ const createInvoice = async ({ commit }, payload) => {
     if (response.status === 200) {
       commit('SHOW_LOADER', false)
       return response.data.results
+    }
+  } catch (err) {
+    commit('SHOW_LOADER', false)
+    commit('TENANT_INVOICE_DUPLICATION_ERROR', true)
+    throw err
+  }
+}
+
+/**
+ * Add or remove property service price from invoice
+ * @method addRemovePropertyServices
+ * @param  {Object} commit vuex mutations
+ * @param  {Function} dispatch vuex mutations
+ * @param  {Object} payload details containing service details
+ */
+const addRemovePropertyServices = async ({ commit, dispatch }, payload) => {
+  commit('SHOW_LOADER', true)
+  const url = `/api/invoice/edit/service`
+
+  try {
+    const response = await api.post(url, payload)
+    if (response.status === 200) {
+      dispatch('getTenantInvoiceSingleRecord', payload.invoice_id)
+      commit('SHOW_LOADER', false)
     }
   } catch (err) {
     commit('SHOW_LOADER', false)
@@ -300,6 +325,7 @@ export {
   fetchSearchTenants,
   setSelectedTenant,
   resetSelectedTenant,
+  addRemovePropertyServices,
   getTenantRentalRecords,
   getTenantInvoiceRecords,
   getTenantRentalSingleRecord,

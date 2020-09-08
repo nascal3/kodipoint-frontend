@@ -1,6 +1,9 @@
 <template>
     <section class="invoice-form">
-        <v-form v-if="!invoiceCreated" ref="form" v-model="valid" @submit.prevent="createNewInvoice">
+        <v-alert v-if="invoiceDuplicationError" type="error" dense>
+            The following invoice already exists
+        </v-alert>
+        <v-form v-if="!invoiceNumber" ref="form" v-model="valid" @submit.prevent="createNewInvoice">
             <div class="section-title">Select property</div>
             <v-select
                 v-model="selectedProperty"
@@ -72,7 +75,6 @@
                             <v-btn class="btn-text" color="primary" @click="$refs.menu2.save(dateDue)">OK</v-btn>
                         </v-date-picker>
                     </v-menu>
-
                     <v-text-field
                         v-model="amountPaid"
                         label="Amount paid*"
@@ -108,6 +110,42 @@
                 </v-col>
             </v-row>
         </v-form>
+
+        <v-form ref="serviceForm" @submit.prevent="addInvoiceServices">
+            <div class="section-title">Add service charges</div>
+            <v-row>
+                <v-col md="4" cols="12">
+                    <v-text-field
+                        v-model="serviceName"
+                        label="Service name*"
+                        :rules="[rules.serviceNameRequired]"
+                        name="serviceName"
+                    ></v-text-field>
+                </v-col>
+                <v-col md="3" cols="12">
+                    <v-text-field
+                        v-model="servicePrice"
+                        label="Service price*"
+                        :rules="[rules.servicePriceRequired]"
+                        name="servicePrice"
+                    ></v-text-field>
+                </v-col>
+                <v-col class="d-flex align-center" md="5" cols="12">
+                    <v-btn
+                        type="submit"
+                        class="btn-text"
+                        :loading="showLoader"
+                        :disabled="showLoader"
+                        block
+                        color="primary"
+                        @click="serviceOperation='add'"
+                    >
+                        <v-icon left>mdi-plus</v-icon>
+                        Add service charge
+                    </v-btn>
+                </v-col>
+            </v-row>
+        </v-form>
     </section>
 </template>
 
@@ -130,11 +168,16 @@ export default {
     dateDue: format(new Date(), 'yyyy-MM-dd'),
     unitNum: '',
     amountPaid: '0',
-    invoiceCreated: false,
+    invoiceNumber: null,
+    serviceName: '',
+    servicePrice: '',
+    serviceOperation: null,
     rules: {
       unitNumRequired: value => !!value || 'Property unit number required',
       propertyNameRequired: value => !!value || 'Property name required',
-      paidAmountRequired: value => !!value || 'Paid amount required'
+      serviceNameRequired: value => !!value || 'Service name required',
+      paidAmountRequired: value => !!value || 'Paid amount required',
+      servicePriceRequired: value => !!value || 'Service price required'
     }
   }),
   watch: {
@@ -145,6 +188,13 @@ export default {
         this.amountPaid = result
       })
     },
+    async servicePrice (newValue) {
+      const result = newValue.replace(/\D/g, '')
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+      await this.$nextTick(() => {
+        this.servicePrice = result
+      })
+    },
     tenantRentedProperties () {
       this.setPropertyName()
     }
@@ -153,14 +203,17 @@ export default {
     ...mapGetters('tenants', {
       selectedTenant: 'selectedTenant',
       showLoader: 'showLoader',
-      tenantRentedProperties: 'tenantRentedProperties'
+      invoiceDuplicationError: 'invoiceDuplicationError',
+      tenantRentedProperties: 'tenantRentedProperties',
+      tenantInvoiceRecordSelected: 'tenantInvoiceRecordSelected'
     })
   },
   methods: {
     ...mapActions('tenants', {
       getTenantRentalProperties: 'getTenantRentalProperties',
       createInvoice: 'createInvoice',
-      getTenantInvoiceRecords: 'getTenantInvoiceRecords'
+      getTenantInvoiceRecords: 'getTenantInvoiceRecords',
+      addRemovePropertyServices: 'addRemovePropertyServices'
     }),
     setPropertyName () {
       if (this.tenantRentedProperties.length) {
@@ -200,9 +253,26 @@ export default {
       try {
         const results = await this.createInvoice(params)
         if (Object.keys(results).length) {
-          this.invoiceCreated = true
+          this.invoiceNumber = results.id
           this.getInvoiceRecords()
         }
+      } catch (err) {
+        throw err
+      }
+    },
+    async addInvoiceServices () {
+      const params = {
+        'invoice_id': this.invoiceNumber,
+        'service_name': this.serviceName,
+        'service_price': this.formatPriceToNumber(this.servicePrice),
+        'operation': this.serviceOperation
+      }
+      this.valid = this.$refs.serviceForm.validate()
+      if (!this.valid) return
+      try {
+        await this.addRemovePropertyServices(params)
+        this.serviceName = ''
+        this.servicePrice = ''
       } catch (err) {
         throw err
       }

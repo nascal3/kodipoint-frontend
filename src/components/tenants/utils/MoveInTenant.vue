@@ -5,6 +5,7 @@
             color="primary"
             @click="openDialog"
         >
+            <v-icon left>mdi-login</v-icon>
             Move In Tenant
         </v-btn>
     </section>
