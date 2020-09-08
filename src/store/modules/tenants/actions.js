@@ -137,9 +137,10 @@ const getTenantRentalProperties = async ({ commit }, payload) => {
  * Create Invoice for tenant
  * @method  createInvoice
  * @param  {Object} commit vuex mutations
+ * @param  {Function} dispatch vuex mutations
  * @param  {Object} payload details to be used in invoice
  */
-const createInvoice = async ({ commit }, payload) => {
+const createInvoice = async ({ commit, dispatch }, payload) => {
   commit('TENANT_INVOICE_DUPLICATION_ERROR', false)
   commit('SHOW_LOADER', true)
   const url = `/api/invoice/create`
@@ -148,7 +149,9 @@ const createInvoice = async ({ commit }, payload) => {
     const response = await api.post(url, payload)
     if (response.status === 200) {
       commit('SHOW_LOADER', false)
-      return response.data.results
+      const resultData = response.data.results
+      dispatch('getTenantInvoiceSingleRecord', resultData.id)
+      return resultData
     }
   } catch (err) {
     commit('SHOW_LOADER', false)

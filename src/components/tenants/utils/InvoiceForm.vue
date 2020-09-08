@@ -111,7 +111,21 @@
             </v-row>
         </v-form>
 
-        <v-form ref="serviceForm" @submit.prevent="addInvoiceServices">
+        <div v-if="showPropertyServices" class="section-title">Property services</div>
+        <v-chip
+            v-for="service in tenantInvoiceCreated.invoice_breakdowns"
+            class="ma-2"
+            label
+            close
+            color="primary"
+            text-color="white"
+            close-icon="mdi-delete"
+            @click:close="serviceOperation='remove', addRemoveInvoiceServices(service)"
+            :key="service.id"
+        >
+            {{service.service_name}}: {{thousandSeparator(service.service_price)}}/=
+        </v-chip>
+        <v-form v-if="invoiceNumber" ref="serviceForm" @submit.prevent="addRemoveInvoiceServices">
             <div class="section-title">Add service charges</div>
             <v-row>
                 <v-col md="4" cols="12">
@@ -205,8 +219,13 @@ export default {
       showLoader: 'showLoader',
       invoiceDuplicationError: 'invoiceDuplicationError',
       tenantRentedProperties: 'tenantRentedProperties',
-      tenantInvoiceRecordSelected: 'tenantInvoiceRecordSelected'
-    })
+      tenantInvoiceCreated: 'tenantInvoiceRecordSelected'
+    }),
+    showPropertyServices () {
+      return this.tenantInvoiceCreated &&
+          this.tenantInvoiceCreated.invoice_breakdowns &&
+          this.tenantInvoiceCreated.invoice_breakdowns.length
+    }
   },
   methods: {
     ...mapActions('tenants', {
@@ -260,19 +279,24 @@ export default {
         throw err
       }
     },
-    async addInvoiceServices () {
+    async addRemoveInvoiceServices (service) {
       const params = {
         'invoice_id': this.invoiceNumber,
-        'service_name': this.serviceName,
-        'service_price': this.formatPriceToNumber(this.servicePrice),
+        'service_name': this.serviceName || service.service_name,
+        'service_price': this.formatPriceToNumber(this.servicePrice) || service.service_price,
         'operation': this.serviceOperation
       }
+
       this.valid = this.$refs.serviceForm.validate()
-      if (!this.valid) return
+      if (!service) {
+        if (!this.valid) return
+      }
+
       try {
         await this.addRemovePropertyServices(params)
         this.serviceName = ''
         this.servicePrice = ''
+        this.serviceOperation = null
       } catch (err) {
         throw err
       }
