@@ -105,7 +105,7 @@
 
 <script>
 import { format, parseISO } from 'date-fns'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import thousandSeparator from '@/mixins/thousandSeparator'
 
 export default {
@@ -115,7 +115,7 @@ export default {
     ...mapGetters('tenants', {
       showLoaderInvoice: 'showLoader',
       dateFrom: 'dateFrom',
-      dateTo: 'dateFrom',
+      dateTo: 'dateTo',
       tenantInvoiceCreated: 'tenantInvoiceSelected'
     }),
     showSendButton () {
@@ -123,6 +123,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions('tenants', {
+      getTenantInvoiceRecords: 'getTenantInvoiceRecords'
+    }),
     formatDateMonth (value) {
       if (!value) return
       return format(parseISO(value), 'MMM yyyy')

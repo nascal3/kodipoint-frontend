@@ -161,7 +161,7 @@
                         @click="serviceOperation='add'"
                     >
                         <v-icon left>mdi-plus</v-icon>
-                        Add service charge
+                        service charge
                     </v-btn>
                 </v-col>
             </v-row>

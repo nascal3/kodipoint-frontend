@@ -1,6 +1,6 @@
 <template>
     <section class="invoice-summary">
-        <div class="section-title">Property Services</div>
+        <div v-if="tenantInvoiceCreated.invoice_breakdowns.length" class="section-title">Property Services</div>
         <v-chip
             v-for="service in tenantInvoiceCreated.invoice_breakdowns"
             class="ma-2"
@@ -11,7 +11,7 @@
         >
             {{service.service_name}}: {{thousandSeparator(service.service_price)}}/=
         </v-chip>
-        <hr class="divider-line"/>
+        <hr v-if="tenantInvoiceCreated.invoice_breakdowns.length" class="divider-line"/>
         <div class="section-title">Sub Total</div>
         <div class="invoice-totals">
             <div>Rent: <span>{{thousandSeparator(tenantInvoiceCreated.rent_amount)}}</span></div>
