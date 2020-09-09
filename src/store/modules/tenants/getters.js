@@ -8,6 +8,14 @@
 const showLoader = (state) => state.showLoader
 
 /**
+* Show loader animation during invoice sending process
+* @method showLoaderInvoice
+* @param  {Object} state vuex state object
+* @return {boolean} Contains the show loader state
+*/
+const showLoaderInvoice = (state) => state.showLoaderInvoice
+
+/**
  * Show error state
  * @method showErrorState
  * @param  {Object} state vuex state object
@@ -162,6 +170,7 @@ const dateTo = (state) => state.dateTo
 export {
   tenants,
   showLoader,
+  showLoaderInvoice,
   tenantSearchResults,
   showErrorState,
   dateFrom,

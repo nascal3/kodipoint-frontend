@@ -27,6 +27,16 @@ const SHOW_LOADER = (state, payload) => {
 }
 
 /**
+ * Set show loader for invoice state
+ * @method SHOW_LOADER_INVOICE
+ * @param  {Object} state vuex state object
+ * @param  {Boolean} payload values of auth state
+ */
+const SHOW_LOADER_INVOICE = (state, payload) => {
+  state.showLoaderInvoice = payload
+}
+
+/**
  * Sets no tenant results search state
  * @method UPDATE_NO_RESULTS
  * @param  {Object} state vuex state object
@@ -241,6 +251,7 @@ export {
   TENANT_SEARCH_RESULTS,
   UPDATE_NO_RESULTS,
   SHOW_LOADER,
+  SHOW_LOADER_INVOICE,
   DATE_FROM,
   DATE_TO,
   SET_ERROR_STATE,

@@ -90,15 +90,15 @@
             </footer>
         </div>
         <v-btn
-            :disabled="!showSendButton || showLoader"
-            :loading="showLoader"
+            :disabled="!showSendButton || showLoaderInvoice"
+            :loading="showLoaderInvoice"
             small
             class="send-button btn-text"
             color="info"
             @click="sendInvoice"
         >
             Send
-            <v-icon v-if="!showLoader" right>mdi-send</v-icon>
+            <v-icon v-if="!showLoaderInvoice" right>mdi-send</v-icon>
         </v-btn>
     </section>
 </template>
@@ -113,7 +113,7 @@ export default {
   mixins: [thousandSeparator],
   computed: {
     ...mapGetters('tenants', {
-      showLoader: 'showLoader',
+      showLoaderInvoice: 'showLoader',
       dateFrom: 'dateFrom',
       dateTo: 'dateFrom',
       tenantInvoiceCreated: 'tenantInvoiceSelected'

@@ -8,6 +8,7 @@ const state = {
   selectedTenant: {},
   noSearchResults: false,
   showLoader: false,
+  showLoaderInvoice: false,
   errorState: false,
   tenantIdDuplicationError: false,
   invoiceDuplicationError: false,
