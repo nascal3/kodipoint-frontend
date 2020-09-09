@@ -125,6 +125,9 @@
         >
             {{service.service_name}}: {{thousandSeparator(service.service_price)}}/=
         </v-chip>
+        <div v-if="showPropertyServices" class="service-totals">
+            Service totals: <span>{{thousandSeparator(tenantInvoiceCreated.services_amount)}}</span>
+        </div>
         <v-form v-if="invoiceNumber" ref="serviceForm" @submit.prevent="addRemoveInvoiceServices">
             <div class="section-title">Add service charges</div>
             <v-row>
@@ -320,8 +323,19 @@ export default {
     .invoice-form {
         padding: 1rem;
         font-size: 1.2rem;
-         form {
-             width: 100%;
-         }
+        form {
+            width: 100%;
+        }
+
+        .service-totals {
+            margin: 5px 0 0 1rem;
+            font-size: 16px;
+            font-weight: 300;
+            text-transform: capitalize;
+            span {
+                font-weight: 500;
+                color: $primary;
+            }
+        }
     }
 </style>

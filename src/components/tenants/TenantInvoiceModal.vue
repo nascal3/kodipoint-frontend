@@ -12,6 +12,7 @@
             <v-row>
                 <v-col class="form-section" md="6" cols="12">
                     <invoice-form v-if="!edit" />
+                     <invoice-summary v-else/>
                 </v-col>
                 <v-col class="preview-section" md="6" cols="12">
                     <invoice-preview />
@@ -24,6 +25,7 @@
 <script>
 import InvoiceForm from '@/components/tenants/utils/InvoiceForm'
 import InvoicePreview from '@/components/tenants/utils/InvoicePreview'
+import InvoiceSummary from '@/components/tenants/utils/InvoiceSummary'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -36,7 +38,8 @@ export default {
   },
   components: {
     InvoiceForm,
-    InvoicePreview
+    InvoicePreview,
+    InvoiceSummary
   },
   computed: {
     ...mapGetters('tenants', {
