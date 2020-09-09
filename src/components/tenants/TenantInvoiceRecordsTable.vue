@@ -159,9 +159,12 @@ export default {
   watch: {
     dateFrom (newDate) {
       this.minimumDate = newDate
+      this.$store.commit('tenants/DATE_FROM', newDate)
+      this.$store.commit('tenants/DATE_TO', this.dateTo)
     },
     dateTo (newDate) {
       this.maximumDate = newDate
+      this.$store.commit('tenants/DATE_TO', newDate)
     }
   },
   computed: {

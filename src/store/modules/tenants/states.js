@@ -13,8 +13,10 @@ const state = {
   invoiceDuplicationError: false,
   moveInDuplicationError: false,
   noVacancyError: false,
+  dateFrom: '',
+  dateTo: '',
   tenantRentalRecordSelected: {},
-  tenantInvoiceRecordSelected: {},
+  tenantInvoiceSelected: {},
   showMoveTenantDialog: { 'open': false, 'edit': false },
   showTenantInvoiceDialog: { 'open': false, 'edit': false }
 }

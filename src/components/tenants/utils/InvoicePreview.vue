@@ -114,7 +114,9 @@ export default {
   computed: {
     ...mapGetters('tenants', {
       showLoader: 'showLoader',
-      tenantInvoiceCreated: 'tenantInvoiceRecordSelected'
+      dateFrom: 'dateFrom',
+      dateTo: 'dateFrom',
+      tenantInvoiceCreated: 'tenantInvoiceSelected'
     }),
     showSendButton () {
       return Object.keys(this.tenantInvoiceCreated).length
@@ -129,14 +131,28 @@ export default {
       if (!date) return
       return format(parseISO(date), 'MMM, d yyyy')
     },
+    async getInvoiceRecords () {
+      const params = {
+        'tenant_id': this.tenantInvoiceCreated.tenant_id,
+        'date_from': this.dateFrom,
+        'date_to': this.dateTo
+      }
+      await this.getTenantInvoiceRecords(params)
+    },
     async sendInvoice () {
       try {
-        const results = await this.$store.dispatch('tenants/sendOutTenantInvoice', this.tenantInvoiceCreated.id)
+        const param = {
+          'invoice_number': this.tenantInvoiceCreated.id
+        }
+        const results = await this.$store.dispatch('tenants/sendOutTenantInvoice', param)
         if (results) {
+          await this.getInvoiceRecords()
           const options = { icon: 'check_circle_outline' }
           this.$toasted.success(`Invoice send successfully`, options)
         }
       } catch (err) {
+        const options = { icon: 'error_outline' }
+        this.$toasted.error(`Error: Invoice not send`, options)
         throw err
       }
     }

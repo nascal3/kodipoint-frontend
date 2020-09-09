@@ -133,14 +133,16 @@
                         v-model="serviceName"
                         label="Service name*"
                         :rules="[rules.serviceNameRequired]"
+                        dense
                         name="serviceName"
                     ></v-text-field>
                 </v-col>
                 <v-col md="3" cols="12">
                     <v-text-field
                         v-model="servicePrice"
-                        label="Service price*"
+                        label="Price*"
                         :rules="[rules.servicePriceRequired]"
+                        dense
                         name="servicePrice"
                     ></v-text-field>
                 </v-col>
@@ -151,6 +153,7 @@
                         :loading="showLoader"
                         :disabled="showLoader"
                         block
+                        small
                         color="primary"
                         @click="serviceOperation='add'"
                     >
@@ -219,7 +222,7 @@ export default {
       showLoader: 'showLoader',
       invoiceDuplicationError: 'invoiceDuplicationError',
       tenantRentedProperties: 'tenantRentedProperties',
-      tenantInvoiceCreated: 'tenantInvoiceRecordSelected'
+      tenantInvoiceCreated: 'tenantInvoiceSelected'
     }),
     showPropertyServices () {
       return this.tenantInvoiceCreated &&
@@ -231,6 +234,8 @@ export default {
     ...mapActions('tenants', {
       getTenantRentalProperties: 'getTenantRentalProperties',
       createInvoice: 'createInvoice',
+      dateFrom: 'dateFrom',
+      dateTo: 'dateTo',
       getTenantInvoiceRecords: 'getTenantInvoiceRecords',
       addRemovePropertyServices: 'addRemovePropertyServices'
     }),
@@ -248,13 +253,16 @@ export default {
       this.unitNum = selectedProperty.unit_no
       this.propertyId = selectedProperty.property_id
     },
-    getInvoiceRecords () {
+    async getInvoiceRecords () {
       const params = {
-        'tenant_id': this.selectedTenant.id
+        'tenant_id': this.selectedTenant.id,
+        'date_from': this.dateFrom,
+        'date_to': this.dateTo
       }
-      this.getTenantInvoiceRecords(params)
+      await this.getTenantInvoiceRecords(params)
     },
     closeInvoiceModal (value) {
+      this.$store.commit('tenants/RESET_SELECTED_TENANT_INVOICE')
       const payload = { 'open': value, 'edit': false }
       this.$store.commit('tenants/SHOW_TENANT_INVOICE_DIALOG', payload)
     },
@@ -273,7 +281,7 @@ export default {
         const results = await this.createInvoice(params)
         if (Object.keys(results).length) {
           this.invoiceNumber = results.id
-          this.getInvoiceRecords()
+          await this.getInvoiceRecords()
         }
       } catch (err) {
         throw err

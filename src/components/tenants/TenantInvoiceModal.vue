@@ -10,10 +10,10 @@
         </v-card-title>
         <v-card-text class="content">
             <v-row>
-                <v-col class="form-section" md="5" cols="12">
+                <v-col class="form-section" md="6" cols="12">
                     <invoice-form v-if="!edit" />
                 </v-col>
-                <v-col class="preview-section" md="7" cols="12">
+                <v-col class="preview-section" md="6" cols="12">
                     <invoice-preview />
                 </v-col>
             </v-row>
@@ -40,11 +40,12 @@ export default {
   },
   computed: {
     ...mapGetters('tenants', {
-      tenantInvoiceCreated: 'tenantInvoiceRecordSelected'
+      tenantInvoiceCreated: 'tenantInvoiceSelected'
     })
   },
   methods: {
     closeInvoiceModal () {
+      this.$store.commit('tenants/RESET_SELECTED_TENANT_INVOICE')
       this.$emit('closeInvoiceModal', false)
     }
   }

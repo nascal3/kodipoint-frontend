@@ -128,12 +128,12 @@ const noVacancyError = (state) => state.noVacancyError
 const tenantRentalRecordSelected = (state) => state.tenantRentalRecordSelected
 
 /**
- * Set tenant invoice record selected
- * @method tenantInvoiceRecordSelected
+ * Set tenant invoice selected
+ * @method tenantInvoiceSelected
  * @param  {Object} state vuex state object
  * @return {String} Contains tenant invoice record id selected
  */
-const tenantInvoiceRecordSelected = (state) => state.tenantInvoiceRecordSelected
+const tenantInvoiceSelected = (state) => state.tenantInvoiceSelected
 
 /**
  * Set tenants list type to show
@@ -143,11 +143,29 @@ const tenantInvoiceRecordSelected = (state) => state.tenantInvoiceRecordSelected
  */
 const tenantsListType = (state) => state.tenantsListType
 
+/**
+ * Set tenants list date from filter
+ * @method dateFrom
+ * @param  {Object} state vuex state object
+ * @return {String} Contains date
+ */
+const dateFrom = (state) => state.dateFrom
+
+/**
+ * Set tenants list date to filter
+ * @method dateTo
+ * @param  {Object} state vuex state object
+ * @return {String} Contains date
+ */
+const dateTo = (state) => state.dateTo
+
 export {
   tenants,
   showLoader,
   tenantSearchResults,
   showErrorState,
+  dateFrom,
+  dateTo,
   tenantIdDuplicationError,
   invoiceDuplicationError,
   moveInDuplicationError,
@@ -155,7 +173,7 @@ export {
   selectedTenant,
   tenantRentedProperties,
   tenantRentalRecordSelected,
-  tenantInvoiceRecordSelected,
+  tenantInvoiceSelected,
   showMoveTenantDialog,
   showTenantInvoiceDialog,
   tenantRentalRecords,
