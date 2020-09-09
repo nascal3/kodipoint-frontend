@@ -1,0 +1,268 @@
+
+.preview {
+  position: relative;
+  width: 100%;
+  margin-left: 5px;
+
+  .invoice-preview {
+    background-color: $white;
+    position: relative;
+    width: 95%;
+    min-height: 62rem;
+    padding: 5px 15px 0 15px;
+    overflow: hidden;
+    border-top: 3px solid $primary;
+    box-shadow: -14px -7px 9px -8px $border_table_color_grey_light;
+
+    .header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin-top: 15px;
+    }
+
+    .company-info {
+      display: flex;
+      flex-direction: row;
+      margin-top: 5px;
+    }
+    .company-logo {
+      width: 3.5rem;
+      height: 3.5rem;
+
+      .logo {
+        max-width: 100%;
+      }
+    }
+
+    .company-contacts {
+      margin-left: 5px;
+
+      div {
+        font-size: 8px;
+        font-weight: 300;
+      }
+      div:first-child {
+        font-size: 1.8rem;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+      }
+    }
+
+    .invoice-info {
+      text-align: right;
+
+      div {
+        &:first-child {
+          text-transform: uppercase;
+          font-size: 2rem;
+          font-weight: 600;
+        }
+        &:nth-child(2) {
+          font-size: 9px;
+          margin-bottom: 0;
+          line-height: 2;
+          & span {
+            font-size: 9px;
+          }
+        }
+      }
+
+      div {
+        font-size: 9px;
+        font-weight: 300;
+
+        span {
+          font-size: 1rem;
+          font-weight: 500;
+        }
+      }
+    }
+
+    .invoice-balance {
+      background-color: $primary;
+      color: $white;
+      padding: 8px 5px;
+      margin-top: 5px;
+      text-transform: uppercase;
+      line-height: 0;
+
+      div:first-child {
+        font-size: 9px;
+        font-weight: 300;
+      }
+
+      div:last-child {
+        font-size: 14px;
+        font-weight: 600;
+
+        span {
+          text-transform: capitalize;
+          font-size: 14px;
+          font-weight: 600;
+        }
+      }
+    }
+
+    .property {
+      text-align: center;
+      font-size: 14px;
+      font-weight: 500;
+      text-transform: capitalize;
+    }
+    .tenant-info {
+      margin-top: 5px;
+      padding: 10px 0 5px 0;
+      border-top: 1px solid #dddddd;
+
+      .tenant-contacts {
+        div:first-child {
+          text-transform: uppercase;
+        }
+
+        div {
+          font-size: 9px;
+          font-weight: 300;
+          line-height: 1.2rem;
+        }
+
+        div:nth-child(2) {
+          font-size: 10px;
+          font-weight: 600;
+        }
+
+        div:last-child {
+          margin-top: 5px;
+          text-transform: capitalize;
+          font-size: 1rem;
+          font-weight: 600;
+
+          span{
+            text-transform: uppercase;
+            font-size: 1rem;
+            font-weight: 300;
+          }
+        }
+      }
+    }
+
+    .breakdown-table {
+      position: relative;
+
+      .total-divider {
+        margin: 0;
+        border-bottom: 3px solid $primary;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+
+        &.rent-cost {
+          tr {
+            th {
+              text-align: left;
+              font-size: 1rem;
+              text-transform: uppercase;
+              padding: 3px 10px;
+              border-bottom: 1px solid #dddddd;
+              background-color: $primary;
+              color: #FFFFFF;
+              width: 60%;
+
+              &:last-child {
+                text-align: center;
+              }
+            }
+
+            td {
+              width: 40%;
+              padding: 3px 10px;
+              text-transform: capitalize;
+              border-right: 1px solid #dddddd;
+              &:last-child {
+                border-right: none;
+                text-align: right;
+              }
+            }
+          }
+        }
+
+        &.services-cost {
+          tr {
+            td {
+              padding: 3px 10px;
+              text-transform: capitalize;
+              border-right: 1px solid #dddddd;
+              &:first-child {
+                width: 60%;
+              }
+              &:last-child {
+                width: 40%;
+                border-right: none;
+                text-align: right;
+              }
+            }
+          }
+        }
+
+        &.total-cost {
+          position: absolute;
+          right: 0;
+          width: 40%;
+          tr {
+            td {
+              padding: 5px 10px;
+              text-transform: capitalize;
+              border-right: 1px solid #dddddd;
+              &:first-child {
+                font-weight: 500;
+                width: 60%;
+              }
+              &:last-child {
+                width: 40%;
+                border-right: none;
+                text-align: right;
+              }
+            }
+
+            &:nth-child(2) {
+              border-top: 1px solid $black;
+              border-bottom: 3px solid $primary;
+              td:first-child {
+                color: $success;
+                font-weight: 400;
+              }
+            }
+            &:last-child {
+              background-color: $white;
+              font-weight: 600;
+            }
+          }
+        }
+
+        tr:nth-child(even) {
+          background-color: #F5F5F5;
+        }
+      }
+    }
+
+    footer {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      color: $white;
+      width: 100%;
+      background-color: $primary;
+      text-align: center;
+      padding: 1px;
+      font-size: 5px;
+    }
+
+  }
+  button.send-button {
+    position: fixed;
+    bottom: 9rem;
+    right: 19rem;
+  }
+}

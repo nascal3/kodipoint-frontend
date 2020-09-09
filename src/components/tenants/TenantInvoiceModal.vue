@@ -10,10 +10,10 @@
         </v-card-title>
         <v-card-text class="content">
             <v-row>
-                <v-col class="form-section" md="7" cols="12">
+                <v-col class="form-section" md="5" cols="12">
                     <invoice-form v-if="!edit" />
                 </v-col>
-                <v-col class="preview-section" md="5" cols="12">
+                <v-col class="preview-section" md="7" cols="12">
                     <invoice-preview />
                 </v-col>
             </v-row>
@@ -24,6 +24,7 @@
 <script>
 import InvoiceForm from '@/components/tenants/utils/InvoiceForm'
 import InvoicePreview from '@/components/tenants/utils/InvoicePreview'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'TenantInvoiceModal',
@@ -36,6 +37,11 @@ export default {
   components: {
     InvoiceForm,
     InvoicePreview
+  },
+  computed: {
+    ...mapGetters('tenants', {
+      tenantInvoiceCreated: 'tenantInvoiceRecordSelected'
+    })
   },
   methods: {
     closeInvoiceModal () {

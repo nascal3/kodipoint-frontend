@@ -206,6 +206,29 @@ const getTenantInvoiceSingleRecord = async ({ commit }, payload) => {
 }
 
 /**
+ * Send out Tenants' invoice (email...)
+ * @method  sendOutTenantInvoice
+ * @param  {Object} commit vuex mutations
+ * @param  {Number} payload invoice ID
+ */
+const sendOutTenantInvoice = async ({ commit }, payload) => {
+  commit('SHOW_LOADER', true)
+  const url = `/api/invoice/send`
+
+  try {
+    const response = await api.post(url, payload)
+    if (response.status === 200) {
+      commit('SHOW_LOADER', false)
+      console.log('>>>', response.data.results)
+      return response.data.results
+    }
+  } catch (err) {
+    commit('SHOW_LOADER', false)
+    throw err
+  }
+}
+
+/**
  * Add or edit tenant
  * @method  addNewTenant
  * @param  {Object} commit vuex mutations
@@ -325,6 +348,7 @@ export {
   addNewTenant,
   searchTenants,
   createInvoice,
+  sendOutTenantInvoice,
   fetchSearchTenants,
   setSelectedTenant,
   resetSelectedTenant,
