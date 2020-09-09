@@ -22,7 +22,7 @@
                     }}
                 </v-alert>
             </transition>
-            <v-form ref="form" enctype="multipart/form-data" v-model="valid" @submit.prevent="moveInTenant">
+            <v-form ref="form" v-model="valid" @submit.prevent="moveInTenant">
                 <v-row>
                     <v-col cols="12" v-if="!isLandlordRole">
                         <div class="section-title">Select landlord</div>

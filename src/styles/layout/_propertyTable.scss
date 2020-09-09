@@ -49,59 +49,61 @@
   }
 }
 
+.property-table {
+  .v-data-table__wrapper {
+    max-height: 50vh;
 
-.v-data-table__wrapper {
-  max-height: 50vh;
-
-  table {
-    thead{
-      tr {
-        th {
-          text-transform: capitalize;
-          font-size: 1.2rem;
-        }
-      }
-    }
-    tbody {
-      tr {
-        td {
-          font-size: 1.2rem;
-        }
-        td:first-child {
-          cursor: pointer;
-          color: $primary;
-        }
-        td:nth-child(7) {
-          .v-image {
-            max-width: 10rem;
-            max-height: 6rem;
-            overflow: hidden;
-            margin: 5px;
+    table {
+      thead{
+        tr {
+          th {
+            text-transform: capitalize;
+            font-size: 1.2rem;
           }
         }
-        td:nth-child(8) {
-          .v-chip {
-            margin: 2px !important;
-            &__content {
-              font-size: 12px;
+      }
+      tbody {
+        tr {
+          td {
+            font-size: 1.2rem;
+          }
+          td:first-child {
+            cursor: pointer;
+            color: $primary;
+          }
+          td:nth-child(7) {
+            .v-image {
+              max-width: 10rem;
+              max-height: 6rem;
+              overflow: hidden;
+              margin: 5px;
+            }
+          }
+          td:nth-child(8) {
+            .v-chip {
+              margin: 2px !important;
+              &__content {
+                font-size: 12px;
+              }
+            }
+          }
+          td:nth-child(9) {
+            .v-icon {
+              cursor: pointer;
             }
           }
         }
-        td:nth-child(9) {
-          .v-icon {
-            cursor: pointer;
+        tr:last-child {
+          cursor: default;
+          :hover {
+            background-color: $white;
           }
-        }
-      }
-      tr:last-child {
-        cursor: default;
-        :hover {
-          background-color: $white;
         }
       }
     }
   }
 }
+
 
 .v-dialog {
   max-width: 60rem;

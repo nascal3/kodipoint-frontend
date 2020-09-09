@@ -8,6 +8,14 @@
 const showLoader = (state) => state.showLoader
 
 /**
+* Show loader animation during invoice sending process
+* @method showLoaderInvoice
+* @param  {Object} state vuex state object
+* @return {boolean} Contains the show loader state
+*/
+const showLoaderInvoice = (state) => state.showLoaderInvoice
+
+/**
  * Show error state
  * @method showErrorState
  * @param  {Object} state vuex state object
@@ -17,11 +25,19 @@ const showErrorState = (state) => state.errorState
 
 /**
  * Show error state of the user national ID/KRA Pin already exists/registered
- * @method userIdDuplicationError
+ * @method tenantIdDuplicationError
  * @param  {Object} state vuex state object
  * @return {boolean} Contains the show error state
  */
 const tenantIdDuplicationError = (state) => state.tenantIdDuplicationError
+
+/**
+ * Show error state of the invoice already exists/created
+ * @method invoiceDuplicationError
+ * @param  {Object} state vuex state object
+ * @return {boolean} Contains the show error state
+ */
+const invoiceDuplicationError = (state) => state.invoiceDuplicationError
 
 /**
  * Show state for duplication of moving in record error
@@ -88,6 +104,14 @@ const showTenantInvoiceDialog = (state) => state.showTenantInvoiceDialog
 const tenantRentalRecords = (state) => state.tenantRentalRecords
 
 /**
+ * Show tenant rented properties
+ * @method tenantRentedProperties
+ * @param  {Object} state vuex state object
+ * @return {Array} Contains tenants rented properties
+ */
+const tenantRentedProperties = (state) => state.tenantRentedProperties
+
+/**
  * Show tenant invoice records that has been selected for viewing
  * @method tenantInvoiceRecords
  * @param  {Object} state vuex state object
@@ -112,12 +136,12 @@ const noVacancyError = (state) => state.noVacancyError
 const tenantRentalRecordSelected = (state) => state.tenantRentalRecordSelected
 
 /**
- * Set tenant invoice record selected
- * @method tenantInvoiceRecordSelected
+ * Set tenant invoice selected
+ * @method tenantInvoiceSelected
  * @param  {Object} state vuex state object
  * @return {String} Contains tenant invoice record id selected
  */
-const tenantInvoiceRecordSelected = (state) => state.tenantInvoiceRecordSelected
+const tenantInvoiceSelected = (state) => state.tenantInvoiceSelected
 
 /**
  * Set tenants list type to show
@@ -127,17 +151,38 @@ const tenantInvoiceRecordSelected = (state) => state.tenantInvoiceRecordSelected
  */
 const tenantsListType = (state) => state.tenantsListType
 
+/**
+ * Set tenants list date from filter
+ * @method dateFrom
+ * @param  {Object} state vuex state object
+ * @return {String} Contains date
+ */
+const dateFrom = (state) => state.dateFrom
+
+/**
+ * Set tenants list date to filter
+ * @method dateTo
+ * @param  {Object} state vuex state object
+ * @return {String} Contains date
+ */
+const dateTo = (state) => state.dateTo
+
 export {
   tenants,
   showLoader,
+  showLoaderInvoice,
   tenantSearchResults,
   showErrorState,
+  dateFrom,
+  dateTo,
   tenantIdDuplicationError,
+  invoiceDuplicationError,
   moveInDuplicationError,
   noSearchResults,
   selectedTenant,
+  tenantRentedProperties,
   tenantRentalRecordSelected,
-  tenantInvoiceRecordSelected,
+  tenantInvoiceSelected,
   showMoveTenantDialog,
   showTenantInvoiceDialog,
   tenantRentalRecords,

@@ -32,8 +32,14 @@
         padding: 5.3rem 0;
         height: auto;
 
-        .search-tenant-table {
-          margin-left: 1rem;
+        .form-section {
+        }
+
+        .preview-section {
+          position: relative;
+          padding: 1.5rem 1rem;
+          min-height: 73.4vh;
+          background-color: $divider-grey;
         }
       }
     }

@@ -208,10 +208,6 @@ export default {
       this.propertyDialog = value.openState
       if (value.formSubmitted) this.infiniteId += 1
     },
-    servicesPills (property) {
-      const serviceString = property.property_services
-      return serviceString.split(',')
-    },
     getAllProperties ($event) {
       const payload = {
         user_id: this.landlordSelected ? this.landlordSelected.user_id : 0

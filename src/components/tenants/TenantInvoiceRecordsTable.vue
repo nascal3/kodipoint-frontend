@@ -2,7 +2,7 @@
     <section>
         <div class="top-section d-flex align-center justify-space-between">
             <div class="heading-title">Invoice records</div>
-            <v-btn class="btn-text" color="secondary">
+            <v-btn class="btn-text" color="secondary" @click="openTenantInvoiceDialog">
                 <v-icon left>mdi-plus</v-icon>
                 Create Invoice
             </v-btn>
@@ -115,7 +115,7 @@
                 <v-chip v-else label small class="ma-2" outlined color="error">Not Paid</v-chip>
             </template>
             <template v-slot:item.date_issued="{ item }">
-               <span v-if="sentStatus(item.date_issued)" class="text--success">{{item.date_issued}}</span>
+               <span v-if="sentStatus(item.date_issued)" class="text--success">{{formatDate(item.date_issued)}}</span>
                <v-chip v-else label small class="ma-2" outlined color="warning">Pending</v-chip>
             </template>
             <template v-slot:item.id="{ item }">
@@ -159,9 +159,12 @@ export default {
   watch: {
     dateFrom (newDate) {
       this.minimumDate = newDate
+      this.$store.commit('tenants/DATE_FROM', newDate)
+      this.$store.commit('tenants/DATE_TO', this.dateTo)
     },
     dateTo (newDate) {
       this.maximumDate = newDate
+      this.$store.commit('tenants/DATE_TO', newDate)
     }
   },
   computed: {
@@ -198,8 +201,10 @@ export default {
       this.getTenantInvoiceRecords(params)
     },
     openTenantInvoiceDialog ($event) {
-      const payload = { 'open': true, 'edit': true }
+      const edit = !!$event.id
+      const payload = { 'open': true, 'edit': edit }
       this.$store.commit('tenants/SHOW_TENANT_INVOICE_DIALOG', payload)
+      if (!edit) return
       this.$store.dispatch('tenants/getTenantInvoiceSingleRecord', $event.id)
     }
   },

@@ -87,7 +87,7 @@ const getTenantRentalRecords = async ({ commit }, payload) => {
 }
 
 /**
- * Get Tenants' rental single record
+ * Get tenants' rental single record
  * @method  getTenantRentalRecords
  * @param  {Object} commit vuex mutations
  * @param  {Object} payload record ID
@@ -112,6 +112,78 @@ const getTenantRentalSingleRecord = async ({ commit }, payload) => {
 }
 
 /**
+ * Get tenants' rented properties
+ * @method  getTenantRentalProperties
+ * @param  {Object} commit vuex mutations
+ * @param  {Number} payload tenant ID
+ */
+const getTenantRentalProperties = async ({ commit }, payload) => {
+  commit('SHOW_LOADER', true)
+  const url = `api/tenantsrec/rentprop/${payload}`
+
+  try {
+    const response = await api.get(url)
+    if (response.status === 200) {
+      commit('SET_TENANT_RENTED_PROPERTIES', response.data.result)
+      commit('SHOW_LOADER', false)
+    }
+  } catch (err) {
+    commit('SHOW_LOADER', false)
+    throw err
+  }
+}
+
+/**
+ * Create Invoice for tenant
+ * @method  createInvoice
+ * @param  {Object} commit vuex mutations
+ * @param  {Function} dispatch vuex mutations
+ * @param  {Object} payload details to be used in invoice
+ */
+const createInvoice = async ({ commit, dispatch }, payload) => {
+  commit('TENANT_INVOICE_DUPLICATION_ERROR', false)
+  commit('SHOW_LOADER', true)
+  const url = `/api/invoice/create`
+
+  try {
+    const response = await api.post(url, payload)
+    if (response.status === 200) {
+      commit('SHOW_LOADER', false)
+      const resultData = response.data.results
+      dispatch('getTenantInvoiceSingleRecord', resultData.id)
+      return resultData
+    }
+  } catch (err) {
+    commit('SHOW_LOADER', false)
+    commit('TENANT_INVOICE_DUPLICATION_ERROR', true)
+    throw err
+  }
+}
+
+/**
+ * Add or remove property service price from invoice
+ * @method addRemovePropertyServices
+ * @param  {Object} commit vuex mutations
+ * @param  {Function} dispatch vuex mutations
+ * @param  {Object} payload details containing service details
+ */
+const addRemovePropertyServices = async ({ commit, dispatch }, payload) => {
+  commit('SHOW_LOADER', true)
+  const url = `/api/invoice/edit/service`
+
+  try {
+    const response = await api.post(url, payload)
+    if (response.status === 200) {
+      dispatch('getTenantInvoiceSingleRecord', payload.invoice_id)
+      commit('SHOW_LOADER', false)
+    }
+  } catch (err) {
+    commit('SHOW_LOADER', false)
+    throw err
+  }
+}
+
+/**
  * Get Tenants' invoice single record
  * @method  getTenantInvoiceSingleRecord
  * @param  {Object} commit vuex mutations
@@ -124,8 +196,30 @@ const getTenantInvoiceSingleRecord = async ({ commit }, payload) => {
   try {
     const response = await api.get(url)
     if (response.status === 200) {
-      commit('SET_SELECTED_TENANT_INVOICE_RECORD', response.data.results)
+      commit('SET_SELECTED_TENANT_INVOICE', response.data.results)
       commit('SHOW_LOADER', false)
+    }
+  } catch (err) {
+    commit('SHOW_LOADER', false)
+    throw err
+  }
+}
+
+/**
+ * Send out Tenants' invoice (email...)
+ * @method  sendOutTenantInvoice
+ * @param  {Object} commit vuex mutations
+ * @param  {Object} payload containing invoice ID
+ */
+const sendOutTenantInvoice = async ({ commit }, payload) => {
+  commit('SHOW_LOADER', true)
+  const url = `/api/invoice/send`
+
+  try {
+    const response = await api.post(url, payload)
+    if (response.status === 200) {
+      commit('SHOW_LOADER', false)
+      return response.data.results
     }
   } catch (err) {
     commit('SHOW_LOADER', false)
@@ -252,11 +346,15 @@ export {
   moveInTenant,
   addNewTenant,
   searchTenants,
+  createInvoice,
+  sendOutTenantInvoice,
   fetchSearchTenants,
   setSelectedTenant,
   resetSelectedTenant,
+  addRemovePropertyServices,
   getTenantRentalRecords,
   getTenantInvoiceRecords,
   getTenantRentalSingleRecord,
-  getTenantInvoiceSingleRecord
+  getTenantInvoiceSingleRecord,
+  getTenantRentalProperties
 }
