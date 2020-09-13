@@ -45,7 +45,7 @@
                     <div>{{tenantInvoiceCreated.name}}</div>
                     <div>{{tenantInvoiceCreated.phone}}</div>
                     <div>{{tenantInvoiceCreated.email}}</div>
-                    <div><span>House Unit:</span> {{tenantInvoiceCreated.unit_no}}</div>
+                    <div><span>Rental Unit:</span> {{tenantInvoiceCreated.unit_no}}</div>
                 </div>
             </section>
             <section class="breakdown-table">
