@@ -59,6 +59,10 @@
                         <td>Rent</td>
                         <td>{{thousandSeparator(tenantInvoiceCreated.rent_amount)}}</td>
                     </tr>
+                    <tr>
+                        <td>Balance carried forward</td>
+                        <td>{{thousandSeparator(tenantInvoiceCreated.amount_bf)}}</td>
+                    </tr>
                 </table>
 
                 <table class="services-cost">

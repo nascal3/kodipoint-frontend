@@ -37,6 +37,16 @@ const SHOW_LOADER_INVOICE = (state, payload) => {
 }
 
 /**
+ * Set show loader for invoice balance carried forward
+ * @method SHOW_BALANCE_LOADER
+ * @param  {Object} state vuex state object
+ * @param  {Boolean} payload values of auth state
+ */
+const SHOW_BALANCE_LOADER = (state, payload) => {
+  state.showBalanceLoader = payload
+}
+
+/**
  * Sets no tenant results search state
  * @method UPDATE_NO_RESULTS
  * @param  {Object} state vuex state object
@@ -244,6 +254,16 @@ const DATE_TO = (state, payload) => {
   state.dateTo = payload
 }
 
+/**
+ * Set tenants invoice balance carried forward
+ * @method SET_INVOICE_BALANCE_CARRIED_FORWARD
+ * @param  {Object} state vuex state object
+ * @param  {Number} payload contains balance figure
+ */
+const SET_INVOICE_BALANCE_CARRIED_FORWARD = (state, payload) => {
+  state.balanceCarriedForward = payload
+}
+
 export {
   RESET_TENANTS,
   RESET_SELECTED_TENANT,
@@ -252,12 +272,14 @@ export {
   UPDATE_NO_RESULTS,
   SHOW_LOADER,
   SHOW_LOADER_INVOICE,
+  SHOW_BALANCE_LOADER,
   DATE_FROM,
   DATE_TO,
   SET_ERROR_STATE,
   TENANT_ID_DUPLICATION_ERROR,
   MOVE_IN_DUPLICATION_ERROR,
   TENANT_INVOICE_DUPLICATION_ERROR,
+  SET_INVOICE_BALANCE_CARRIED_FORWARD,
   RESET_SEARCH_TENANTS,
   SET_SELECTED_TENANT,
   SHOW_MOVE_TENANT_DIALOG,

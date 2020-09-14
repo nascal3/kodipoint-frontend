@@ -15,6 +15,7 @@
         <div class="section-title">Sub Total</div>
         <div class="invoice-totals">
             <div>Rent: <span>{{thousandSeparator(tenantInvoiceCreated.rent_amount)}}</span></div>
+            <div>Balance carried forward: <span>{{thousandSeparator(tenantInvoiceCreated.amount_bf)}}</span></div>
             <div>Service total: <span>{{thousandSeparator(tenantInvoiceCreated.services_amount)}}</span></div>
             <div>Amount paid: <span>{{thousandSeparator(tenantInvoiceCreated.amount_paid)}}</span></div>
             <div>Amount due: <span>{{thousandSeparator(tenantInvoiceCreated.amount_balance)}}</span></div>
@@ -104,7 +105,7 @@ export default {
                     color: $primary;
                 }
 
-                &:nth-child(3) {
+                &:nth-child(4) {
                     span {
                         color: $success;
                     }
