@@ -209,9 +209,10 @@ const getTenantInvoiceSingleRecord = async ({ commit }, payload) => {
  * Send out Tenants' invoice (email...)
  * @method  sendOutTenantInvoice
  * @param  {Object} commit vuex mutations
+ * @param  {Function} dispatch Reset Invoice Issued Date if sending fails
  * @param  {Object} payload containing invoice ID
  */
-const sendOutTenantInvoice = async ({ commit }, payload) => {
+const sendOutTenantInvoice = async ({ commit, dispatch }, payload) => {
   commit('SHOW_LOADER', true)
   const url = `/api/invoice/send`
 
@@ -220,6 +221,28 @@ const sendOutTenantInvoice = async ({ commit }, payload) => {
     if (response.status === 200) {
       commit('SHOW_LOADER', false)
       return response.data.results
+    }
+  } catch (err) {
+    dispatch('resetInvoiceIssuedDate', payload)
+    commit('SHOW_LOADER', false)
+    throw err
+  }
+}
+
+/**
+ * Reset Invoice Issued Date if sending fails
+ * @method  resetInvoiceIssuedDate
+ * @param  {Object} commit vuex mutations
+ * @param  {Object} payload containing invoice ID
+ */
+const resetInvoiceIssuedDate = async ({ commit }, payload) => {
+  commit('SHOW_LOADER', true)
+  const url = `/api/invoice/reset/dateIssued`
+
+  try {
+    const response = await api.post(url, payload)
+    if (response.status === 200) {
+      commit('SHOW_LOADER', false)
     }
   } catch (err) {
     commit('SHOW_LOADER', false)
@@ -376,6 +399,7 @@ export {
   searchTenants,
   createInvoice,
   sendOutTenantInvoice,
+  resetInvoiceIssuedDate,
   fetchSearchTenants,
   setSelectedTenant,
   resetSelectedTenant,
