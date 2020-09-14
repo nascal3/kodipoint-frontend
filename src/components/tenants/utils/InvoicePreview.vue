@@ -23,8 +23,8 @@
                     <div><span>Date Issued:</span>
                         {{
                             tenantInvoiceCreated.date_issued
-                            ? formatDate(tenantInvoiceCreated.date_issued)
-                            : 'NOT SENT'
+                                ? formatDate(tenantInvoiceCreated.date_issued)
+                                : 'NOT SENT'
                         }}
                     </div>
                     <div class="invoice-balance">
@@ -45,7 +45,7 @@
                     <div>{{tenantInvoiceCreated.name}}</div>
                     <div>{{tenantInvoiceCreated.phone}}</div>
                     <div>{{tenantInvoiceCreated.email}}</div>
-                    <div><span>House Unit:</span> {{tenantInvoiceCreated.unit_no}}</div>
+                    <div><span>Rental Unit:</span> {{tenantInvoiceCreated.unit_no}}</div>
                 </div>
             </section>
             <section class="breakdown-table">
@@ -58,6 +58,10 @@
                     <tr>
                         <td>Rent</td>
                         <td>{{thousandSeparator(tenantInvoiceCreated.rent_amount)}}</td>
+                    </tr>
+                    <tr>
+                        <td>Balance carried forward</td>
+                        <td>{{thousandSeparator(tenantInvoiceCreated.amount_bf)}}</td>
                     </tr>
                 </table>
 
@@ -84,7 +88,6 @@
                     </tr>
                 </table>
             </section>
-
             <footer>
                 <span>If you have any questions concerning this invoice please contact us.</span>
             </footer>
@@ -124,7 +127,9 @@ export default {
   },
   methods: {
     ...mapActions('tenants', {
-      getTenantInvoiceRecords: 'getTenantInvoiceRecords'
+      getTenantInvoiceRecords: 'getTenantInvoiceRecords',
+      getTenantInvoiceSingleRecord: 'getTenantInvoiceSingleRecord',
+      sendOutTenantInvoice: 'sendOutTenantInvoice'
     }),
     formatDateMonth (value) {
       if (!value) return
@@ -135,19 +140,24 @@ export default {
       return format(parseISO(date), 'MMM, d yyyy')
     },
     async getInvoiceRecords () {
-      const params = {
-        'tenant_id': this.tenantInvoiceCreated.tenant_id,
-        'date_from': this.dateFrom,
-        'date_to': this.dateTo
+      try {
+        const params = {
+          'tenant_id': this.tenantInvoiceCreated.tenant_id,
+          'date_from': this.dateFrom,
+          'date_to': this.dateTo
+        }
+        await this.getTenantInvoiceRecords(params)
+        await this.getTenantInvoiceSingleRecord(this.tenantInvoiceCreated.id)
+      } catch (err) {
+        throw err
       }
-      await this.getTenantInvoiceRecords(params)
     },
     async sendInvoice () {
       try {
         const param = {
           'invoice_number': this.tenantInvoiceCreated.id
         }
-        const results = await this.$store.dispatch('tenants/sendOutTenantInvoice', param)
+        const results = await this.sendOutTenantInvoice(param)
         if (results) {
           await this.getInvoiceRecords()
           const options = { icon: 'check_circle_outline' }

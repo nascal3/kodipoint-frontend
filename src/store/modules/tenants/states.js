@@ -9,6 +9,8 @@ const state = {
   noSearchResults: false,
   showLoader: false,
   showLoaderInvoice: false,
+  showBalanceLoader: false,
+  balanceCarriedForward: 0,
   errorState: false,
   tenantIdDuplicationError: false,
   invoiceDuplicationError: false,

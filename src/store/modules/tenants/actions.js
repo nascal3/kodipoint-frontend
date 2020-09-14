@@ -341,6 +341,34 @@ const getTenantInvoiceRecords = async ({ commit }, payload) => {
   }
 }
 
+/**
+ * Get a Tenants' invoice balance carried forward records
+ * @method  getInvoiceBalanceCarriedForward
+ * @param  {Object} commit vuex mutations
+ * @param  {Object} payload tenant id and property id
+ */
+const getInvoiceBalanceCarriedForward = async ({ commit }, payload) => {
+  commit('SHOW_BALANCE_LOADER', true)
+  const params = {
+    params: {
+      tenant_id: payload.tenant_id,
+      property_id: payload.property_id
+    }
+  }
+  const url = `/api/invoice/bcf`
+
+  try {
+    const response = await api.get(url, params)
+    if (response.status === 200) {
+      commit('SET_INVOICE_BALANCE_CARRIED_FORWARD', response.data.results)
+      commit('SHOW_BALANCE_LOADER', false)
+    }
+  } catch (err) {
+    commit('SHOW_BALANCE_LOADER', false)
+    throw err
+  }
+}
+
 export {
   getTenants,
   moveInTenant,
@@ -356,5 +384,6 @@ export {
   getTenantInvoiceRecords,
   getTenantRentalSingleRecord,
   getTenantInvoiceSingleRecord,
-  getTenantRentalProperties
+  getTenantRentalProperties,
+  getInvoiceBalanceCarriedForward
 }

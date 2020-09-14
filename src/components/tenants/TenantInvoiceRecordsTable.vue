@@ -180,7 +180,8 @@ export default {
   },
   methods: {
     ...mapActions('tenants', {
-      getTenantInvoiceRecords: 'getTenantInvoiceRecords'
+      getTenantInvoiceRecords: 'getTenantInvoiceRecords',
+      getTenantInvoiceSingleRecord: 'getTenantInvoiceSingleRecord'
     }),
     formatDate (unformedDate) {
       if (!unformedDate) return
@@ -192,20 +193,28 @@ export default {
     paidStatus (date) {
       return date
     },
-    filterInvoiceByDate () {
+    async filterInvoiceByDate () {
       const params = {
         'tenant_id': this.selectedTenant.id,
         'date_from': this.dateFrom,
         'date_to': this.dateTo
       }
-      this.getTenantInvoiceRecords(params)
+      try {
+        await this.getTenantInvoiceRecords(params)
+      } catch (err) {
+        throw err
+      }
     },
-    openTenantInvoiceDialog ($event) {
+    async openTenantInvoiceDialog ($event) {
       const edit = !!$event.id
       const payload = { 'open': true, 'edit': edit }
       this.$store.commit('tenants/SHOW_TENANT_INVOICE_DIALOG', payload)
       if (!edit) return
-      this.$store.dispatch('tenants/getTenantInvoiceSingleRecord', $event.id)
+      try {
+        await this.getTenantInvoiceSingleRecord($event.id)
+      } catch (err) {
+        throw err
+      }
     }
   },
   created () {

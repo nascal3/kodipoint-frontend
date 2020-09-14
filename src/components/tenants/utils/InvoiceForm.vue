@@ -1,8 +1,10 @@
 <template>
     <section class="invoice-form">
-        <v-alert v-if="invoiceDuplicationError" type="error" dense>
-            The following invoice already exists
-        </v-alert>
+        <transition name="fade">
+            <v-alert v-if="invoiceDuplicationError" type="error" dense>
+                The following invoice already exists
+            </v-alert>
+        </transition>
         <v-form v-if="!invoiceNumber" ref="form" v-model="valid" @submit.prevent="createNewInvoice">
             <div class="section-title">Select property</div>
             <v-select
@@ -47,6 +49,12 @@
                         :rules="[rules.unitNumRequired]"
                         name="unitNum"
                     ></v-text-field>
+                    <v-text-field
+                            v-model="amountPaid"
+                            label="Amount paid*"
+                            :rules="[rules.paidAmountRequired]"
+                            name="amountPaid"
+                    ></v-text-field>
                 </v-col>
                 <v-col md="6" cols="12">
                     <v-menu
@@ -76,10 +84,11 @@
                         </v-date-picker>
                     </v-menu>
                     <v-text-field
-                        v-model="amountPaid"
-                        label="Amount paid*"
-                        :rules="[rules.paidAmountRequired]"
-                        name="amountPaid"
+                        v-model="amountBF"
+                        label="Balance Carried Forward*"
+                        :rules="[rules.amountBFRequired]"
+                        :loading="showBalanceLoader"
+                        name="amountBF"
                     ></v-text-field>
                 </v-col>
             </v-row>
@@ -100,7 +109,7 @@
                     <v-btn
                         type="submit"
                         :loading="showLoader"
-                        :disabled="showLoader"
+                        :disabled="showLoader || showBalanceLoader"
                         class="btn-text"
                         block
                         color="primary"
@@ -188,6 +197,7 @@ export default {
     dateDue: format(new Date(), 'yyyy-MM-dd'),
     unitNum: '',
     amountPaid: '0',
+    amountBF: '0',
     invoiceNumber: null,
     serviceName: '',
     servicePrice: '',
@@ -197,6 +207,7 @@ export default {
       propertyNameRequired: value => !!value || 'Property name required',
       serviceNameRequired: value => !!value || 'Service name required',
       paidAmountRequired: value => !!value || 'Paid amount required',
+      amountBFRequired: value => !!value || 'Amount carried forward required',
       servicePriceRequired: value => !!value || 'Service price required'
     }
   }),
@@ -215,14 +226,26 @@ export default {
         this.servicePrice = result
       })
     },
+    async amountBF (newValue) {
+      const result = newValue.replace(/\D/g, '')
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+      await this.$nextTick(() => {
+        this.amountBF = result
+      })
+    },
     tenantRentedProperties () {
       this.setPropertyName()
+    },
+    balanceCarriedForward (newValue) {
+      this.amountBF = newValue.toString()
     }
   },
   computed: {
     ...mapGetters('tenants', {
       selectedTenant: 'selectedTenant',
       showLoader: 'showLoader',
+      showBalanceLoader: 'showBalanceLoader',
+      balanceCarriedForward: 'balanceCarriedForward',
       invoiceDuplicationError: 'invoiceDuplicationError',
       tenantRentedProperties: 'tenantRentedProperties',
       tenantInvoiceCreated: 'tenantInvoiceSelected'
@@ -240,7 +263,8 @@ export default {
       dateFrom: 'dateFrom',
       dateTo: 'dateTo',
       getTenantInvoiceRecords: 'getTenantInvoiceRecords',
-      addRemovePropertyServices: 'addRemovePropertyServices'
+      addRemovePropertyServices: 'addRemovePropertyServices',
+      getInvoiceBalanceCarriedForward: 'getInvoiceBalanceCarriedForward'
     }),
     setPropertyName () {
       if (this.tenantRentedProperties.length) {
@@ -249,12 +273,22 @@ export default {
         })
       }
     },
-    getSelectedPropertyDetails () {
+    async getSelectedPropertyDetails () {
       const [selectedProperty] = this.tenantRentedProperties.filter(property => {
         return property.property_name === this.selectedProperty
       })
       this.unitNum = selectedProperty.unit_no
       this.propertyId = selectedProperty.property_id
+      const params = {
+        'tenant_id': selectedProperty.tenant_id,
+        'property_id': selectedProperty.property_id
+      }
+
+      try {
+        await this.getInvoiceBalanceCarriedForward(params)
+      } catch (err) {
+        throw err
+      }
     },
     async getInvoiceRecords () {
       const params = {
@@ -262,7 +296,11 @@ export default {
         'date_from': this.dateFrom,
         'date_to': this.dateTo
       }
-      await this.getTenantInvoiceRecords(params)
+      try {
+        await this.getTenantInvoiceRecords(params)
+      } catch (err) {
+        throw err
+      }
     },
     closeInvoiceModal (value) {
       this.$store.commit('tenants/RESET_SELECTED_TENANT_INVOICE')
@@ -276,6 +314,7 @@ export default {
         'rent_period': this.rentPeriod,
         'date_due': this.dateDue,
         'unit_no': this.unitNum,
+        'amount_bf': this.formatPriceToNumber(this.amountBF),
         'amount_paid': this.formatPriceToNumber(this.amountPaid)
       }
       this.valid = this.$refs.form.validate()
@@ -313,8 +352,12 @@ export default {
       }
     }
   },
-  created () {
-    this.getTenantRentalProperties(this.selectedTenant.id)
+  async created () {
+    try {
+      await this.getTenantRentalProperties(this.selectedTenant.id)
+    } catch (err) {
+      throw err
+    }
   }
 }
 </script>

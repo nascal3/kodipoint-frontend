@@ -8,6 +8,14 @@
 const showLoader = (state) => state.showLoader
 
 /**
+ * Show loader animation during loading process
+ * @method showBalanceLoader
+ * @param  {Object} state vuex state object
+ * @return {boolean} Contains the show loader state
+ */
+const showBalanceLoader = (state) => state.showBalanceLoader
+
+/**
 * Show loader animation during invoice sending process
 * @method showLoaderInvoice
 * @param  {Object} state vuex state object
@@ -167,10 +175,20 @@ const dateFrom = (state) => state.dateFrom
  */
 const dateTo = (state) => state.dateTo
 
+/**
+ * Set tenants invoice balance carried forward
+ * @method balanceCarriedForward
+ * @param  {Object} state vuex state object
+ * @return {Number} Contains balance figure
+ */
+const balanceCarriedForward = (state) => state.balanceCarriedForward
+
 export {
   tenants,
   showLoader,
   showLoaderInvoice,
+  showBalanceLoader,
+  balanceCarriedForward,
   tenantSearchResults,
   showErrorState,
   dateFrom,
