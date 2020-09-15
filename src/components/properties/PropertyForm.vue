@@ -121,7 +121,7 @@
                     :rules="[rules.phoneRequired, rules.numberMin]"
                     name="contactPhone"
                     persistent-hint
-                    v-mask="['(+###) #### #####']"
+                    v-mask="['+### #########']"
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -298,7 +298,7 @@ export default {
       unitsRequired: value => !!value || 'Please enter number of units',
       contactRequired: value => !!value || 'Please insert contacts\' name',
       phoneRequired: value => !!value || 'Please insert a phone number',
-      numberMin: v => v.length >= 17 || 'Please insert complete phone number! e.g (+254) 7234 56789',
+      numberMin: v => v.length >= 14 || 'Please insert complete phone number! e.g +254 723456789',
       validEmail: value => {
         const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         return pattern.test(value) || 'Invalid email address.'

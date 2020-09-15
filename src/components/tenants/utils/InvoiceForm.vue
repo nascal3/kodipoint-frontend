@@ -85,7 +85,7 @@
                     </v-menu>
                     <v-text-field
                         v-model="amountBF"
-                        label="Balance Carried Forward*"
+                        label="Balance Brought Forward*"
                         :rules="[rules.amountBFRequired]"
                         :loading="showBalanceLoader"
                         name="amountBF"
@@ -207,7 +207,7 @@ export default {
       propertyNameRequired: value => !!value || 'Property name required',
       serviceNameRequired: value => !!value || 'Service name required',
       paidAmountRequired: value => !!value || 'Paid amount required',
-      amountBFRequired: value => !!value || 'Amount carried forward required',
+      amountBFRequired: value => !!value || 'Balance brought forward required',
       servicePriceRequired: value => !!value || 'Service price required'
     }
   }),
