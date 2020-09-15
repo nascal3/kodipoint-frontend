@@ -15,7 +15,7 @@
                 name="phone"
                 persistent-hint
                 :rules="[rules.phoneRequired, rules.phoneNumberMin]"
-                v-mask="['(+###) #### #####']"
+                v-mask="['+### #########']"
             ></v-text-field>
 
             <v-text-field
@@ -126,7 +126,7 @@ export default {
       passwordRequired: value => !!value || 'Please enter a password',
       retypePasswordRequired: value => !!value || 'Please re typed the password. ',
       phoneRequired: value => !!value || 'Please insert a phone number',
-      phoneNumberMin: value => value.length >= 17 || 'Please insert complete phone number! e.g (+254) 7234 56789'
+      phoneNumberMin: value => value.length >= 14 || 'Please insert complete phone number! e.g +254 723456789'
     }
   }),
   computed: {

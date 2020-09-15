@@ -33,7 +33,7 @@
                         label="Phone number*"
                         name="phone"
                         persistent-hint
-                        v-mask="['(+###) #### #####']"
+                        v-mask="['+### #########']"
                         :rules="[rules.phoneRequired, rules.phoneNumberMin]"
                     ></v-text-field>
                 </v-col>
@@ -166,7 +166,7 @@ export default {
       bankBranchRequired: value => !!value || 'Please insert bank branch',
       bankAccNumberRequired: value => !!value || 'Please insert bank account number',
       phoneRequired: value => !!value || 'Please insert a phone number',
-      phoneNumberMin: value => value.length >= 17 || 'Please insert complete phone number! e.g (+254) 7234 56789'
+      phoneNumberMin: value => value.length >= 14 || 'Please insert complete phone number! e.g +254 723456789'
     }
   }),
   watch: {
