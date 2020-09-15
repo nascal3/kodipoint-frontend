@@ -85,7 +85,7 @@
                     </v-menu>
                     <v-text-field
                         v-model="amountBF"
-                        label="Balance Carried Forward*"
+                        label="Balance Brought Forward*"
                         :rules="[rules.amountBFRequired]"
                         :loading="showBalanceLoader"
                         name="amountBF"
