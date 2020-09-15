@@ -207,7 +207,7 @@ export default {
       propertyNameRequired: value => !!value || 'Property name required',
       serviceNameRequired: value => !!value || 'Service name required',
       paidAmountRequired: value => !!value || 'Paid amount required',
-      amountBFRequired: value => !!value || 'Amount carried forward required',
+      amountBFRequired: value => !!value || 'Balance brought forward required',
       servicePriceRequired: value => !!value || 'Service price required'
     }
   }),
