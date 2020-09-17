@@ -49,6 +49,18 @@
       >
         Login
       </v-btn>
+
+      <div class="alternate-text">
+        Or login using
+      </div>
+
+      <v-btn
+        block
+        outlined
+        color="primary"
+      >
+
+      </v-btn>
     </v-form>
   </section>
 </template>
