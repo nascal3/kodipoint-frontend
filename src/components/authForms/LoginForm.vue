@@ -58,8 +58,10 @@
         block
         outlined
         color="primary"
+        class="google-login-btn"
+        @click="googleLogin"
       >
-
+        <v-img class="google-logo" :src="require('@/assets/images/google-logo.png')"></v-img>
       </v-btn>
     </v-form>
   </section>
@@ -95,6 +97,9 @@ export default {
     })
   },
   methods: {
+    googleLogin () {
+
+    },
     async onLogin () {
       const userData = {
         email: this.email,
