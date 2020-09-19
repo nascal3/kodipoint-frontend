@@ -1,5 +1,21 @@
 <template>
     <section>
+        <v-radio-group v-model="role" row>
+            <v-radio label="Landlord" value="landlord"></v-radio>
+            <v-radio label="Tenant" value="tenant"></v-radio>
+            <v-radio label="Both" value="landlordTenant"></v-radio>
+        </v-radio-group>
+
+        <google-login
+            class="google-register-btn"
+            :params="params"
+            :onSuccess="googleRegisterSuccess"
+            :onFailure="googleRegisterFailure"
+        >
+            <v-img class="google-logo" :src="require('@/assets/images/google-logo.png')"></v-img>
+            <span>Register with Google</span>
+        </google-login>
+
         <v-form ref="form" v-model="valid" @submit.prevent="onRegister">
 
             <v-text-field
@@ -31,14 +47,14 @@
             </transition>
 
             <v-text-field
-                    :type="show1 ? 'text' : 'password'"
-                    :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                    v-model="password"
-                    name="password"
-                    label="Password*"
-                    :rules="[rules.passwordRequired]"
-                    @input="checkPasswordMatch"
-                    @click:append="show1 = !show1"
+                :type="show1 ? 'text' : 'password'"
+                :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                v-model="password"
+                name="password"
+                label="Password*"
+                :rules="[rules.passwordRequired]"
+                @input="checkPasswordMatch"
+                @click:append="show1 = !show1"
             ></v-text-field>
 
             <v-text-field
@@ -56,38 +72,28 @@
                 <span class="retype-input-error" v-if="passwordMatch">Password you entered doesn't match</span>
             </transition>
 
-            <v-radio-group v-model="role" row>
-                <v-radio label="Landlord" value="landlord"></v-radio>
-                <v-radio label="Tenant" value="tenant"></v-radio>
-                <v-radio label="Both" value="landlordTenant"></v-radio>
-            </v-radio-group>
-
-            <v-checkbox v-model="agree">
-                <template v-slot:label>
-                    <div class="terms">
-                        I agree to
-                        <v-tooltip bottom>
-                            <template v-slot:activator="{ on }">
-                                <a
-                                    target="_blank"
-                                    href="/terms"
-                                    @click.stop
-                                    v-on="on"
-                                >
-                                    Terms & Conditions
-                                </a>
-                            </template>
-                            Opens in new window
-                        </v-tooltip>
-                        for using this website.
-                    </div>
-                </template>
-            </v-checkbox>
+            <div class="terms">
+                By registering you agree to
+                <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                        <a
+                           target="_blank"
+                           href="/terms"
+                           @click.stop
+                           v-on="on"
+                        >
+                            Terms & Conditions
+                        </a>
+                    </template>
+                    Opens in new window
+                </v-tooltip>
+                for using this website.
+            </div>
 
             <v-btn
                 type="submit"
                 :loading="showLoader"
-                :disabled="showLoader || !agree"
+                :disabled="showLoader || !valid"
                 class="signIn-btn"
                 depressed
                 block
@@ -101,6 +107,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import GoogleLogin from 'vue-google-login'
 
 export default {
   name: 'RegistrationForm',
@@ -115,7 +122,9 @@ export default {
     repeatPassword: '',
     password: '',
     role: 'landlord',
-    agree: false,
+    params: {
+      client_id: process.env.OAUTH_ID
+    },
     rules: {
       nameRequired: value => !!value || 'Full name required',
       emailRequired: value => !!value || 'Email address required',
@@ -129,6 +138,9 @@ export default {
       phoneNumberMin: value => value.length >= 14 || 'Please insert complete phone number! e.g +254 723456789'
     }
   }),
+  components: {
+    GoogleLogin
+  },
   computed: {
     ...mapGetters('auth', {
       authEmailDuplicationError: 'authEmailDuplicationError',
@@ -138,6 +150,13 @@ export default {
   methods: {
     checkPasswordMatch () {
       this.passwordMatch = this.password !== this.repeatPassword
+    },
+    async googleRegisterSuccess (googleUser) {
+      // This only gets the user information: id, name, imageUrl and email
+      console.log('>>>', googleUser.getBasicProfile())
+    },
+    googleRegisterFailure () {
+
     },
     async onRegister () {
       const userData = {
