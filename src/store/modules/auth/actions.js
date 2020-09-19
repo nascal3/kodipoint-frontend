@@ -62,6 +62,28 @@ const login = async ({ commit, dispatch }, payload) => {
 }
 
 /**
+ * login user with google Auth
+ * @method loginGoogleAuth
+ * @param  {Object} commit vuex mutations
+ * @param  {Function} dispatch vuex actions
+ * @param  {Object} payload values of email and password
+ */
+const loginGoogleAuth = async ({ commit, dispatch }, payload) => {
+  const url = '/api/google/auth'
+
+  try {
+    const response = await api.post(url, payload)
+    if (response.status === 200) {
+      dispatch('setToken', response.data)
+      commit('SET_ERROR_STATE', false)
+      commit('SHOW_LOADER', false)
+    }
+  } catch (err) {
+    commit('SET_GOOGLE_AUTH_ERROR_STATE', true)
+  }
+}
+
+/**
  * Get single user by ID
  * @method singleUser
  * @param  {Object} commit vuex mutations
@@ -116,6 +138,7 @@ const removeToken = ({ commit }) => {
 
 export {
   login,
+  loginGoogleAuth,
   setToken,
   singleUser,
   createUser,
