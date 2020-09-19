@@ -9,6 +9,7 @@ const state = {
   authError: false,
   authGoogleError: false,
   authEmailDuplicationError: false,
+  authGmailDuplicationError: false,
   singleUser: {},
   loggedIn: JSON.parse(status) || false,
   userDuplicationError: false

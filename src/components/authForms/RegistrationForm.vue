@@ -1,5 +1,11 @@
 <template>
     <section>
+        <transition name="fade">
+            <v-alert class="gmail-error" v-if="authGmailDuplicationError" type="error" dense>
+                The following google email is already registered!
+            </v-alert>
+        </transition>
+
         <v-radio-group v-model="role" row>
             <v-radio label="Landlord" value="landlord"></v-radio>
             <v-radio label="Tenant" value="tenant"></v-radio>
@@ -144,6 +150,7 @@ export default {
   computed: {
     ...mapGetters('auth', {
       authEmailDuplicationError: 'authEmailDuplicationError',
+      authGmailDuplicationError: 'authGmailDuplicationError',
       showLoader: 'showLoader'
     })
   },
@@ -153,10 +160,27 @@ export default {
     },
     async googleRegisterSuccess (googleUser) {
       // This only gets the user information: id, name, imageUrl and email
-      console.log('>>>', googleUser.getBasicProfile())
+      const userData = {
+        profile: googleUser.getBasicProfile(),
+        role: this.role
+      }
+      try {
+        const response = await this.$store.dispatch('auth/createGoogleUser', userData)
+        if (response) {
+          response.user.role === 'tenant'
+            ? await this.$router.replace('/tenant')
+            : await this.$router.replace('/profile')
+
+          const firstName = response.user.name.split(' ')[0]
+          const options = { icon: 'check_circle_outline' }
+          this.$toasted.show(`Welcome ${firstName}`, options)
+        }
+      } catch (err) {
+        throw err
+      }
     },
     googleRegisterFailure () {
-
+      this.$store.commit('auth/USER_GMAIL_DUPLICATION_ERROR', true)
     },
     async onRegister () {
       const userData = {
