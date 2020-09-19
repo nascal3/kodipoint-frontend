@@ -143,7 +143,7 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env': {
-        BASE_URL: JSON.stringify(process.env.BASE_URL),
+        API_URL: JSON.stringify(process.env.API_URL),
         MAPS_API_KEY: JSON.stringify(process.env.MAPS_API_KEY),
         OAUTH_ID: JSON.stringify(process.env.OAUTH_ID),
         OAUTH_SECRET: JSON.stringify(process.env.OAUTH_SECRET)
