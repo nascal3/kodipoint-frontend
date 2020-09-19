@@ -2,6 +2,7 @@
   <section>
     <transition name="fade">
       <div class="login-error" v-if="authError">Please confirm that your email or password is correct!</div>
+      <div class="login-error" v-if="authGoogleError">You have not registered a google account with us!</div>
     </transition>
     <v-form ref="form" v-model="valid" @submit.prevent="onLogin">
       <v-text-field
@@ -47,22 +48,17 @@
         block
         color="primary"
       >
-        Login
+        Sign in
       </v-btn>
 
-      <div class="alternate-text">
-        Or login using
-      </div>
+      <div class="alternate-text">Or</div>
 
-      <v-btn
-        block
-        outlined
-        color="primary"
-        class="google-login-btn"
-        @click="googleLogin"
-      >
-        <v-img class="google-logo" :src="require('@/assets/images/google-logo.png')"></v-img>
-      </v-btn>
+      <google-login
+        :params="params"
+        :renderParams="renderParams"
+        :onSuccess="googleLoginSuccess"
+        :onFailure="googleLoginFailure"
+      />
     </v-form>
   </section>
 </template>
@@ -70,6 +66,7 @@
 <script>
 import { redirectPage } from '@/services/authGuards'
 import { mapGetters } from 'vuex'
+import GoogleLogin from 'vue-google-login'
 
 export default {
   name: 'LoginForm',
@@ -79,6 +76,14 @@ export default {
     email: '',
     password: '',
     overlay: false,
+    params: {
+      client_id: process.env.OAUTH_ID
+    },
+    renderParams: {
+      width: 384,
+      height: 36,
+      longtitle: true
+    },
     rules: {
       emailRequired: value => !!value || 'Username / email address required',
       validEmail: value => {
@@ -88,17 +93,36 @@ export default {
       passwordRequired: value => !!value || 'Please insert your password'
     }
   }),
+  components: {
+    GoogleLogin
+  },
   computed: {
     ...mapGetters('auth', {
       authError: 'authError',
+      authGoogleError: 'authGoogleError',
       token: 'token',
       showLoader: 'showLoader',
       loggedIn: 'loggedIn'
     })
   },
   methods: {
-    googleLogin () {
-
+    async googleLoginSuccess (googleUser) {
+      // This only gets the user information: id, name, imageUrl and email
+      try {
+        await this.$store.dispatch('auth/loginGoogleAuth', googleUser.getBasicProfile())
+        const options = { icon: 'check_circle_outline' }
+        if (this.loggedIn && this.token) {
+          const page = redirectPage(this.token.user.role)
+          await this.$router.replace(page)
+          const firstName = this.token.user.name.split(' ')[0]
+          this.$toasted.info(`Welcome ${firstName}`, options)
+        }
+      } catch (err) {
+        throw err
+      }
+    },
+    googleLoginFailure (googleUser) {
+      this.$store.commit('auth/SET_GOOGLE_AUTH_ERROR_STATE', true)
     },
     async onLogin () {
       const userData = {

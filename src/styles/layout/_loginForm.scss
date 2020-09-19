@@ -39,10 +39,9 @@ form {
     margin: 1rem 0;
   }
 
-  .google-login-btn {
-    .google-logo {
-      max-width: 7%;
-    }
+  #google-signin-btn-0 {
+    border: solid 1px $primary;
+    border-radius: 5px;
   }
 
   .v-card {

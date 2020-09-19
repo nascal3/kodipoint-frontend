@@ -31,6 +31,14 @@ const showLoader = (state) => state.showLoader
 const authError = (state) => state.authError
 
 /**
+ * Retrieve the error state of the google auth process
+ * @method authGoogleError
+ * @param  {Object} state vuex state object
+ * @return {boolean} Contains the error state of the google auth process
+ */
+const authGoogleError = (state) => state.authGoogleError
+
+/**
  * Retrieve the error state of the email duplication registration process
  * @method authEmailError
  * @param  {Object} state vuex state object
@@ -66,6 +74,7 @@ export {
   token,
   user,
   authError,
+  authGoogleError,
   authEmailDuplicationError,
   userDuplicationError,
   showLoader,

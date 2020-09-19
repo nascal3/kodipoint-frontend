@@ -15,7 +15,7 @@ Vue.use(Toasted, {
 })
 Vue.use(VueGoogleMaps, {
   load: {
-    key: process.env.API_KEY,
+    key: process.env.MAPS_API_KEY,
     libraries: 'places'
   },
   autobindAllEvents: true

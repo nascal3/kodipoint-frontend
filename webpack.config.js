@@ -145,7 +145,9 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         BASE_URL: JSON.stringify('https://kodiend.com'),
-        API_KEY: JSON.stringify('AIzaSyBWMVg9uhO7-BieEMUB3cVzm9O78RGtugo')
+        MAPS_API_KEY: JSON.stringify('AIzaSyBWMVg9uhO7-BieEMUB3cVzm9O78RGtugo'),
+        OAUTH_ID: JSON.stringify('791187788769-ssem6f0hc4l03qm40g19kg47vd1k1dh3.apps.googleusercontent.com'),
+        OAUTH_SECRET: JSON.stringify('OoBVXmqTDxMZSzoZdSp6GDqu')
       }
     })
   ],

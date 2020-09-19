@@ -32,7 +32,9 @@
         <v-footer absolute>
             <v-col class="text-center" cols="12">
                 <router-link to="#">Terms & Conditions</router-link>
-                <router-link to="#">Privacy Policy</router-link> <br>
+                <a target="_blank" href="/privacy" @click.stop>
+                    Privacy Policy
+                </a> <br>
                 ©{{ new Date().getFullYear() }} KodiPoint
             </v-col>
         </v-footer>

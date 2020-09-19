@@ -42,6 +42,16 @@ const SET_ERROR_STATE = (state, payload) => {
 }
 
 /**
+ * Set error state of the google auth process
+ * @method SET_GOOGLE_AUTH_ERROR_STATE
+ * @param  {Object} state vuex state object
+ * @param  {boolean} payload state of error
+ */
+const SET_GOOGLE_AUTH_ERROR_STATE = (state, payload) => {
+  state.authGoogleError = payload
+}
+
+/**
  * Set error state of the user already exists/registered
  * @method USER_DUPLICATION_ERROR
  * @param  {Object} state vuex state object
@@ -94,6 +104,7 @@ export {
   UPDATE_TOKEN,
   SET_LOGGEDIN_STATUS,
   SET_ERROR_STATE,
+  SET_GOOGLE_AUTH_ERROR_STATE,
   USER_DUPLICATION_ERROR,
   USER_EMAIL_DUPLICATION_ERROR,
   SHOW_LOADER,
