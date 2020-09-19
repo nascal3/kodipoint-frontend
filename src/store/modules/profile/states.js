@@ -3,7 +3,8 @@ const state = {
   changePasswordLoader: false,
   wrongCurrentPasswordError: false,
   userIdDuplicationError: false,
-  kraPinDuplicationError: false
+  kraPinDuplicationError: false,
+  emailDuplicationError: false
 }
 
 export default state

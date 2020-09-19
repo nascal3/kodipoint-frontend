@@ -1,8 +1,9 @@
 <template>
     <section>
         <transition name="fade">
-            <v-alert class="gmail-error" v-if="authGmailDuplicationError" type="error" dense>
-                The following google email is already registered!
+            <v-alert class="gmail-error" v-if="authGmailDuplicationError || registrationError" type="error" dense>
+                <span v-if="authGmailDuplicationError">The following google email is already registered!</span>
+                <span v-if="registrationError">An error occurred during registration. Try Again!</span>
             </v-alert>
         </transition>
 
@@ -151,6 +152,7 @@ export default {
     ...mapGetters('auth', {
       authEmailDuplicationError: 'authEmailDuplicationError',
       authGmailDuplicationError: 'authGmailDuplicationError',
+      registrationError: 'registrationError',
       showLoader: 'showLoader'
     })
   },

@@ -91,7 +91,9 @@ const loginGoogleAuth = async ({ commit, dispatch }, payload) => {
  * @param  {Object} payload values of email, role, name and imageUrl
  */
 const createGoogleUser = async ({ commit, dispatch }, payload) => {
+  commit('USER_GMAIL_DUPLICATION_ERROR', false)
   const url = '/api/google/register'
+
   try {
     const response = await api.post(url, payload)
     if (response.status === 200) {
@@ -102,6 +104,8 @@ const createGoogleUser = async ({ commit, dispatch }, payload) => {
   } catch (err) {
     if (err.response.status === 422) {
       commit('USER_GMAIL_DUPLICATION_ERROR', true)
+    } else {
+      commit('REGISTRATION_ERROR', true)
     }
   }
 }

@@ -82,6 +82,16 @@ const USER_GMAIL_DUPLICATION_ERROR = (state, payload) => {
 }
 
 /**
+ * Set error state of the user registered
+ * @method REGISTRATION_ERROR
+ * @param  {Object} state vuex state object
+ * @param  {boolean} payload state of error
+ */
+const REGISTRATION_ERROR = (state, payload) => {
+  state.registrationError = payload
+}
+
+/**
  * Get single user by ID
  * @method SINGLE_USER
  * @param  {Object} state vuex state object
@@ -118,6 +128,7 @@ export {
   USER_DUPLICATION_ERROR,
   USER_EMAIL_DUPLICATION_ERROR,
   USER_GMAIL_DUPLICATION_ERROR,
+  REGISTRATION_ERROR,
   SHOW_LOADER,
   SINGLE_USER,
   CLEAR_SINGLE_USER,
