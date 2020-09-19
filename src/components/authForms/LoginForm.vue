@@ -4,6 +4,15 @@
       <div class="login-error" v-if="authError">Please confirm that your email or password is correct!</div>
       <div class="login-error" v-if="authGoogleError">You have not registered a google account with us!</div>
     </transition>
+    <google-login
+      class="google-login-btn"
+      :params="params"
+      :onSuccess="googleLoginSuccess"
+      :onFailure="googleLoginFailure"
+    >
+      <v-img class="google-logo" :src="require('@/assets/images/google-logo.png')"></v-img>
+      <span>Sign in with Google</span>
+    </google-login>
     <v-form ref="form" v-model="valid" @submit.prevent="onLogin">
       <v-text-field
         v-model="email"
@@ -50,15 +59,6 @@
       >
         Sign in
       </v-btn>
-
-      <div class="alternate-text">Or</div>
-
-      <google-login
-        :params="params"
-        :renderParams="renderParams"
-        :onSuccess="googleLoginSuccess"
-        :onFailure="googleLoginFailure"
-      />
     </v-form>
   </section>
 </template>
@@ -78,11 +78,6 @@ export default {
     overlay: false,
     params: {
       client_id: process.env.OAUTH_ID
-    },
-    renderParams: {
-      width: 384,
-      height: 36,
-      longtitle: true
     },
     rules: {
       emailRequired: value => !!value || 'Username / email address required',

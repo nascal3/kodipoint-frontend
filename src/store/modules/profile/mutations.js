@@ -49,10 +49,21 @@ const KRA_PIN_DUPLICATION_ERROR = (state, payload) => {
   state.kraPinDuplicationError = payload
 }
 
+/**
+ * Set user email duplication error state
+ * @method EMAIL_DUPLICATION_ERROR
+ * @param  {Object} state vuex state object
+ * @param  {Boolean} payload contains error state
+ */
+const EMAIL_DUPLICATION_ERROR = (state, payload) => {
+  state.emailDuplicationError = payload
+}
+
 export {
   SHOW_LOADER,
   CHANGE_PASSWORD_LOADER,
   WRONG_CURRENT_PASSWORD,
   NATIONAL_ID_DUPLICATION_ERROR,
-  KRA_PIN_DUPLICATION_ERROR
+  KRA_PIN_DUPLICATION_ERROR,
+  EMAIL_DUPLICATION_ERROR
 }

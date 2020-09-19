@@ -13,16 +13,15 @@
                 </v-col>
                 <v-col cols="12" md="6">
                     <v-text-field
-                        v-model="nationalID"
-                        label="National ID/ Passport number*"
-                        name="nationalID"
-                        :rules="[rules.nationalIdRequired]"
-                        :error="userIdDuplicationError"
+                        v-model="email"
+                        name="email"
+                        label="Email*"
+                        :rules="[rules.emailRequired, rules.validEmail]"
                     ></v-text-field>
                     <transition name="fade">
-                      <div class="input-error" v-if="userIdDuplicationError">
-                        The following national ID or passport number is already registered
-                      </div>
+                        <div class="input-error" v-if="emailDuplicationError">
+                            The following email is already registered!
+                        </div>
                     </transition>
                 </v-col>
             </v-row>
@@ -43,6 +42,22 @@
                         label="P.O Box Address"
                         name="postalAddress"
                     ></v-text-field>
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col md="6" cols="12">
+                    <v-text-field
+                        v-model="nationalID"
+                        label="National ID/ Passport number*"
+                        name="nationalID"
+                        :rules="[rules.nationalIdRequired]"
+                        :error="userIdDuplicationError"
+                    ></v-text-field>
+                    <transition name="fade">
+                        <div class="input-error" v-if="userIdDuplicationError">
+                            The following national ID or passport number is already registered
+                        </div>
+                    </transition>
                 </v-col>
             </v-row>
             <section v-if="isLandlord">
@@ -149,6 +164,7 @@ export default {
     valid: false,
     fullName: '',
     phone: '',
+    email: '',
     postalAddress: '',
     nationalID: '',
     kraPIN: '',
@@ -166,7 +182,12 @@ export default {
       bankBranchRequired: value => !!value || 'Please insert bank branch',
       bankAccNumberRequired: value => !!value || 'Please insert bank account number',
       phoneRequired: value => !!value || 'Please insert a phone number',
-      phoneNumberMin: value => value.length >= 14 || 'Please insert complete phone number! e.g +254 723456789'
+      phoneNumberMin: value => value.length >= 14 || 'Please insert complete phone number! e.g +254 723456789',
+      emailRequired: value => !!value || 'Email address required',
+      validEmail: value => {
+        const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        return pattern.test(value) || 'Invalid email address.'
+      }
     }
   }),
   watch: {
@@ -178,7 +199,8 @@ export default {
     ...mapGetters('profile', {
       showLoader: 'showLoader',
       userIdDuplicationError: 'userIdDuplicationError',
-      kraPinDuplicationError: 'kraPinDuplicationError'
+      kraPinDuplicationError: 'kraPinDuplicationError',
+      emailDuplicationError: 'emailDuplicationError'
     }),
     isLandlord () {
       return this.tokenData.user.role === 'landlord' || this.tokenData.user.role === 'landlordTenant'
@@ -195,6 +217,7 @@ export default {
     setFormValues (userInfo) {
       this.fullName = userInfo.name
       this.phone = userInfo.phone
+      this.email = userInfo.email
       this.postalAddress = userInfo.postal_address
       this.nationalID = userInfo.national_id
       this.kraPIN = userInfo.kra_pin
@@ -208,6 +231,7 @@ export default {
         'name': this.fullName,
         'national_id': this.nationalID,
         'phone': this.phone,
+        'email': this.email,
         'postal_address': this.postalAddress,
         'kra_pin': this.kraPIN,
         'bank_name': this.bankName,

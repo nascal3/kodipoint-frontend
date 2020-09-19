@@ -1,4 +1,4 @@
-// login form styles
+// registration form styles
 
 .retype-input-error {
   //position: relative;
@@ -7,12 +7,44 @@
   //bottom: 2rem;
 }
 
+.gmail-error {
+  margin-top: 1.5rem;
+  font-size: 1.2rem;
+}
+
+.google-register-btn {
+  position: relative;
+  font-size: 1.6rem;
+  text-transform: capitalize;
+  height: 36px !important;
+  width: 100% !important;
+  border: solid 1px $primary;
+  border-radius: 3px;
+  margin: 1.5rem 0;
+  padding: 0 1rem;
+
+  .google-logo {
+    max-width: 5%;
+    display: inline-block;
+    float: left;
+  }
+
+  span {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 7px;
+    display: inline-block;
+  }
+}
+
 form {
   width: 100%;
 
   .terms {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: $accent;
+    margin-bottom: 1.5rem;
   }
 
   .signIn-btn {

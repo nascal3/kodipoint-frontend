@@ -84,6 +84,33 @@ const loginGoogleAuth = async ({ commit, dispatch }, payload) => {
 }
 
 /**
+ * register new user via google auth
+ * @method createGoogleUser
+ * @param  {Object} commit vuex mutations
+ * @param  {Object} dispatch vuex actions
+ * @param  {Object} payload values of email, role, name and imageUrl
+ */
+const createGoogleUser = async ({ commit, dispatch }, payload) => {
+  commit('USER_GMAIL_DUPLICATION_ERROR', false)
+  const url = '/api/google/register'
+
+  try {
+    const response = await api.post(url, payload)
+    if (response.status === 200) {
+      dispatch('setToken', response.data)
+      commit('SET_ERROR_STATE', false)
+      return response.data
+    }
+  } catch (err) {
+    if (err.response.status === 422) {
+      commit('USER_GMAIL_DUPLICATION_ERROR', true)
+    } else {
+      commit('REGISTRATION_ERROR', true)
+    }
+  }
+}
+
+/**
  * Get single user by ID
  * @method singleUser
  * @param  {Object} commit vuex mutations
@@ -142,6 +169,7 @@ export {
   setToken,
   singleUser,
   createUser,
+  createGoogleUser,
   passwordUpdate,
   removeToken
 }
