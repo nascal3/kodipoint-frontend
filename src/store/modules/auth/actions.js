@@ -70,11 +70,11 @@ const login = async ({ commit, dispatch }, payload) => {
  */
 const loginGoogleAuth = async ({ commit, dispatch }, payload) => {
   const url = '/api/google/auth'
-
   try {
     const response = await api.post(url, payload)
     if (response.status === 200) {
       dispatch('setToken', response.data)
+      commit('SET_GOOGLE_AUTH_ERROR_STATE', false)
       commit('SET_ERROR_STATE', false)
       commit('SHOW_LOADER', false)
     }
