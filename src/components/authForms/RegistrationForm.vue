@@ -20,7 +20,7 @@
             :onFailure="googleRegisterFailure"
         >
             <v-img class="google-logo" :src="require('@/assets/images/google-logo.png')"></v-img>
-            <span>Register with Google</span>
+            <span>Sign up with Google</span>
         </google-login>
 
         <v-form ref="form" v-model="valid" @submit.prevent="onRegister">
