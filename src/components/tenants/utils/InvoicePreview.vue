@@ -137,7 +137,7 @@ export default {
     },
     formatDate: function (date) {
       if (!date) return
-      return format(parseISO(date), 'MMM, d yyyy')
+      return format(parseISO(date), 'MMM d, yyyy')
     },
     async getInvoiceRecords () {
       try {
