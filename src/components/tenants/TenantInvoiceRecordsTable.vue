@@ -105,7 +105,7 @@
                 {{ thousandSeparator(item.amount_balance) }}
             </template>
             <template v-slot:item.rent_period="{ item }">
-                {{ formatDate(item.rent_period) }}
+                {{ formatDatePeriod(item.rent_period) }}
             </template>
             <template v-slot:item.date_due="{ item }">
                 {{ formatDate(item.date_due) }}
@@ -183,6 +183,10 @@ export default {
       getTenantInvoiceRecords: 'getTenantInvoiceRecords',
       getTenantInvoiceSingleRecord: 'getTenantInvoiceSingleRecord'
     }),
+    formatDatePeriod (unformedDate) {
+      if (!unformedDate) return
+      return format(new Date(unformedDate), 'MMM, yyyy')
+    },
     formatDate (unformedDate) {
       if (!unformedDate) return
       return format(new Date(unformedDate), 'MMM dd, yyyy')
