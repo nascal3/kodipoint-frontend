@@ -4,7 +4,7 @@ const Dotenv = require('dotenv-webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
+const { VuetifyLoaderPlugin } = require('vuetify-loader')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 function resolve (dir) {
